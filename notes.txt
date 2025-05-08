@@ -1,0 +1,31 @@
+[ ] Use a mono repo
+[ ] Setup PostgreSQL
+[ ] Create back-end project
+[ ] Convert back-end to TypeScript
+[ ] Create Front-end (TypeScript)
+[ ] Back-end Testing
+[ ] Front-end testing
+-----------------------------------------
+multi user
+track time
+notes
+polls
+todos
+Component examples
+user portals
+recent notes, polls, timers
+
+we are tracking things by date and category
+
+---------------------------------------------------
+
+tasks: id, name
+task-times: id, start datetime, end datetime, (duration: calculated)
+what if we have start and duration
+
+--------------------------------------------------
+npm init
+npm install --save sequelize
+$ npm install --save pg pg-hstore # Postgres
+
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
