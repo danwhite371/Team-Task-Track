@@ -48,6 +48,12 @@ function getDataApi(model, sequelize) {
     return task.get({ plain: true });
   }
 
+  async function deleteTask(id) {
+    const task = await Task.findOne({ where: { id } });
+    await task.destroy(id);
+    return id;
+  }
+
   async function closeOpenTimes(taskId) {
     const openTaskTimes = await TaskTime.findAll({
       where: { taskId, stop: { [Op.is]: null } },
@@ -73,7 +79,14 @@ function getDataApi(model, sequelize) {
     return task;
   }
 
-  return { getAllTasks, getTaskTimes, createTask, startTask, stopTask };
+  return {
+    getAllTasks,
+    getTaskTimes,
+    createTask,
+    startTask,
+    stopTask,
+    deleteTask,
+  };
 }
 
 module.exports = getDataApi;

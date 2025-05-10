@@ -20,6 +20,7 @@ function getResolvers(dataApi) {
       //   return await dataApi.startTask(taskId);
       // },
       stopTask: async (parent, { id }) => await dataApi.stopTask(id),
+      deleteTask: async (parent, { id }) => await dataApi.deleteTask(id),
     },
   };
   return resolvers;
