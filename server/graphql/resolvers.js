@@ -21,6 +21,8 @@ function getResolvers(dataApi) {
       // },
       stopTask: async (parent, { id }) => await dataApi.stopTask(id),
       deleteTask: async (parent, { id }) => await dataApi.deleteTask(id),
+      changeTaskName: async (parent, { id, name }) =>
+        await dataApi.changeTaskName(id, name),
     },
   };
   return resolvers;

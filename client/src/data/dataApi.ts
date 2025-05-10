@@ -8,8 +8,7 @@ export default class DataApi {
     this.sendTasks();
   }
   async createNewTask(name: string) {
-    const task = await createTask(name);
-    console.log('createNewTask', task);
+    await createTask(name);
     await this.sendTasks();
     // get all task data and send it to the UI
   }
@@ -18,12 +17,12 @@ export default class DataApi {
     this.updateTaskData(tasks);
   }
   async startTask(id: number) {
-    const task = await startTask(id);
+    await startTask(id);
     await this.sendTasks();
   }
 
   async stopTask(id: number) {
-    const task = await stopTask(id);
+    await stopTask(id);
     await this.sendTasks();
   }
 }

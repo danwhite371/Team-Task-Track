@@ -13,10 +13,6 @@ function App() {
     setDataApi(new DataApi(updateTaskData));
   }, []);
 
-  useEffect(() => {
-    console.log('[App] - useEffect(tasks)', tasks);
-  }, [tasks]);
-
   const updateTaskData = (tasks: Task[]) => {
     setTasks(tasks);
   };

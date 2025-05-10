@@ -6,7 +6,6 @@ type TimeRowProps = {
   taskTime: TaskTime;
 };
 function TimeRow({ taskTime }: TimeRowProps) {
-  console.log('TimeRow', taskTime.id);
   return (
     <tr key={taskTime.id}>
       <td>{formatDatetime(taskTime.start)}</td>

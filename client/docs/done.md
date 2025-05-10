@@ -1,3 +1,4 @@
+[x] BE: Change task name
 [x] BE: delete task
 [x] Add duration to Tasks and TaskTimers
 [x] Start git project

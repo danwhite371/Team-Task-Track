@@ -29,6 +29,12 @@ function getDataApi(model, sequelize) {
     return tasks;
   }
 
+  async function getTask(id) {
+    const task = await Task.findOne({ where: id });
+    await populateTask(task);
+    return task;
+  }
+
   async function getTaskTimes(taskId) {
     const taskTimes = await sequelize.query(
       `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
@@ -52,6 +58,13 @@ function getDataApi(model, sequelize) {
     const task = await Task.findOne({ where: { id } });
     await task.destroy(id);
     return id;
+  }
+
+  async function changeTaskName(id, name) {
+    const task = await getTask(id);
+    task.name = name;
+    await task.save();
+    return task;
   }
 
   async function closeOpenTimes(taskId) {
@@ -86,6 +99,7 @@ function getDataApi(model, sequelize) {
     startTask,
     stopTask,
     deleteTask,
+    changeTaskName,
   };
 }
 

@@ -1,6 +1,8 @@
 \*\*\* We can start using this to track our time
 
-[ ] BE: Change task name
+[ ] Change log
+[ ] Versioning
+[ ] Start public git project, start tracking new features and bugs
 [ ] Format duration to hours, minutes and seconds
 [ ] Show time changing on the front-end
 [ ] switch to shadcn/ui

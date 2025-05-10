@@ -10,7 +10,6 @@ export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
     event.preventDefault();
     if (newTaskName && newTaskName.length > 0) {
       createNewTask(newTaskName);
-      console.log('newTask', newTaskName);
       setNewTaskName('');
     }
   }

@@ -31,6 +31,7 @@ const gqlTypeDefs = gql`
     startTask(id: Int!): Task
     stopTask(id: Int!): Task
     deleteTask(id: Int!): Int
+    changeTaskName(id: Int!, name: String!): Task
   }
 `;
 
