@@ -11,6 +11,7 @@ body {
 
 .flex {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -31,4 +32,18 @@ body {
 
 .mv {
   margin: 0.5rem 0;
+}
+
+.start-color {
+  background-color: green;
+  color: white;
+}
+
+.stop-color {
+  background-color: red;
+  color: white;
+}
+
+.rounded {
+  border-radius: 7px;
 }

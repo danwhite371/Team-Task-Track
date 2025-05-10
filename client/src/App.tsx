@@ -27,7 +27,7 @@ function App() {
         <NewTaskForm createNewTask={createNewTask} />
       </div>
       {tasks && (
-        <div className="flex">
+        <div className="flex ">
           {tasks.map((task) => (
             <TaskTimerCard key={task.id} task={task} dataApi={dataApi} />
           ))}

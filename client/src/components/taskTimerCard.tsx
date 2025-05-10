@@ -25,12 +25,18 @@ export default function TaskTimerCard({ task, dataApi }: TTCProps) {
       <div>{task.name}</div>
       <div>
         {!task.active && (
-          <button onClick={() => dataApi?.startTask(task.id)} className="mv">
+          <button
+            onClick={() => dataApi?.startTask(task.id)}
+            className="mv start-color rounded"
+          >
             Start
           </button>
         )}
         {task.active && (
-          <button onClick={() => dataApi?.stopTask(task.id)} className="mv">
+          <button
+            onClick={() => dataApi?.stopTask(task.id)}
+            className="mv stop-color rounded"
+          >
             Stop
           </button>
         )}
