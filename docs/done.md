@@ -1,3 +1,10 @@
+## Unreleased
+
+chore: Move reference docs to a separate project
+docs: Move todo and done to parent folder
+
+## 0.1.0
+
 doc: Start a change log
 chore: Versioning
 feat(style): Added colors to start/stop buttons

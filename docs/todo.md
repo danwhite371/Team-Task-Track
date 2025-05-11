@@ -1,24 +1,46 @@
-\*\*\* We can start using this to track our time
+### UI
+
+feat(comp-lib/css): switch to shadcn/ui
+
+### docs/chore
 
 chore: Create a basic readme
 chore: Start public git project, start tracking new features and bugs
+
+### Tasks
+
+Order (back-end) tasks by most recent time change,
+feat(style) Make running tasks obvious
 feat(time-util): Frond-end format duration to hours, minutes and seconds
 feat(comp): Create component to Show time increasing every second while active
-feat(comp-lib/css): switch to shadcn/ui
-feat(style) Make running tasks obvious
+
+### Refactor
+
+Better error handling
+Convert backend to TypeScript
+Better logging
+Add tests
+
+## Folders
+
+Have a folder table
+
+## Task Times
+
+Remove time entry
+Add time entry
+Edit time entry
+Collapse time to start
+Collapse time to end
+
+## archive
+
 feat(archive): Add archive flag to task table
 feat(archive): Add archiveTask graphQL mutation
 feat(archive): Have active and archive routes, home maps to active
 feat(archive): Have top level links to archive and home
 Have current and archived routes
 Views: current tasks and archived tasks
-Order tasks by most recent time change,
-Remove time entry
-Add time entry
-Edit time entry
-Have a group table
-Collapse time to start
-Collapse time to end
 
 ## Should we do
 

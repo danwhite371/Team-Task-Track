@@ -1,7 +1,0 @@
-- [ ] Add apollo server
-- [ ]
-- [ ] Better error handling
-- [ ] Refactor index.js
-- [ ] Convert to TypeScript
-- [ ] Better logging
-- [ ] Add tests

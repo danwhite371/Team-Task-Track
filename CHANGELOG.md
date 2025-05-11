@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Move reference docs to a separate project
+- Move todo and done to parent folder
+
 ## [0.1.0] - 2025-05-10
 
 ### Added
