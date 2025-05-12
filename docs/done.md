@@ -1,5 +1,6 @@
 ## Unreleased
 
+feat(time): Created component to render a time interval
 feat: Updated Task query to have active and lastDate for ordering, no longer return times in the Task query
 chore: Move reference docs to a separate project
 docs: Move todo and done to parent folder

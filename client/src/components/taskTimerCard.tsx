@@ -1,5 +1,5 @@
 import type DataApi from '../data/dataApi';
-import type { Task, TaskTime } from '../types';
+import type { Task, TaskTime, Duration } from '../types';
 import { nullToZero, formatDatetime } from '../until';
 import { Button } from './ui/button';
 
@@ -16,6 +16,51 @@ function TimeRow({ taskTime }: TimeRowProps) {
   );
 }
 
+type DurationValueProps = {
+  value: number | null | undefined;
+  type: string;
+};
+function DurationValue({ value, type }: DurationValueProps) {
+  if (value == null) return;
+
+  return (
+    <>
+      {value}
+      <sup className="font-bold">{type}</sup>
+    </>
+  );
+}
+
+type Duration = {
+  milliseconds: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  days: number;
+  years: number;
+};
+
+type DurationProps = {
+  duration: Duration | undefined;
+};
+function Duration({ duration }: DurationProps) {
+  if (!duration) return;
+  return (
+    <>
+      <DurationValue value={duration.years} type="y" />
+      &nbsp;
+      <DurationValue value={duration.days} type="d" />
+      &nbsp;
+      <DurationValue value={duration.hours} type="h" />
+      &nbsp;
+      <DurationValue value={duration.minutes} type="m" />
+      &nbsp;
+      <DurationValue value={duration.seconds} type="s" />
+      &nbsp;
+    </>
+  );
+}
+
 type TTCProps = {
   task: Task;
   dataApi: DataApi | undefined;
@@ -25,7 +70,7 @@ export default function TaskTimerCard({ task, dataApi }: TTCProps) {
     <div className="bg-card text-card-foreground border border-border p-2 rounded-lg min-w-40">
       <div className="text-sm font-medium">{task.name}</div>
       <div className="text-center text-sm font-medium text-card-foreground">
-        {JSON.stringify(task.duration)}
+        <Duration duration={task.duration} />
       </div>
       <div className="text-center">
         {!task.active && (

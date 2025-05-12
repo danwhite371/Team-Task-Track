@@ -1,6 +1,6 @@
 ## Next
 
-feat(time): Create component to render a time interval
+feat: Show time list in grid view as a higher z-index
 
 ---
 

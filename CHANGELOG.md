@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Created component to render a time interval
 - Updated Task query to have active and lastDate for ordering, no longer return times in the Task query
 - Installed shadcn/ui & tailwind
 - Move reference docs to a separate project

@@ -27,13 +27,13 @@ function getDataApi(model, sequelize) {
         "task"."name",
         "task"."createdAt",
         "task"."updatedAt",
-        max("taskTimes"."stop") - min("taskTimes"."start") as "duration",  
         GREATEST(max("taskTimes"."start"), max("taskTimes"."stop"), "task"."updatedAt") as "lastTime",
         CASE 
           WHEN min("taskTimes"."start") IS NOT NULL AND count(*) > count("taskTimes"."stop") THEN true
         ELSE
           false
-        END AS "active"
+        END AS "active",
+        SUM ("taskTimes"."stop" - "taskTimes"."start") AS "duration"
       FROM "tasks" AS "task" 
       LEFT OUTER JOIN "taskTimes" AS "taskTimes" ON "task"."id" = "taskTimes"."taskId"
       GROUP BY "task".id
