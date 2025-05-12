@@ -25,7 +25,7 @@ export default function TaskTimerCard({ task, dataApi }: TTCProps) {
     <div className="bg-card text-card-foreground border border-border p-2 rounded-lg min-w-40">
       <div className="text-sm font-medium">{task.name}</div>
       <div className="text-center text-sm font-medium text-card-foreground">
-        {task.secondsDuration}
+        {JSON.stringify(task.duration)}
       </div>
       <div className="text-center">
         {!task.active && (

@@ -1,11 +1,15 @@
 ## Next
 
+feat(time): Create component to render a time interval
+
+---
+
 feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
 feat(task-grid): Create time list that displays over other items
 
 ### UI
 
-feat(comp-lib/css): switch to shadcn/ui
+feat(comp-lib/css): Install shadcn/ui & tailwind
 
 ### docs/chore
 
@@ -15,7 +19,6 @@ chore: Start public git project, start tracking new features and bugs
 ### Tasks
 
 feat(task-table): Time view would be rows under the Task items
-Order (back-end) tasks by most recent time change,
 feat(style) Make running tasks obvious
 feat(time-util): Frond-end format duration to hours, minutes and seconds
 feat(comp): Create component to Show time increasing every second while active

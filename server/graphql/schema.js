@@ -1,14 +1,23 @@
 const { gql } = require('apollo-server');
 
 const gqlTypeDefs = gql`
+  type Interval {
+    milliseconds: Int
+    seconds: Int
+    minutes: Int
+    hours: Int
+    days: Int
+    years: Int
+  }
   type Task {
     id: Int!
     name: String!
     createdAt: String!
     updatedAt: String!
     taskTimes: [TaskTime]
-    secondsDuration: Float
+    duration: Interval
     active: Boolean!
+    lastTime: String
   }
 
   type TaskTime {

@@ -21,6 +21,36 @@ function getDataApi(model, sequelize) {
   }
 
   async function getAllTasks() {
+    const tasks = await sequelize.query(
+      `SELECT 
+        "task"."id",
+        "task"."name",
+        "task"."createdAt",
+        "task"."updatedAt",
+        max("taskTimes"."stop") - min("taskTimes"."start") as "duration",  
+        GREATEST(max("taskTimes"."start"), max("taskTimes"."stop"), "task"."updatedAt") as "lastTime",
+        CASE 
+          WHEN min("taskTimes"."start") IS NOT NULL AND count(*) > count("taskTimes"."stop") THEN true
+        ELSE
+          false
+        END AS "active"
+      FROM "tasks" AS "task" 
+      LEFT OUTER JOIN "taskTimes" AS "taskTimes" ON "task"."id" = "taskTimes"."taskId"
+      GROUP BY "task".id
+      ORDER BY "lastTime" DESC`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    // for (const task of tasks) {
+    //   console.log(JSON.stringify(task.duration, null, 2));
+    // }
+
+    return tasks;
+  }
+  /*
+  async function getAllTasks() {
     const tasks = await Task.findAll({ raw: true });
     for (const task of tasks) {
       await populateTask(task);
@@ -28,6 +58,7 @@ function getDataApi(model, sequelize) {
 
     return tasks;
   }
+  */
 
   async function getTask(id) {
     const task = await Task.findOne({ where: id });
@@ -88,7 +119,7 @@ function getDataApi(model, sequelize) {
   async function stopTask(taskId) {
     await closeOpenTimes(taskId);
     const task = await Task.findOne({ where: { id: taskId } });
-    await populateTask(task);
+    // await populateTask(task);
     return task;
   }
 

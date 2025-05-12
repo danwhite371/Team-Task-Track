@@ -1,3 +1,12 @@
+type Duration = {
+  milliseconds: number;
+  seconds: number;
+  minutes: number;
+  hours: number;
+  days: number;
+  years: number;
+};
+
 type TaskTime = {
   id: number;
   start: string;
@@ -14,8 +23,8 @@ type Task = {
   createdAt: string;
   updatedAt: string;
   taskTimes?: TaskTime[];
-  secondsDuration?: number;
+  duration?: Duration;
   active: boolean;
 };
 
-export type { Task, TaskTime };
+export type { Task, TaskTime, Duration };

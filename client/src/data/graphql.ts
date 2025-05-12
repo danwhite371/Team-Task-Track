@@ -14,14 +14,16 @@ async function fetchTasks() {
             name
             createdAt
             updatedAt
-            secondsDuration
-            active
-            taskTimes {
-              id
-              start
-              stop
-              secondsDuration
+            duration {
+              milliseconds
+              seconds
+              minutes
+              hours
+              days
+              years
             }
+            active
+            lastTime
           }
         }
       `,
@@ -74,8 +76,6 @@ async function createTask(name: string) {
         name
         createdAt
         updatedAt
-        secondsDuration
-        active
       }
     }
   `;
@@ -107,13 +107,6 @@ async function startTask(id: number) {
         name
         createdAt
         updatedAt
-        secondsDuration
-        active
-        taskTimes {
-          start
-          stop
-          secondsDuration
-        }
       }
     }
   `;
@@ -145,13 +138,6 @@ async function stopTask(id: number) {
         name
         createdAt
         updatedAt
-        secondsDuration
-        active
-        taskTimes {
-          start
-          stop
-          secondsDuration
-        }
       }
     }
   `;
