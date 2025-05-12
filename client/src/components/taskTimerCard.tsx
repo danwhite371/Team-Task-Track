@@ -1,6 +1,7 @@
 import type DataApi from '../data/dataApi';
 import type { Task, TaskTime } from '../types';
 import { nullToZero, formatDatetime } from '../until';
+import { Button } from './ui/button';
 
 type TimeRowProps = {
   taskTime: TaskTime;
@@ -21,24 +22,55 @@ type TTCProps = {
 };
 export default function TaskTimerCard({ task, dataApi }: TTCProps) {
   return (
+    <div className="bg-card text-card-foreground border border-border p-2 rounded-lg min-w-40">
+      <div className="text-sm font-medium">{task.name}</div>
+      <div className="text-center text-sm font-medium text-card-foreground">
+        {task.secondsDuration}
+      </div>
+      <div className="text-center">
+        {!task.active && (
+          <Button
+            variant="default"
+            size="sm"
+            onClick={() => dataApi?.startTask(task.id)}
+          >
+            Start
+          </Button>
+        )}
+        {task.active && (
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => dataApi?.stopTask(task.id)}
+          >
+            Stop
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+  /*
+  return (
     <div className="card">
       <div>{task.name}</div>
       <div>
         {!task.active && (
-          <button
+          <Button
+            variant="default"
+            size="sm"
             onClick={() => dataApi?.startTask(task.id)}
-            className="mv start-color rounded"
           >
             Start
-          </button>
+          </Button>
         )}
         {task.active && (
-          <button
+          <Button
+            variant="destructive"
+            size="sm"
             onClick={() => dataApi?.stopTask(task.id)}
-            className="mv stop-color rounded"
           >
             Stop
-          </button>
+          </Button>
         )}
       </div>
       <div>{nullToZero(task.secondsDuration)}</div>
@@ -55,4 +87,5 @@ export default function TaskTimerCard({ task, dataApi }: TTCProps) {
       )}
     </div>
   );
+  */
 }

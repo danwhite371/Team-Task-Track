@@ -22,17 +22,24 @@ function App() {
   };
 
   return (
-    <div className="flex-col-center">
-      <div className="mb mt">
-        <NewTaskForm createNewTask={createNewTask} />
-      </div>
-      {tasks && (
-        <div className="flex ">
-          {tasks.map((task) => (
-            <TaskTimerCard key={task.id} task={task} dataApi={dataApi} />
-          ))}
+    <div className="w-full bg-background text-foreground">
+      <div className="w-full border-b border-border">
+        <div className="container mx-auto px-4 border-x border-border">
+          <header className="">Team Task Track</header>
         </div>
-      )}
+      </div>
+      <main className="container mx-auto px-4 border-x border-border h-full-20 flex flex-col items-center">
+        <NewTaskForm createNewTask={createNewTask} />
+        <div>
+          {tasks && (
+            <div className="flex flex-wrap gap-6 mt-6">
+              {tasks.map((task) => (
+                <TaskTimerCard key={task.id} task={task} dataApi={dataApi} />
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
