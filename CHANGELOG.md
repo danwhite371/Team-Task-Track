@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Create a timer component which increases time every second
+- Create function to use current time and last time for a duration
 - Created component to render a time interval
 - Updated Task query to have active and lastDate for ordering, no longer return times in the Task query
 - Installed shadcn/ui & tailwind

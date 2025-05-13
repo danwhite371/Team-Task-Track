@@ -1,11 +1,9 @@
 ## Next
 
-feat: Show time list in grid view as a higher z-index
+feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
+feat(task-grid): Show time list in grid view as a higher z-index
 
 ---
-
-feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
-feat(task-grid): Create time list that displays over other items
 
 ### UI
 

@@ -25,6 +25,8 @@ type Task = {
   taskTimes?: TaskTime[];
   duration?: Duration;
   active: boolean;
+  lastTime?: string;
+  secondsDuration: number;
 };
 
 export type { Task, TaskTime, Duration };

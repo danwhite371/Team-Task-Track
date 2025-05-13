@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import type DataApi from '../data/dataApi';
 import type { Task, TaskTime, Duration } from '../types';
-import { nullToZero, formatDatetime } from '../until';
+import { nullToZero, formatDatetime, timeDuration } from '../until';
 import { Button } from './ui/button';
 
 type TimeRowProps = {
@@ -16,12 +17,34 @@ function TimeRow({ taskTime }: TimeRowProps) {
   );
 }
 
+type ActiveDurationProps = {
+  lastTime: Date;
+  secondsDuration: number;
+};
+function ActiveDuration({ lastTime, secondsDuration }: ActiveDurationProps) {
+  const [dur, setDur] = useState<number>(
+    secondsDuration * 1000 + (new Date().getTime() - lastTime.getTime())
+  );
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDur((prev) => {
+        return prev + 1000;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  console.log('[ActiveDuration]', lastTime, secondsDuration);
+
+  return <Duration duration={timeDuration(dur)} />;
+}
+
 type DurationValueProps = {
   value: number | null | undefined;
   type: string;
 };
 function DurationValue({ value, type }: DurationValueProps) {
-  if (value == null) return;
+  if (value == null || value == 0) return;
 
   return (
     <>
@@ -70,7 +93,13 @@ export default function TaskTimerCard({ task, dataApi }: TTCProps) {
     <div className="bg-card text-card-foreground border border-border p-2 rounded-lg min-w-40">
       <div className="text-sm font-medium">{task.name}</div>
       <div className="text-center text-sm font-medium text-card-foreground">
-        <Duration duration={task.duration} />
+        {task.active && task.lastTime && (
+          <ActiveDuration
+            lastTime={new Date(Number(task.lastTime))}
+            secondsDuration={task.secondsDuration}
+          />
+        )}
+        {!task.active && <Duration duration={task.duration} />}
       </div>
       <div className="text-center">
         {!task.active && (

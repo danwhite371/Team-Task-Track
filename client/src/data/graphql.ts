@@ -8,24 +8,25 @@ async function fetchTasks() {
     },
     body: JSON.stringify({
       query: `
-        query  {
-          getAllTasks {
-            id
-            name
-            createdAt
-            updatedAt
-            duration {
-              milliseconds
-              seconds
-              minutes
-              hours
-              days
-              years
-            }
-            active
-            lastTime
+       query  {
+        getAllTasks {
+          id
+          name
+          createdAt
+          updatedAt
+          duration {
+            milliseconds
+            seconds
+            minutes
+            hours
+            days
+            years
           }
+          active
+          lastTime
+          secondsDuration
         }
+      }
       `,
     }),
   });
