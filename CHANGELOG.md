@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- New task is now hidable with a toggle button
 - Create a timer component which increases time every second
 - Create function to use current time and last time for a duration
 - Created component to render a time interval
@@ -16,6 +17,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Installed shadcn/ui & tailwind
 - Move reference docs to a separate project
 - Move todo and done to parent folder
+
+### Changed
+
+- Use table for task display
+- Improved main page visually
+
+### Removed
+
+- Grid display
 
 ## [0.1.0] - 2025-05-10
 

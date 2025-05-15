@@ -1,7 +1,6 @@
 ## Next
 
-feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
-feat(task-grid): Show time list in grid view as a higher z-index
+feat: Add task times inner tables on request
 
 ---
 
@@ -16,6 +15,8 @@ chore: Start public git project, start tracking new features and bugs
 
 ### Tasks
 
+feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
+feat(task-grid): Show time list in grid view as a higher z-index
 feat(task-table): Time view would be rows under the Task items
 feat(style) Make running tasks obvious
 feat(time-util): Frond-end format duration to hours, minutes and seconds

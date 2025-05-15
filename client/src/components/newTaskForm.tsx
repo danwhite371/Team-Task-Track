@@ -26,7 +26,7 @@ export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
   }
 
   return (
-    <form onSubmit={newTask}>
+    <form className="mt-2" onSubmit={newTask}>
       <Card className="gap-2">
         <CardContent className="flex flex-col gap-y-2">
           <Label htmlFor="taskNameInput">Task name </Label>
