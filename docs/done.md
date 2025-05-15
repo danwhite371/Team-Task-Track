@@ -1,10 +1,11 @@
 ## Unreleased
 
+feat: Add task times inner tables on request
+
 feat: Use table for task display
 style: Cleanup main page
 style: Increase name and header height
 style: Add a toggle button on header to show or hide new task
-
 feat(time): Create a timer component which increases time every second
 feat(time): Create function to use current time and last time for a duration
 feat(time): Created component to render a time interval

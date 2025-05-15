@@ -1,6 +1,10 @@
 ## Next
 
-feat: Add task times inner tables on request
+time row comments
+or
+Task type, task scope
+or
+new time, edit time, delete time
 
 ---
 

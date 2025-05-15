@@ -1,8 +1,15 @@
 import type { Task } from '../types';
-import { createTask, fetchTasks, startTask, stopTask } from './graphql';
+import {
+  createTask,
+  fetchTasks,
+  startTask,
+  stopTask,
+  fetchTaskTimes,
+} from './graphql';
 
 export default class DataApi {
   updateTaskData: (tasks: Task[]) => void;
+  tasks: Task[] = [];
   constructor(updateTaskData: (tasks: Task[]) => void) {
     this.updateTaskData = updateTaskData;
     this.sendTasks();
@@ -10,10 +17,10 @@ export default class DataApi {
   async createNewTask(name: string) {
     await createTask(name);
     await this.sendTasks();
-    // get all task data and send it to the UI
   }
   async sendTasks() {
     const tasks = await fetchTasks();
+    this.tasks = tasks;
     this.updateTaskData(tasks);
   }
   async startTask(id: number) {
@@ -24,6 +31,19 @@ export default class DataApi {
   async stopTask(id: number) {
     await stopTask(id);
     await this.sendTasks();
+  }
+
+  /*
+    When updating task times, we want to get the data, update the task object, then send
+    but we don't have the full list anymore as we just sent it.
+  */
+  async fetchTaskTimes(taskId: number) {
+    const task = this.tasks.find((task) => task.id == taskId);
+    if (!task) throw new Error('[sendTaskTimes] Task id mismatch');
+    const taskTimes = await fetchTaskTimes(taskId);
+    task.taskTimes = taskTimes;
+    this.tasks = [...this.tasks];
+    this.updateTaskData(this.tasks);
   }
 }
 

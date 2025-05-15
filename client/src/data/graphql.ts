@@ -39,7 +39,7 @@ async function fetchTasks() {
   return responseData.data.getAllTasks;
 }
 
-async function fetchTaskTimes() {
+async function fetchTaskTimes(taskId: number) {
   const response = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
@@ -55,9 +55,7 @@ async function fetchTaskTimes() {
           }
         }
       `,
-      variables: {
-        taskId: 1,
-      },
+      variables: { taskId },
     }),
   });
   const responseData = await response.json();
