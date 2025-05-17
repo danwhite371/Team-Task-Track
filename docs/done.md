@@ -1,7 +1,8 @@
 ## Unreleased
 
-feat: Add task times inner tables on request
+refactor: typescript on the backend
 
+feat: Add task times inner tables on request
 feat: Use table for task display
 style: Cleanup main page
 style: Increase name and header height

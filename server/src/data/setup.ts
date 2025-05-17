@@ -1,6 +1,6 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
-async function setUp() {
+async function setup() {
   const sequelize = new Sequelize(
     'postgres://postgres:larry3712@localhost:5432/teamtasktrack'
   );
@@ -21,4 +21,4 @@ async function setUp() {
   return sequelize;
 }
 
-module.exports = setUp;
+export default setup;

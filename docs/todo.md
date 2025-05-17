@@ -1,10 +1,17 @@
 ## Next
 
-time row comments
-or
-Task type, task scope
-or
-new time, edit time, delete time
+chore: Clean up any personal info
+feat: Add query for getting a task that returns all the info returned in getAllTasks
+test: Testing everywhere
+feat: Collapse times per day to end or start
+feat: new time, edit time, delete time
+feat: Time row comments
+feat: Edit task name, delete task
+feat: Add to task: Task type, task scope
+feat: Only reload the one task when stopping or stopping
+feat: multi user
+
+At some point we need to have a get Task query that returns all the details in getAllTasks
 
 ---
 
@@ -19,8 +26,6 @@ chore: Start public git project, start tracking new features and bugs
 
 ### Tasks
 
-feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
-feat(task-grid): Show time list in grid view as a higher z-index
 feat(task-table): Time view would be rows under the Task items
 feat(style) Make running tasks obvious
 feat(time-util): Frond-end format duration to hours, minutes and seconds
@@ -53,6 +58,13 @@ feat(archive): Have active and archive routes, home maps to active
 feat(archive): Have top level links to archive and home
 Have current and archived routes
 Views: current tasks and archived tasks
+
+## On Hold
+
+### Tasks
+
+feat(task-grid): On hover, show drop down menu (edit, view times), edit triggers dialog for Task edit
+feat(task-grid): Show time list in grid view as a higher z-index
 
 ## Should we do
 

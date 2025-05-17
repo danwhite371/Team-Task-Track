@@ -1,7 +1,6 @@
-const { ApolloServer } = require('apollo-server');
-const getResolvers = require('./graphql/resolvers');
-const gqlTypeDefs = require('./graphql/schema');
-const { initData } = require('./data');
+import { ApolloServer, gql } from 'apollo-server';
+import { initData } from './data';
+import { getResolvers, gqlTypeDefs } from './graphql';
 
 async function main() {
   const dataApi = await initData();

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- JavaScript converted to TypeScript on the backend
 - Add task times inner tables on request
 - New task is now hidable with a toggle button
 - Created a timer component which increases time every second

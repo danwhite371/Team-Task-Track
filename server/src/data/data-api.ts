@@ -1,24 +1,28 @@
-const { Op, QueryTypes } = require('sequelize');
+import { Op, QueryTypes } from 'sequelize';
 
-function getDataApi(model, sequelize) {
+function getDataApi(model: any, sequelize: any) {
   const { Task, TaskTime } = model;
+  // type TaskInstance = InstanceType<typeof Task>;
+  type TaskTimeInstance = InstanceType<typeof TaskTime>;
 
-  async function populateTask(task) {
-    task.taskTimes = await getTaskTimes(task.id);
-    if (task.taskTimes && task.taskTimes.length > 0) {
-      task.secondsDuration = task.taskTimes.reduce(
-        (accum, current) =>
-          current.secondsDuration != null
-            ? accum + Number(current.secondsDuration)
-            : accum,
-        0
-      );
-      task.active = task.taskTimes.map((tt) => tt.stop).includes(null);
-    } else {
-      task.active = false;
-    }
-    return task;
-  }
+  // async function populateTask(task: TaskInstance) {
+  //   task.taskTimes = await getTaskTimes(task.id);
+  //   if (task.taskTimes && task.taskTimes.length > 0) {
+  //     task.secondsDuration = task.taskTimes.reduce(
+  //       (total: number, current: TaskInstance) =>
+  //         current.secondsDuration != null
+  //           ? total + Number(current.secondsDuration)
+  //           : total,
+  //       0
+  //     );
+  //     task.active = task.taskTimes
+  //       .map((tt: TaskTimeInstance) => tt.stop)
+  //       .includes(null);
+  //   } else {
+  //     task.active = false;
+  //   }
+  //   return task;
+  // }
 
   async function getAllTasks() {
     const tasks = await sequelize.query(
@@ -44,30 +48,16 @@ function getDataApi(model, sequelize) {
       }
     );
 
-    // for (const task of tasks) {
-    //   console.log(JSON.stringify(task.duration, null, 2));
-    // }
-
     return tasks;
   }
-  /*
-  async function getAllTasks() {
-    const tasks = await Task.findAll({ raw: true });
-    for (const task of tasks) {
-      await populateTask(task);
-    }
 
-    return tasks;
-  }
-  */
+  // async function getTask(id: number) {
+  //   const task = await Task.findOne({ where: id });
+  //   await populateTask(task);
+  //   return task;
+  // }
 
-  async function getTask(id) {
-    const task = await Task.findOne({ where: id });
-    await populateTask(task);
-    return task;
-  }
-
-  async function getTaskTimes(taskId) {
+  async function getTaskTimes(taskId: number) {
     const taskTimes = await sequelize.query(
       `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
       FROM public."taskTimes"
@@ -81,46 +71,45 @@ function getDataApi(model, sequelize) {
     return taskTimes;
   }
 
-  async function createTask(name) {
+  async function createTask(name: string) {
     const task = await Task.create({ name });
     return task.get({ plain: true });
   }
 
-  async function deleteTask(id) {
+  async function deleteTask(id: number) {
     const task = await Task.findOne({ where: { id } });
     await task.destroy(id);
     return id;
   }
 
-  async function changeTaskName(id, name) {
-    const task = await getTask(id);
-    task.name = name;
-    await task.save();
-    return task;
-  }
+  // async function changeTaskName(id: number, name: string) {
+  //   const task = await getTask(id);
+  //   task.name = name;
+  //   await task.save();
+  //   return task;
+  // }
 
-  async function closeOpenTimes(taskId) {
+  async function closeOpenTimes(taskId: number) {
     const openTaskTimes = await TaskTime.findAll({
       where: { taskId, stop: { [Op.is]: null } },
     });
-    openTaskTimes.every(async (taskTime) => {
+    openTaskTimes.every(async (taskTime: TaskTimeInstance) => {
       taskTime.stop = new Date();
       await taskTime.save();
     });
   }
 
-  async function startTask(taskId) {
-    await closeOpenTimes(taskId);
-    const task = await Task.findOne({ where: { id: taskId } });
+  async function startTask(id: number) {
+    await closeOpenTimes(id);
+    const task = await Task.findOne({ where: { id } });
     await task.createTaskTime();
-    await populateTask(task);
     return task;
   }
 
-  async function stopTask(taskId) {
-    await closeOpenTimes(taskId);
-    const task = await Task.findOne({ where: { id: taskId } });
-    // await populateTask(task);
+  async function stopTask(id: number) {
+    await closeOpenTimes(id);
+    const task = await Task.findOne({ where: { id } });
+    console.log('[getDataApi] stopTask, id', JSON.stringify(task, null, 2));
     return task;
   }
 
@@ -131,8 +120,8 @@ function getDataApi(model, sequelize) {
     startTask,
     stopTask,
     deleteTask,
-    changeTaskName,
+    // changeTaskName,
   };
 }
 
-module.exports = getDataApi;
+export default getDataApi;
