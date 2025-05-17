@@ -1,7 +1,8 @@
 ## Unreleased
 
-refactor: typescript on the backend
+chore: Moved personal info to .env file, installed dotenv to load it.
 
+refactor: typescript on the backend
 feat: Add task times inner tables on request
 feat: Use table for task display
 style: Cleanup main page

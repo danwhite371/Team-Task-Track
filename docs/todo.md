@@ -1,6 +1,5 @@
 ## Next
 
-chore: Clean up any personal info
 feat: Add query for getting a task that returns all the info returned in getAllTasks
 test: Testing everywhere
 feat: Collapse times per day to end or start

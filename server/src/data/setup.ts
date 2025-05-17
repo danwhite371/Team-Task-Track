@@ -1,8 +1,16 @@
 import { Sequelize } from 'sequelize';
 
 async function setup() {
+  const user = process.env.DATABASE_USER;
+  const host = process.env.DATABASE_HOST;
+  const name = process.env.DATABASE_NAME;
+  const password = process.env.DATABASE_PASSWORD;
+  const port = process.env.DATABASE_PORT;
+
+  console.log('[setup]', user, host, name, password, port);
+
   const sequelize = new Sequelize(
-    'postgres://postgres:larry3712@localhost:5432/teamtasktrack'
+    `postgres://${user}:${password}@${host}:${port}/${name}`
   );
 
   process.on('SIGINT', () => {
