@@ -1,7 +1,9 @@
 ## Unreleased
 
-feat: Add logging on server, Pino
+feat: Create Apollo plugin for pino logging
+feat: Refactor frontend queries adding operationName for backend logging
 
+feat: Add logging on server, Pino
 feat: Add query for getting a task that returns all the info returned in getAllTasks
 chore: Moved personal info to .env file, installed dotenv to load it.
 refactor: typescript on the backend

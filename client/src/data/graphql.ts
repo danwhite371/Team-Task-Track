@@ -1,34 +1,19 @@
+import { lowercaseFirstChar } from '@/until';
+
 const GRAPHQL_URL = 'http://localhost:4000/';
 
-async function fetchTasks() {
+type graphqlFetchProps = {
+  query: string;
+  operationName: string;
+  variables?: any;
+};
+async function graphqlFetch(props: graphqlFetchProps) {
   const response = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
     },
-    body: JSON.stringify({
-      query: `
-       query  {
-        getAllTasks {
-          id
-          name
-          createdAt
-          updatedAt
-          duration {
-            milliseconds
-            seconds
-            minutes
-            hours
-            days
-            years
-          }
-          active
-          lastTime
-          secondsDuration
-        }
-      }
-      `,
-    }),
+    body: JSON.stringify(props),
   });
   const responseData = await response.json();
   if (responseData.errors) {
@@ -36,35 +21,47 @@ async function fetchTasks() {
       console.error(error);
     }
   }
-  return responseData.data.getAllTasks;
+  return responseData.data[lowercaseFirstChar(props.operationName)];
+}
+
+async function fetchTasks() {
+  const query = `query GetAllTasks {
+    getAllTasks {
+      id
+      name
+      createdAt
+      updatedAt
+      duration {
+        milliseconds
+        seconds
+        minutes
+        hours
+        days
+        years
+      }
+      active
+      lastTime
+      secondsDuration
+    }
+  }`;
+
+  return await graphqlFetch({ query, operationName: 'GetAllTasks' });
 }
 
 async function fetchTaskTimes(taskId: number) {
-  const response = await fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: `
-        query GetTaskTimes($taskId: Int!){
-          getTaskTimes(taskId: $taskId) {
-            start
-            stop
-            secondsDuration
-          }
-        }
-      `,
-      variables: { taskId },
-    }),
-  });
-  const responseData = await response.json();
-  if (responseData.errors) {
-    for (const error of responseData.errors) {
-      console.error(error);
+  const query = `query GetTaskTimes($taskId: Int!){
+    getTaskTimes(taskId: $taskId) {
+      start
+      stop
+      secondsDuration
     }
-  }
-  return responseData.data.getTaskTimes;
+  }`;
+  const variables = { taskId };
+  return await graphqlFetch({
+    operationName: 'GetTaskTimes',
+    query,
+    variables,
+  });
 }
 
 async function createTask(name: string) {
@@ -79,23 +76,11 @@ async function createTask(name: string) {
     }
   `;
   const variables = { name };
-  const response = await fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: mutation,
-      variables,
-    }),
+  return await graphqlFetch({
+    operationName: 'CreateTask',
+    query: mutation,
+    variables,
   });
-  const responseData = await response.json();
-  if (responseData.errors) {
-    for (const error of responseData.errors) {
-      console.error(error);
-    }
-  }
-  return responseData.data.updateTaskData;
 }
 
 async function startTask(id: number) {
@@ -110,23 +95,11 @@ async function startTask(id: number) {
     }
   `;
   const variables = { id };
-  const response = await fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: mutation,
-      variables,
-    }),
+  return await graphqlFetch({
+    operationName: 'StartTask',
+    query: mutation,
+    variables,
   });
-  const responseData = await response.json();
-  if (responseData.errors) {
-    for (const error of responseData.errors) {
-      console.error(error);
-    }
-  }
-  return responseData.data.startTask;
 }
 
 async function stopTask(id: number) {
@@ -141,23 +114,11 @@ async function stopTask(id: number) {
     }
   `;
   const variables = { id };
-  const response = await fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: mutation,
-      variables,
-    }),
+  return await graphqlFetch({
+    operationName: 'StopTask',
+    query: mutation,
+    variables,
   });
-  const responseData = await response.json();
-  if (responseData.errors) {
-    for (const error of responseData.errors) {
-      console.error(error);
-    }
-  }
-  return responseData.data.stopTask;
 }
 
 export { fetchTasks, fetchTaskTimes, createTask, startTask, stopTask };

@@ -30,4 +30,11 @@ const timeDuration = (diffInMs: number) => {
   return duration;
 };
 
-export { formatDatetime, nullToZero, timeDuration };
+function lowercaseFirstChar(str: string): string {
+  if (!str) {
+    throw new Error('Unexpected null or empty string:');
+  }
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+export { formatDatetime, nullToZero, timeDuration, lowercaseFirstChar };

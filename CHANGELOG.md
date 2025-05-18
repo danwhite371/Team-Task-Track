@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- feat: Create Apollo plugin for pino logging
+- feat: Refactor frontend queries and added operationName for backend logging
 - feat: Logging on server, Pino
 - Query for getting a task that returns all the info returned in getAllTasks
 - Moved personal info to .env file, installed dotenv to load it.

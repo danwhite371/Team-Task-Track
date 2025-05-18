@@ -2,16 +2,20 @@ import { ApolloServer } from 'apollo-server';
 import { initData } from './data';
 import { getResolvers, gqlTypeDefs } from './graphql';
 import 'dotenv/config';
-import logger from './logger';
+import logger from './logging/logger';
+import apolloLoggingPlugin from './logging/apollo-logging-plugin';
 
 async function main() {
   const dataApi = await initData();
   const resolvers = getResolvers(dataApi);
 
-  const server = new ApolloServer({ typeDefs: gqlTypeDefs, resolvers });
+  const server = new ApolloServer({
+    typeDefs: gqlTypeDefs,
+    resolvers,
+    plugins: [apolloLoggingPlugin],
+  });
   server.listen().then(({ url }) => {
     logger.info(`Server ready at ${url}`);
-    // console.log(`Server ready at ${url}`);
   });
 }
 

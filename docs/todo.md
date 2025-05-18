@@ -1,6 +1,5 @@
 ## Next
 
-feat: Create Apollo plugin for pino logging
 Testing, logging, better error handling
 test: Testing everywhere
 feat: Collapse times per day to end or start
