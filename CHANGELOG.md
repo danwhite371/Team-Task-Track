@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- feat: Logging on server, Pino
 - Query for getting a task that returns all the info returned in getAllTasks
 - Moved personal info to .env file, installed dotenv to load it.
 - JavaScript converted to TypeScript on the backend.

@@ -1,5 +1,7 @@
 ## Unreleased
 
+feat: Add logging on server, Pino
+
 feat: Add query for getting a task that returns all the info returned in getAllTasks
 chore: Moved personal info to .env file, installed dotenv to load it.
 refactor: typescript on the backend
