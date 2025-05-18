@@ -1,6 +1,8 @@
 ## Next
 
-feat: Add query for getting a task that returns all the info returned in getAllTasks
+feat: Add logging to server, Pino and apollo-server-logging
+
+Testing, logging, better error handling
 test: Testing everywhere
 feat: Collapse times per day to end or start
 feat: new time, edit time, delete time

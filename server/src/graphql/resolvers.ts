@@ -14,6 +14,11 @@ function getResolvers(dataApi: DataApi) {
   const resolvers = {
     Query: {
       getAllTasks: async () => await dataApi.getAllTasks(),
+      getTask: async (_parent: any, { id }: Id) => {
+        const task = await dataApi.getTask(id);
+        console.log('[getResolvers] getTask:', JSON.stringify(task, null, 2));
+        return task;
+      },
       getTaskTimes: async (_parent: any, { taskId }: TaskId) => {
         return await dataApi.getTaskTimes(taskId);
       },
@@ -42,10 +47,10 @@ function getResolvers(dataApi: DataApi) {
       deleteTask: async (_parent: any, { id }: Id) =>
         await dataApi.deleteTask(id),
 
-      // changeTaskName: async (
-      //   _parent: any,
-      //   { id, name }: { id: number; name: string }
-      // ) => await dataApi.changeTaskName(id, name),
+      changeTaskName: async (
+        _parent: any,
+        { id, name }: { id: number; name: string }
+      ) => await dataApi.changeTaskName(id, name),
     },
   };
   return resolvers;

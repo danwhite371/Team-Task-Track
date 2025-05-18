@@ -2,7 +2,7 @@ import { Op, QueryTypes } from 'sequelize';
 
 function getDataApi(model: any, sequelize: any) {
   const { Task, TaskTime } = model;
-  // type TaskInstance = InstanceType<typeof Task>;
+  type TaskInstance = InstanceType<typeof Task>;
   type TaskTimeInstance = InstanceType<typeof TaskTime>;
 
   // async function populateTask(task: TaskInstance) {
@@ -51,6 +51,41 @@ function getDataApi(model: any, sequelize: any) {
     return tasks;
   }
 
+  async function getTask(id: number) {
+    const tasks = await sequelize.query(
+      `SELECT 
+        "task"."id",
+        "task"."name",
+        "task"."createdAt",
+        "task"."updatedAt",
+        GREATEST(max("taskTimes"."start"), max("taskTimes"."stop"), "task"."updatedAt") as "lastTime",
+        CASE 
+        WHEN min("taskTimes"."start") IS NOT NULL AND count(*) > count("taskTimes"."stop") THEN true
+        ELSE
+        false
+        END AS "active",
+        SUM ("taskTimes"."stop" - "taskTimes"."start") AS "duration",
+        EXTRACT(EPOCH FROM (SUM("taskTimes"."stop"::timestamp - "taskTimes"."start"::timestamp))) AS "secondsDuration"
+      FROM "tasks" AS "task" 
+      LEFT OUTER JOIN "taskTimes" AS "taskTimes" ON "task"."id" = "taskTimes"."taskId"
+      WHERE "task".id = :id
+      GROUP BY "task".id;`,
+      {
+        replacements: { id },
+        type: QueryTypes.SELECT,
+      }
+    );
+    // console.log('[getDataApi] getTask:', JSON.stringify(task, null, 2));
+    if (tasks.length != 1) {
+      throw new Error(
+        `Query for a Task returned a length != 1, ${tasks.length}`
+      );
+    }
+
+    const result = tasks[0];
+    return result;
+  }
+
   // async function getTask(id: number) {
   //   const task = await Task.findOne({ where: id });
   //   await populateTask(task);
@@ -62,7 +97,7 @@ function getDataApi(model: any, sequelize: any) {
       `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
       FROM public."taskTimes"
       WHERE "taskId" = :taskid
-      ORDER BY id ASC `,
+      ORDER BY id ASC`,
       {
         replacements: { taskid: taskId },
         type: QueryTypes.SELECT,
@@ -73,7 +108,8 @@ function getDataApi(model: any, sequelize: any) {
 
   async function createTask(name: string) {
     const task = await Task.create({ name });
-    return task.get({ plain: true });
+    const resultTask = await getTask(task.id);
+    return resultTask;
   }
 
   async function deleteTask(id: number) {
@@ -82,12 +118,13 @@ function getDataApi(model: any, sequelize: any) {
     return id;
   }
 
-  // async function changeTaskName(id: number, name: string) {
-  //   const task = await getTask(id);
-  //   task.name = name;
-  //   await task.save();
-  //   return task;
-  // }
+  async function changeTaskName(id: number, name: string) {
+    const task = await Task.findOne({ where: { id } });
+    task.name = name;
+    await task.save();
+    const resultTask = await getTask(task.id);
+    return resultTask;
+  }
 
   async function closeOpenTimes(taskId: number) {
     const openTaskTimes = await TaskTime.findAll({
@@ -103,24 +140,27 @@ function getDataApi(model: any, sequelize: any) {
     await closeOpenTimes(id);
     const task = await Task.findOne({ where: { id } });
     await task.createTaskTime();
-    return task;
+    const resultTask = await getTask(task.id);
+    return resultTask;
   }
 
   async function stopTask(id: number) {
     await closeOpenTimes(id);
     const task = await Task.findOne({ where: { id } });
     console.log('[getDataApi] stopTask, id', JSON.stringify(task, null, 2));
-    return task;
+    const resultTask = await getTask(task.id);
+    return resultTask;
   }
 
   return {
     getAllTasks,
+    getTask,
     getTaskTimes,
     createTask,
     startTask,
     stopTask,
     deleteTask,
-    // changeTaskName,
+    changeTaskName,
   };
 }
 

@@ -14,7 +14,6 @@ const gqlTypeDefs = gql`
     name: String!
     createdAt: String!
     updatedAt: String!
-    taskTimes: [TaskTime]
     duration: Interval
     active: Boolean!
     lastTime: String
@@ -33,6 +32,7 @@ const gqlTypeDefs = gql`
 
   type Query {
     getTaskTimes(taskId: Int): [TaskTime]
+    getTask(id: Int!): Task!
     getAllTasks: [Task!]!
   }
 
@@ -41,12 +41,21 @@ const gqlTypeDefs = gql`
     startTask(id: Int!): Task
     stopTask(id: Int!): Task
     deleteTask(id: Int!): Int
+    changeTaskName(id: Int!, name: String!): Task
   }
 `;
 
-export default gqlTypeDefs;
+/*
+type Task {
+    id: Int!
+    name: String!
+    createdAt: String!
+    updatedAt: String!
+    taskTimes: [TaskTime]
+    duration: Interval
+    active: Boolean!
+    lastTime: String
+    secondsDuration: Float
+*/
 
-// type Mutation {
-//    ...
-//     changeTaskName(id: Int!, name: String!): Task
-//   }
+export default gqlTypeDefs;

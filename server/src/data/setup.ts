@@ -7,8 +7,6 @@ async function setup() {
   const password = process.env.DATABASE_PASSWORD;
   const port = process.env.DATABASE_PORT;
 
-  console.log('[setup]', user, host, name, password, port);
-
   const sequelize = new Sequelize(
     `postgres://${user}:${password}@${host}:${port}/${name}`
   );

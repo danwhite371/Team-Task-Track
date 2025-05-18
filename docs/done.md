@@ -1,7 +1,7 @@
 ## Unreleased
 
+feat: Add query for getting a task that returns all the info returned in getAllTasks
 chore: Moved personal info to .env file, installed dotenv to load it.
-
 refactor: typescript on the backend
 feat: Add task times inner tables on request
 feat: Use table for task display
