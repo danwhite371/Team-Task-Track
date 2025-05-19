@@ -16,7 +16,6 @@ function getResolvers(dataApi: DataApi) {
       getAllTasks: async () => await dataApi.getAllTasks(),
       getTask: async (_parent: any, { id }: Id) => {
         const task = await dataApi.getTask(id);
-        console.log('[getResolvers] getTask:', JSON.stringify(task, null, 2));
         return task;
       },
       getTaskTimes: async (_parent: any, { taskId }: TaskId) => {

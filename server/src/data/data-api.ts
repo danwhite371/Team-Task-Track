@@ -1,4 +1,5 @@
 import { Op, QueryTypes } from 'sequelize';
+import logger from '../logging/logger';
 
 function getDataApi(model: any, sequelize: any) {
   const { Task, TaskTime } = model;
@@ -76,13 +77,15 @@ function getDataApi(model: any, sequelize: any) {
       }
     );
     // console.log('[getDataApi] getTask:', JSON.stringify(task, null, 2));
+    let result;
     if (tasks.length != 1) {
-      throw new Error(
-        `Query for a Task returned a length != 1, ${tasks.length}`
-      );
+      const msg = `Query for a Task returned a length != 1, ${tasks.length}`;
+      logger.error(msg);
+      throw new Error(msg);
+    } else {
+      result = tasks[0];
+      logger.info(`Query for task returned one: (${result.id}) ${result.name}`);
     }
-
-    const result = tasks[0];
     return result;
   }
 
@@ -108,6 +111,7 @@ function getDataApi(model: any, sequelize: any) {
 
   async function createTask(name: string) {
     const task = await Task.create({ name });
+    logger.info(`Task created: (${task.id}) ${task.name}`);
     const resultTask = await getTask(task.id);
     return resultTask;
   }
@@ -115,14 +119,17 @@ function getDataApi(model: any, sequelize: any) {
   async function deleteTask(id: number) {
     const task = await Task.findOne({ where: { id } });
     await task.destroy(id);
+    logger.info(`Task destroyed:  (${id}) ${task.name}`);
     return id;
   }
 
   async function changeTaskName(id: number, name: string) {
     const task = await Task.findOne({ where: { id } });
+    const oldName = task.name;
     task.name = name;
     await task.save();
     const resultTask = await getTask(task.id);
+    logger.info(`Changed name from ${oldName} to ${resultTask.name}`);
     return resultTask;
   }
 
@@ -132,6 +139,7 @@ function getDataApi(model: any, sequelize: any) {
     });
     openTaskTimes.every(async (taskTime: TaskTimeInstance) => {
       taskTime.stop = new Date();
+      logger.info(`Added a stop datetime to task ${taskId}`);
       await taskTime.save();
     });
   }
@@ -140,6 +148,7 @@ function getDataApi(model: any, sequelize: any) {
     await closeOpenTimes(id);
     const task = await Task.findOne({ where: { id } });
     await task.createTaskTime();
+    logger.info(`New task time created for ${id}`);
     const resultTask = await getTask(task.id);
     return resultTask;
   }
@@ -147,7 +156,6 @@ function getDataApi(model: any, sequelize: any) {
   async function stopTask(id: number) {
     await closeOpenTimes(id);
     const task = await Task.findOne({ where: { id } });
-    console.log('[getDataApi] stopTask, id', JSON.stringify(task, null, 2));
     const resultTask = await getTask(task.id);
     return resultTask;
   }

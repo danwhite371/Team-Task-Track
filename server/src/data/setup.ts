@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import logger from '../logging/logger';
 
 async function setup() {
   const user = process.env.DATABASE_USER;
@@ -8,11 +9,16 @@ async function setup() {
   const port = process.env.DATABASE_PORT;
 
   const sequelize = new Sequelize(
-    `postgres://${user}:${password}@${host}:${port}/${name}`
+    `postgres://${user}:${password}@${host}:${port}/${name}`,
+    {
+      logging: (msg) => {
+        logger.debug(msg);
+      },
+    }
   );
 
   process.on('SIGINT', () => {
-    console.log('Ctrl+C pressed. Executing cleanup...');
+    logger.info('Ctrl+C pressed. Executing cleanup...');
     sequelize.close();
     process.exit(); // Exit the process after cleanup
   });

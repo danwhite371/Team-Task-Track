@@ -1,5 +1,6 @@
 ## Next
 
+feat: Improve data efficiency by going over what is being return for each dataApi call on the backend and how it is being updated on the frontend.
 Testing, logging, better error handling
 test: Testing everywhere
 feat: Collapse times per day to end or start
@@ -9,7 +10,7 @@ feat: Edit task name, delete task
 feat: Add to task: Task type, task scope
 feat: Only reload the one task when stopping or stopping
 feat: multi user
-
+feat: Change Apollo v6 to v7
 At some point we need to have a get Task query that returns all the details in getAllTasks
 
 ---
