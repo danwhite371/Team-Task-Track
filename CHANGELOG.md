@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Improved data efficiency, backend error handling and backend logging.
 - Integrate logger with Sequelize.
 - Create Apollo plugin for pino logging.
 - Refactor frontend queries and added operationName for backend logging.

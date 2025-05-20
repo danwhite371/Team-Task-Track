@@ -2,6 +2,22 @@ import { lowercaseFirstChar } from '@/until';
 
 const GRAPHQL_URL = 'http://localhost:4000/';
 
+const taskQL = `id
+      name
+      active
+      lastTime
+      duration {
+        milliseconds
+        seconds
+        minutes
+        hours
+        days
+        years
+      }
+      secondsDuration
+      createdAt
+      updatedAt`;
+
 type graphqlFetchProps = {
   query: string;
   operationName: string;
@@ -27,24 +43,10 @@ async function graphqlFetch(props: graphqlFetchProps) {
 async function fetchTasks() {
   const query = `query GetAllTasks {
     getAllTasks {
-      id
-      name
-      createdAt
-      updatedAt
-      duration {
-        milliseconds
-        seconds
-        minutes
-        hours
-        days
-        years
-      }
-      active
-      lastTime
-      secondsDuration
+      ${taskQL}
     }
   }`;
-
+  console.log(query);
   return await graphqlFetch({ query, operationName: 'GetAllTasks' });
 }
 
@@ -68,13 +70,11 @@ async function createTask(name: string) {
   const mutation = `
     mutation CreateTask($name: String!) {
       createTask(name: $name) {
-        id
-        name
-        createdAt
-        updatedAt
+        ${taskQL}
       }
     }
   `;
+  console.log(mutation);
   const variables = { name };
   return await graphqlFetch({
     operationName: 'CreateTask',
@@ -89,6 +89,17 @@ async function startTask(id: number) {
       startTask(id: $id) {
         id
         name
+        active
+        lastTime
+        duration {
+          milliseconds
+          seconds
+          minutes
+          hours
+          days
+          years
+        }
+        secondsDuration
         createdAt
         updatedAt
       }
@@ -108,6 +119,17 @@ async function stopTask(id: number) {
       stopTask(id: $id) {
         id
         name
+        active
+        lastTime
+        duration {
+          milliseconds
+          seconds
+          minutes
+          hours
+          days
+          years
+        }
+        secondsDuration
         createdAt
         updatedAt
       }

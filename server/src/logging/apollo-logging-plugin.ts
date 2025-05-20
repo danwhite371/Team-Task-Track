@@ -9,7 +9,7 @@ import logger from './logger';
 
 const apolloLoggingPlugin = {
   async serverWillStart() {
-    logger.info('Server starting up!');
+    logger.info('[Apollo] Server starting up!');
   },
   async requestDidStart(
     requestContext: GraphQLRequestContext
@@ -17,9 +17,12 @@ const apolloLoggingPlugin = {
     const start = Date.now();
     const { query, variables, operationName } = requestContext.request;
     if (operationName === 'IntrospectionQuery') {
-      logger.info({ operationName, variables }, 'Request started:');
+      logger.info({ operationName, variables }, '[Apollo] Request started:');
     } else {
-      logger.info({ operationName, query, variables }, 'Request started:');
+      logger.info(
+        { operationName, query, variables },
+        '[Apollo] Request started:'
+      );
     }
 
     return {
@@ -30,11 +33,11 @@ const apolloLoggingPlugin = {
 
         logger.info(
           { operationName, duration, responseSize },
-          'Request finished:'
+          '[Apollo] Request finished:'
         );
       },
       async didEncounterErrors(context: GraphQLRequestContext): Promise<void> {
-        console.error('Request encountered errors:', context.errors);
+        logger.error(context.errors, '[Apollo] Request encountered errors:');
       },
     };
   },

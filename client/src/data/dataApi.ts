@@ -10,27 +10,56 @@ import {
 export default class DataApi {
   updateTaskData: (tasks: Task[]) => void;
   tasks: Task[] = [];
+
   constructor(updateTaskData: (tasks: Task[]) => void) {
     this.updateTaskData = updateTaskData;
     this.sendTasks();
   }
+
   async createNewTask(name: string) {
-    await createTask(name);
-    await this.sendTasks();
+    const task = await createTask(name);
+    console.log('createNewTask', JSON.stringify(task, null, 2));
+    this.tasks.unshift(task);
+    this.tasks = [...this.tasks];
+    this.updateTaskData(this.tasks);
   }
+
   async sendTasks() {
     const tasks = await fetchTasks();
     this.tasks = tasks;
     this.updateTaskData(tasks);
   }
+
+  // Get a new Task item with, replace current item with it, sort items by last time
   async startTask(id: number) {
-    await startTask(id);
-    await this.sendTasks();
+    console.log('[DataApi] startTask', id);
+    const task = await startTask(id);
+    this.replaceTask(id, task);
+    this.sortTasks();
+    this.tasks = [...this.tasks];
+    this.updateTaskData(this.tasks);
   }
 
   async stopTask(id: number) {
-    await stopTask(id);
-    await this.sendTasks();
+    console.log('[DataApi] stopTask', id);
+    const task = await stopTask(id);
+    console.log('[DataApi] stopTask', JSON.stringify(task, null, 2));
+    this.replaceTask(id, task);
+    this.sortTasks();
+    this.tasks = [...this.tasks];
+    this.updateTaskData(this.tasks);
+  }
+
+  replaceTask(id: number, task: Task) {
+    const i = this.tasks.findIndex((task) => task.id === id);
+    console.log('[DataApi] replaceTask', this.tasks[i], task);
+    this.tasks[i] = task;
+  }
+
+  sortTasks() {
+    this.tasks.sort(
+      (taskA, taskB) => Number(taskB.lastTime) - Number(taskA.lastTime)
+    );
   }
 
   /*

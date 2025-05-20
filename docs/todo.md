@@ -1,7 +1,15 @@
 ## Next
 
-feat: Improve data efficiency by going over what is being return for each dataApi call on the backend and how it is being updated on the frontend.
-Testing, logging, better error handling
+test: GraphQL Api tests - create test instance of database
+test: Backend DataApi tests using test DB instance
+
+test: Frontend end-to-end Tests using mock remote data
+test: Frontend Remote-data tests
+test: Frontend in-memory mock for Remote-data
+test: Frontend DataApi tests
+test: Integrated Frontend DataApi tests with backend.
+test: Full end-to-end Tests
+feat: Improve frontend logger and send to backend.
 test: Testing everywhere
 feat: Collapse times per day to end or start
 feat: new time, edit time, delete time

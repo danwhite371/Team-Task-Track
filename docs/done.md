@@ -1,7 +1,8 @@
 ## Unreleased
 
-feat: Integrate logger with Sequelize
+feat: Improved data efficiency, backend error handling and backend logging
 
+feat: Integrate logger with Sequelize
 feat: Create Apollo plugin for pino logging
 feat: Refactor frontend queries adding operationName for backend logging
 feat: Add logging on server, Pino

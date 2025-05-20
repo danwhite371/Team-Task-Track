@@ -96,7 +96,10 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
             <Button
               variant="default"
               size="sm"
-              onClick={() => dataApi?.startTask(task.id)}
+              onClick={() => {
+                console.log('[TaskTableRow] Start onClick', task.name, task.id);
+                dataApi?.startTask(task.id);
+              }}
             >
               Start
             </Button>
@@ -105,7 +108,10 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
             <Button
               variant="destructive"
               size="sm"
-              onClick={() => dataApi?.stopTask(task.id)}
+              onClick={() => {
+                console.log('[TaskTableRow] Stop onClick', task.name, task.id);
+                dataApi?.stopTask(task.id);
+              }}
             >
               Stop
             </Button>

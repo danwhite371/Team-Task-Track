@@ -25,7 +25,7 @@ type Task = {
   taskTimes?: TaskTime[];
   duration?: Duration;
   active: boolean;
-  lastTime?: string;
+  lastTime: string;
   secondsDuration: number;
 };
 

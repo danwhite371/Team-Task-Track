@@ -18,16 +18,16 @@ async function setup() {
   );
 
   process.on('SIGINT', () => {
-    logger.info('Ctrl+C pressed. Executing cleanup...');
+    logger.info('[SIGINT] Ctrl+C pressed. Executing cleanup...');
     sequelize.close();
     process.exit(); // Exit the process after cleanup
   });
 
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    logger.info('[Setup] Connection has been established successfully.');
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    logger.error(error, '[Setup] Unable to connect to the database:');
   }
 
   return sequelize;

@@ -24,11 +24,9 @@ function getResolvers(dataApi: DataApi) {
     },
     Mutation: {
       createTask: async (_parent: any, { name }: Name) => {
-        console.log('createTask', name);
         return await dataApi.createTask(name);
       },
       startTask: async function (_parent: any, { id }: Id) {
-        console.log('[resolvers - startTask]', id);
         return await dataApi.startTask(id);
       },
       // startTask: async (parent, { taskId }) => {
@@ -37,10 +35,6 @@ function getResolvers(dataApi: DataApi) {
       // },
       stopTask: async (_parent: any, { id }: Id) => {
         const task = await dataApi.stopTask(id);
-        console.log(
-          '[getResolvers] stopTask: task',
-          JSON.stringify(task, null, 2)
-        );
         return task;
       },
       deleteTask: async (_parent: any, { id }: Id) =>
