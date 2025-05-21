@@ -6,7 +6,9 @@ import {
   Model,
 } from 'sequelize';
 
-function defineModel(sequelize: any) {
+import { Sequelize } from 'sequelize';
+
+function defineModel(sequelize: Sequelize) {
   class Task extends Model<
     InferAttributes<Task>,
     InferCreationAttributes<Task>

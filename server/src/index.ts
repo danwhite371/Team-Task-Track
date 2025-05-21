@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server';
-import { initData } from './data';
+import { initData } from './data/index';
 import { getResolvers, gqlTypeDefs } from './graphql';
-import 'dotenv/config';
+// import 'dotenv/config';
 import logger from './logging/logger';
 import apolloLoggingPlugin from './logging/apollo-logging-plugin';
 

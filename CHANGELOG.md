@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Change backend files setup, init-data and model, change setup to sequelize
 - Use table for task display.
 - Improved main page visually.
 

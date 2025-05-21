@@ -38,6 +38,7 @@ export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
             minLength={1}
             value={newTaskName}
             placeholder="New task name"
+            autoComplete="off"
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setNewTaskName(event.target.value)
             }

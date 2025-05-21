@@ -2,15 +2,16 @@ import { DataTypes, Op, QueryTypes } from 'sequelize';
 import logger from '../logging/logger';
 import { stringify } from '../util';
 import { Task as TaskType, TaskTime as TaskTimeType } from '../types';
+import { Sequelize } from 'sequelize';
 
-function getDataApi(model: any, sequelize: any) {
+function getDataApi(model: any, sequelize: Sequelize) {
   const { Task, TaskTime } = model;
   // type TaskInstance = InstanceType<typeof Task>;
   type TaskTimeInstance = InstanceType<typeof TaskTime>;
 
   async function getAllTasks(): Promise<TaskType[] | null> {
     try {
-      const tasks = await sequelize.query(
+      const tasks: TaskType[] = await sequelize.query(
         `SELECT 
         "task"."id",
         "task"."name",
@@ -42,7 +43,7 @@ function getDataApi(model: any, sequelize: any) {
 
   async function getTask(id: number): Promise<TaskType | null> {
     try {
-      const tasks = await sequelize.query(
+      const tasks: TaskType[] = await sequelize.query(
         `SELECT 
         "task"."id",
         "task"."name",
@@ -83,7 +84,7 @@ function getDataApi(model: any, sequelize: any) {
 
   async function getTaskTimes(taskId: number): Promise<TaskTimeType[] | null> {
     try {
-      const taskTimes = await sequelize.query(
+      const taskTimes: TaskTimeType[] = await sequelize.query(
         `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
       FROM public."taskTimes"
       WHERE "taskId" = :taskid
@@ -103,7 +104,7 @@ function getDataApi(model: any, sequelize: any) {
 
   async function createTask(name: string): Promise<TaskType | null> {
     try {
-      const task = await Task.create({ name });
+      const task: TaskType = await Task.create({ name });
       logger.info(
         `[DataApi] createTask: Task created: ${task.id}, ${task.name}`
       );

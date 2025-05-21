@@ -46,7 +46,7 @@ function App() {
       </div>
       <main className="container mx-auto px-4 border-x border-border h-full-20 max-w-5xl">
         <div
-          className={`w-52 mx-auto transition-all duration-500 ease-in-out ${
+          className={`w-96 mx-auto transition-all duration-500 ease-in-out ${
             newTaskToggle
               ? 'max-h-40 opacity-100'
               : 'overflow-hidden opacity-0 max-h-0'
