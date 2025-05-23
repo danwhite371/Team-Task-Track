@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import logger from '../logging/logger';
 
-async function setup() {
+async function setupSequelize(): Promise<Sequelize> {
   const user = process.env.DATABASE_USER;
   const host = process.env.DATABASE_HOST;
   const name = process.env.DATABASE_NAME;
@@ -28,12 +28,12 @@ async function setup() {
 
   try {
     await sequelize.authenticate();
-    logger.info('[Setup] Connection has been established successfully.');
+    console.log('Connection has been established successfully.');
   } catch (error) {
-    logger.error(error, '[Setup] Unable to connect to the database:');
+    console.error('Unable to connect to the database:', error);
   }
 
   return sequelize;
 }
 
-export default setup;
+export default setupSequelize;

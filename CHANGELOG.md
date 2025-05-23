@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Backend DataApi tests using test DB instance
 - Improved data efficiency, backend error handling and backend logging.
 - Integrate logger with Sequelize.
 - Create Apollo plugin for pino logging.

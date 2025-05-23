@@ -1,14 +1,13 @@
 ## Next
 
-test: GraphQL Api tests - create test instance of database
-test: Backend DataApi tests using test DB instance
-
 test: Frontend end-to-end Tests using mock remote data
+test: GraphQL Api tests
 test: Frontend Remote-data tests
 test: Frontend in-memory mock for Remote-data
 test: Frontend DataApi tests
 test: Integrated Frontend DataApi tests with backend.
 test: Full end-to-end Tests
+test: GraphQL Resolvers tests
 feat: Improve frontend logger and send to backend.
 test: Testing everywhere
 feat: Collapse times per day to end or start
