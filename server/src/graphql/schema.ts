@@ -2,7 +2,7 @@ import { gql } from 'apollo-server';
 
 const gqlTypeDefs = gql`
   type Interval {
-    milliseconds: Int
+    milliseconds: Float
     seconds: Int
     minutes: Int
     hours: Int
