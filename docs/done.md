@@ -1,42 +1,41 @@
 ## Unreleased
 
-test: Backend DataApi tests using test DB instance
-
-refactor: Change backend files setup, init-data and model, change setup to sequelize
-feat: Improved data efficiency, backend error handling and backend logging
-feat: Integrate logger with Sequelize
-feat: Create Apollo plugin for pino logging
-feat: Refactor frontend queries adding operationName for backend logging
-feat: Add logging on server, Pino
-feat: Add query for getting a task that returns all the info returned in getAllTasks
-chore: Moved personal info to .env file, installed dotenv to load it.
-refactor: typescript on the backend
-feat: Add task times inner tables on request
-feat: Use table for task display
-style: Cleanup main page
-style: Increase name and header height
-style: Add a toggle button on header to show or hide new task
-feat(time): Create a timer component which increases time every second
-feat(time): Create function to use current time and last time for a duration
-feat(time): Created component to render a time interval
-feat: Updated Task query to have active and lastDate for ordering, no longer return times in the Task query
-chore: Move reference docs to a separate project
-docs: Move todo and done to parent folder
+- test: Backend DataApi tests using test DB instance
+- refactor: Change backend files setup, init-data and model, change setup to sequelize
+- feat: Improved data efficiency, backend error handling and backend logging
+- feat: Integrate logger with Sequelize
+- feat: Create Apollo plugin for pino logging
+- feat: Refactor frontend queries adding operationName for backend logging
+- feat: Add logging on server, Pino
+- feat: Add query for getting a task that returns all the info returned in getAllTasks
+- chore: Moved personal info to .env file, installed dotenv to load it.
+- refactor: typescript on the backend
+- feat: Add task times inner tables on request
+- feat: Use table for task display
+- style: Cleanup main page
+- style: Increase name and header height
+- style: Add a toggle button on header to show or hide new task
+- feat(time): Create a timer component which increases time every second
+- feat(time): Create function to use current time and last time for a duration
+- feat(time): Created component to render a time interval
+- feat: Updated Task query to have active and lastDate for ordering, no longer return times in the Task query
+- chore: Move reference docs to a separate project
+- docs: Move todo and done to parent folder
 
 ## 0.1.0
 
-doc: Start a change log
-chore: Versioning
-feat(style): Added colors to start/stop buttons
-feat: Added graphQL mutation - changeTaskName
-feat: Added graphQL mutation - deleteTask
-feat: Added duration to Tasks and TaskTimers
-feat: Add taskTimes to task data
-feat: Added graphQL mutations - startTask and stopTask
-feat: Added Start & pause buttons
-feat: Added newTaskForm
-feat: Listing Tasks in any oder
-feat: Added taskTimes to TaskTimerCard
-feat: Added TaskTimerCard
-feat: Added graphQL mutations - createTask
-feat: Added graphQL queries - getTaskTimes, getAllTasks
+- doc: Start a change log
+- chore: Versioning
+- feat(style): Added colors to start/stop buttons
+- feat: Added graphQL mutation - changeTaskName
+- feat: Added graphQL mutation - deleteTask
+- feat: Added duration to Tasks and TaskTimers
+- feat: Add taskTimes to task data
+- feat: Added graphQL mutations - startTask and stopTask
+- feat: Added Start & pause buttons
+- feat: Added newTaskForm
+- feat: Listing Tasks in any oder
+- feat: Added taskTimes to TaskTimerCard
+- feat: Added TaskTimerCard
+- feat: Added graphQL mutations - createTask
+- feat: Added graphQL queries - getTaskTimes, getAllTasks
