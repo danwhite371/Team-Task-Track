@@ -39,8 +39,8 @@ function TimeTable({ task, dataApi }: TableRowProps) {
       <TableBody>
         {task.taskTimes &&
           task.taskTimes.length > 0 &&
-          task.taskTimes.map((time) => (
-            <TableRow key={time.id}>
+          task.taskTimes.map((time, index) => (
+            <TableRow key={time.id} data-testid={`time-${task.id}-${index}`}>
               <TableCell>{formatDatetime(time.start)}</TableCell>
               <TableCell>{formatDatetime(time.stop)}</TableCell>
               <TableCell className="text-right">

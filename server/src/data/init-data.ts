@@ -1,16 +1,19 @@
+import { Sequelize } from 'sequelize';
 import logger from '../logging/logger';
 import getDataApi from './data-api';
 import defineModel from './model';
-import sequelize from './sequelize';
+import setupSequelize from './setup-sequelize';
+import { Data } from '../types';
 
-async function initData() {
+async function initData(): Promise<Data> {
+  const sequelize = await setupSequelize();
   const model = defineModel(sequelize);
-  await syncSequelize();
+  await syncSequelize(sequelize);
   const dataApi = getDataApi(model, sequelize);
-  return dataApi;
+  return { sequelize, dataApi };
 }
 
-async function syncSequelize() {
+async function syncSequelize(sequelize: Sequelize) {
   const dbName = process.env.DATABASE_NAME;
   const reset = process.env.RESET;
   if (dbName == 'task_track_test' && reset == 'true') {

@@ -1,6 +1,7 @@
 ## Next
 
-- test: Frontend end-to-end Tests using mock remote data
+- refactor: Change to a consistent file naming convention: snake_case
+- chore: Move todo items to github issues.
 - test: GraphQL Api tests
 - test: Frontend Remote-data tests
 - test: Frontend in-memory mock for Remote-data

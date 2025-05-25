@@ -67,6 +67,7 @@ export default class DataApi {
     but we don't have the full list anymore as we just sent it.
   */
   async fetchTaskTimes(taskId: number) {
+    console.log('[DataApi] fetchTaskTimes');
     const task = this.tasks.find((task) => task.id == taskId);
     if (!task) throw new Error('[sendTaskTimes] Task id mismatch');
     const taskTimes = await fetchTaskTimes(taskId);

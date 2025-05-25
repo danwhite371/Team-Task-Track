@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.dev",
-    "testDev": "cross-env reset=true ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.test",
+    "testDev": "cross-env reset=false ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.test",
+    "testDevClean": "cross-env reset=true ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.test",
     "test": "jest"
   },
   "keywords": [],

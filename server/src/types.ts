@@ -1,3 +1,5 @@
+import { Sequelize } from 'sequelize';
+
 type Interval = {
   milliseconds?: number;
   seconds?: number;
@@ -40,4 +42,9 @@ type DataApi = {
   changeTaskName: (id: number, name: string) => Promise<Task | null>;
 };
 
-export type { Interval, TaskTime, Task, DataApi };
+type Data = {
+  sequelize: Sequelize;
+  dataApi: DataApi;
+};
+
+export type { Interval, TaskTime, Task, DataApi, Data };

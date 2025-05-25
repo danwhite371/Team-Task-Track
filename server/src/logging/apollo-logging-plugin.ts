@@ -3,7 +3,6 @@ import {
   GraphQLRequestListener,
 } from 'apollo-server-plugin-base';
 import { GraphQLRequestContext } from 'apollo-server-types';
-
 import { stringify } from '../util';
 import logger from './logger';
 

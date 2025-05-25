@@ -20,12 +20,6 @@ async function setupSequelize(): Promise<Sequelize> {
     }
   );
 
-  process.on('SIGINT', () => {
-    logger.info('[SIGINT] Ctrl+C pressed. Executing cleanup...');
-    sequelize.close();
-    process.exit(); // Exit the process after cleanup
-  });
-
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');

@@ -10,7 +10,10 @@ type Name = {
   name: string;
 };
 
-function getResolvers(dataApi: DataApi) {
+function getResolvers(
+  dataApi: DataApi,
+  finalHandler: (err: any, evt: string) => Promise<number>
+) {
   const resolvers = {
     Query: {
       getAllTasks: async () => await dataApi.getAllTasks(),
@@ -23,6 +26,10 @@ function getResolvers(dataApi: DataApi) {
       },
     },
     Mutation: {
+      stopServer: () => {
+        finalHandler(null, 'stopServer endpoint');
+        return 0;
+      },
       createTask: async (_parent: any, { name }: Name) => {
         return await dataApi.createTask(name);
       },

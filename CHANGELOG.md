@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- A Playwright frontend end-to-end test using mock remote data.
+- A stopServer GraphQL endpoint, to be called from tests and a start batch script
+- Logging to a file.
 - Backend DataApi tests using test DB instance
 - Improved data efficiency, backend error handling and backend logging.
 - Integrate logger with Sequelize.
