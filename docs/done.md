@@ -1,9 +1,10 @@
 ## Unreleased
 
+## 0.2.0
+
 - test: Frontend end-to-end Tests using mock remote data.
 - feat: Added logging to a file.
 - feat: stopServer GraphQL endpoint
-
 - test: Backend DataApi tests using test DB instance
 - refactor: Change backend files setup, init-data and model, change setup to sequelize
 - feat: Improved data efficiency, backend error handling and backend logging
