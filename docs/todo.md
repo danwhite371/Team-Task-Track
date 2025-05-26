@@ -1,6 +1,5 @@
 ## Next
 
-- refactor: Change to a consistent file naming convention: snake_case
 - chore: Move todo items to github issues.
 - test: GraphQL Api tests
 - test: Frontend Remote-data tests

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './app.css';
 import type { Task } from './types';
-import NewTaskForm from './components/newTaskForm';
-import DataApi from './data/dataApi';
+import NewTaskForm from './components/new-task-form';
+import DataApi from './data/data-api';
 import TaskTable from './components/task-table';
 import { Toggle } from './components/ui/toggle';
 

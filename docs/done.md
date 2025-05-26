@@ -1,5 +1,8 @@
 ## Unreleased
 
+- refactor: Change to a consistent file naming convention: snake_case.
+- refactor: Remove old files.
+
 ## 0.2.0
 
 - test: Frontend end-to-end Tests using mock remote data.

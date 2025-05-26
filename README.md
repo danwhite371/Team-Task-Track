@@ -13,6 +13,7 @@
 - React & TypeScript
 - Pino logger
 - Jest
+- Playwright
 
 #### Backend
 
@@ -20,7 +21,7 @@
 - Apollo server
 - Apollo client (for testing)
 - GraphQL
-- Sequelize
+- Sequelize (ORM)
 - Pino logger
 - PostgresQL
 - Jest
@@ -32,9 +33,10 @@ _Quick notes for now:_
 
 - Install PostgresQL.
 - Create a main database.
-- Create a test database.
-- Create a .env.dev and .env.test.
-- run npm install in client and server folders.
+- Create a test database, task_track_test, this name is hardcoded in server code to make sure that it is the only database that can be reset.
+- Create a .env.dev and .env.test. See: .env.dev.example and .env.test.example
+- run npm install in client, server, and playwright folders.
+- **Note: Windows specific code**: in server there is a start_server.bat, which is used by the playwright tests. If not using windows change the playwright test to call: npm run testDevClean, via script or directly.
 
 ## Current Features
 
@@ -90,6 +92,7 @@ type Interval {
     stopTask(id: Int!): Task
     deleteTask(id: Int!): Int
     changeTaskName(id: Int!, name: String!): Task
+    stopServer: Int
   }
 ```
 

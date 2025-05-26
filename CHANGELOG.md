@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change to a consistent file naming convention: snake_case.
+
 ## [0.2.0] - 2025-05-25
 
 ### Added
