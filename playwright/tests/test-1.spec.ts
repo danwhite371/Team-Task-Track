@@ -65,7 +65,7 @@ async function checkServer() {
     expect(data).toHaveProperty('data.__typename');
     console.log('Server is ready and responded to a test query.');
   } catch (error) {
-    console.error('Server did not start or respond correctly:', error);
+    console.error('Server did not start or respond correctly:');
     throw new Error('Failed to start Apollo server for tests.');
   }
 }
@@ -75,10 +75,11 @@ test.describe('Page test', () => {
     console.log('Attempting to stop server before tests...');
     await stopServer();
     await startServer();
-    // const triesCount = range(2);
+
     for (const _startTry of range(2)) {
       try {
         await checkServer();
+        break;
       } catch (error) {
         console.log('server not ready, trying again');
         await sleep(5000);

@@ -23,7 +23,7 @@
 - GraphQL
 - Sequelize (ORM)
 - Pino logger
-- PostgresQL
+- PostgreSQL
 - Jest
 
 ### Installation
@@ -51,7 +51,7 @@ _Quick notes for now:_
 ### GraphQL backend
 
 ```GraphQL
-type Interval {
+  type Interval {
     milliseconds: Float
     seconds: Int
     minutes: Int
@@ -59,6 +59,7 @@ type Interval {
     days: Int
     years: Int
   }
+
   type Task {
     id: Int!
     name: String!

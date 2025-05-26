@@ -1,5 +1,6 @@
 ## Unreleased
 
+- fix: README clean up.
 - refactor: Change to a consistent file naming convention: snake_case.
 - refactor: Remove old files.
 
