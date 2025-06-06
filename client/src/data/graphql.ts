@@ -87,21 +87,7 @@ async function startTask(id: number) {
   const mutation = `
     mutation StartTask($id: Int!) {
       startTask(id: $id) {
-        id
-        name
-        active
-        lastTime
-        duration {
-          milliseconds
-          seconds
-          minutes
-          hours
-          days
-          years
-        }
-        secondsDuration
-        createdAt
-        updatedAt
+        ${taskQL}
       }
     }
   `;
@@ -117,21 +103,7 @@ async function stopTask(id: number) {
   const mutation = `
     mutation StopTask($id: Int!) {
       stopTask(id: $id) {
-        id
-        name
-        active
-        lastTime
-        duration {
-          milliseconds
-          seconds
-          minutes
-          hours
-          days
-          years
-        }
-        secondsDuration
-        createdAt
-        updatedAt
+        ${taskQL}
       }
     }
   `;

@@ -1,4 +1,4 @@
-function mockJest() {
+function mockPino() {
   jest.mock('pino', () => {
     const mockPino: any = {
       info: jest.fn(),
@@ -11,4 +11,4 @@ function mockJest() {
   });
 }
 
-export { mockJest };
+export { mockPino };

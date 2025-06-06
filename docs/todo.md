@@ -1,24 +1,39 @@
 ## Next
 
-- chore: Move todo items to github issues.
-- test: GraphQL Api tests
-- test: Frontend Remote-data tests
-- test: Frontend in-memory mock for Remote-data
-- test: Frontend DataApi tests
-- test: Integrated Frontend DataApi tests with backend.
+### v0.3.0 - Robust minimal features
+
+- refactor: Consolidate checkTask functions.
+- bug: Active duration is too slow, Change it to use the current time - last time instead of adding 1 second.
+- feat: Add backend messaging to frontend
 - test: Full end-to-end Tests
-- test: GraphQL Resolvers tests
+- test: Integrated Frontend DataApi tests with backend.
 - feat: Improve frontend logger and send to backend.
-- test: Testing everywhere
+- feat: Use an immutable data library (Immer)
+
+### v0.4.0 - Single user - more features
+
 - feat: Collapse times per day to end or start
 - feat: new time, edit time, delete time
 - feat: Time row comments
 - feat: Edit task name, delete task
 - feat: Add to task: Task type, task scope
-- feat: Only reload the one task when stopping or stopping
-- feat: multi user
+
+### v0.5.0 - Multi user
+
+### v0.6.0 - Complete testing
+
+- test: Frontend in-memory mock for Remote-data
+- test: Frontend DataApi tests
+- test: Frontend Remote-data tests
+- test: GraphQL Resolvers tests
+
+### v1.0.0 - Update
+
 - feat: Change Apollo v6 to v7
-- At some point we need to have a get Task query that returns all the details in getAllTasks
+
+### future
+
+- feat: Update Sequelize when it's ready.
 
 ---
 

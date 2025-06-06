@@ -46,17 +46,4 @@ const gqlTypeDefs = gql`
   }
 `;
 
-/*
-type Task {
-    id: Int!
-    name: String!
-    createdAt: String!
-    updatedAt: String!
-    taskTimes: [TaskTime]
-    duration: Interval
-    active: Boolean!
-    lastTime: String
-    secondsDuration: Float
-*/
-
 export default gqlTypeDefs;

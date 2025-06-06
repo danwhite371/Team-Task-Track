@@ -4,9 +4,9 @@ import fs from 'fs';
 import path from 'path';
 
 const logFilePath = path.join(__dirname, '../../server.log');
-const passThrough = new stream.PassThrough();
-passThrough.pipe(process.stdout);
-passThrough.pipe(fs.createWriteStream(logFilePath, { flags: 'a' }));
+// const passThrough = new stream.PassThrough();
+// passThrough.pipe(process.stdout);
+// passThrough.pipe(fs.createWriteStream(logFilePath, { flags: 'a' }));
 // const dest = pino.destination(passThrough);
 // const dest = pino.destination(logFilePath);
 

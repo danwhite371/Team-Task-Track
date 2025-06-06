@@ -1,5 +1,8 @@
 ## Unreleased
 
+- test: GraphQL Api tests.
+- test: Add delete and changeName to dataApi tests.
+
 - fix: README clean up.
 - refactor: Change to a consistent file naming convention: snake_case.
 - refactor: Remove old files.

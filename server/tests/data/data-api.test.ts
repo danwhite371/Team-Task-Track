@@ -2,9 +2,8 @@ import { Sequelize } from 'sequelize';
 import defineModel from '../../src/data/model';
 import setupSequelize from '../../src/data/setup-sequelize';
 import getDataApi from '../../src/data/data-api';
-import { DataApi } from '../../src/types';
-import { mockJest } from '../test-util';
-import { Task } from '../../src/types';
+import { DataApi, Task } from '../../src/types';
+import { mockPino } from '../test-util';
 import { range, sleep, stringify } from '../../src/util';
 
 const user = process.env.DATABASE_USER;
@@ -21,7 +20,7 @@ let sequelize: Sequelize;
 let dataApi: DataApi;
 
 beforeEach(async () => {
-  mockJest();
+  mockPino();
   sequelize = await setupSequelize();
   model = defineModel(sequelize);
   if (dbName === 'task_track_test') {
@@ -150,5 +149,27 @@ describe('DataApi', () => {
     const lastTime = new Date(stoppedTask.lastTime!).getTime();
     const stopTime = new Date(taskTimes![0].stop!).getTime();
     expect(lastTime).toBe(stopTime);
+  });
+
+  it('should delete a Task', async () => {
+    const name = 'Test ' + new Date().getTime();
+    const task = await createTask(name);
+    await checkTask(name, task, 1);
+
+    const result = await dataApi.deleteTask(task.id);
+    console.log('result', result);
+
+    const getResult: any = await dataApi.getTask(task.id);
+    console.log('delete - getResult', getResult);
+    expect(getResult).toBeNull();
+  });
+
+  it('should change the name of a Task', async () => {
+    const name = 'Test 1';
+    const task = await createTask(name);
+    await checkTask(name, task, 1);
+    const name2 = 'Test 2';
+    const changedTask = await dataApi.changeTaskName(task.id, name2);
+    await checkTask(name2, changedTask!, 1);
   });
 });
