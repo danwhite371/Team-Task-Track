@@ -12,9 +12,12 @@ function ActiveDuration({ lastTime, secondsDuration }: ActiveDurationProps) {
   );
   useEffect(() => {
     const interval = setInterval(() => {
-      setDur((prev) => {
-        return prev + 1000;
-      });
+      // setDur((prev) => {
+      //   return prev + 1000;
+      // });
+      setDur(
+        secondsDuration * 1000 + (new Date().getTime() - lastTime.getTime())
+      );
     }, 1000);
     return () => clearInterval(interval);
   }, []);

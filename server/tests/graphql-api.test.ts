@@ -7,7 +7,7 @@ import getDataApi from '../src/data/data-api';
 import { Task, DataApi, TaskTime } from '../src/types';
 import { range, sleep, stringify } from '../src/util';
 import { getResolvers, gqlTypeDefs } from '../src/graphql';
-import { mockPino } from './test-util';
+import { mockPino, checkTask } from './test-util';
 import {
   createTaskQuery,
   getAllTasksQuery,
@@ -42,19 +42,6 @@ async function finalHandler(err: any, evt: string): Promise<number> {
   console.log('Stopping Apollo server.');
   await server.stop();
   return err ? 1 : 0;
-}
-async function checkTask(
-  task: Task,
-  name: string,
-  id?: number | undefined
-): Promise<void> {
-  console.log(JSON.stringify(task));
-  if (task == undefined) throw new Error('Data is undefined');
-  id != undefined && expect(task.id).toBe(id);
-  expect(task.name).toBe(name);
-  expect(task.active).toBe(false);
-  expect(task.duration).toBe(null);
-  expect(task.secondsDuration).toBe(null);
 }
 
 async function createTask(name: string): Promise<Task> {
@@ -156,12 +143,20 @@ async function getTaskTimes(taskId: number): Promise<TaskTime[]> {
   return taskTimes;
 }
 
+beforeAll(async () => {
+  await sleep(2000);
+});
+
 beforeEach(async () => {
   mockPino();
   sequelize = await setupSequelize();
   model = defineModel(sequelize);
   if (dbName === 'task_track_test') {
-    await sequelize.sync({ force: true });
+    try {
+      await sequelize.sync({ force: true });
+    } catch (error) {
+      console.error(error);
+    }
   } else {
     await sequelize.sync();
   }

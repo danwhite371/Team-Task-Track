@@ -2,8 +2,7 @@
 
 ### v0.3.0 - Robust minimal features
 
-- refactor: Consolidate checkTask functions.
-- bug: Active duration is too slow, Change it to use the current time - last time instead of adding 1 second.
+- test: Add error cases to backend tests.
 - feat: Add backend messaging to frontend
 - test: Full end-to-end Tests
 - test: Integrated Frontend DataApi tests with backend.
@@ -34,6 +33,8 @@
 ### future
 
 - feat: Update Sequelize when it's ready.
+- feat: Create self-contained standalone desktop version.
+- feat: Create VS Code plugin to start and stop task times based on current file.
 
 ---
 
