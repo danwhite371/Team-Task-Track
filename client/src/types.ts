@@ -29,4 +29,11 @@ type Task = {
   secondsDuration: number;
 };
 
-export type { Task, TaskTime, Duration };
+type OperationResultStatus = 'success' | 'error' | 'loading';
+
+type OperationResult = {
+  status: OperationResultStatus;
+  message: string;
+};
+
+export type { Task, TaskTime, Duration, OperationResult };

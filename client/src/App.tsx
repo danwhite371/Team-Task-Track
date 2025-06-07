@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './app.css';
-import type { Task } from './types';
+import type { Task, OperationResult } from './types';
 import NewTaskForm from './components/new-task-form';
 import DataApi from './data/data-api';
 import TaskTable from './components/task-table';
@@ -9,15 +9,20 @@ import { Toggle } from './components/ui/toggle';
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [dataApi, setDataApi] = useState<DataApi>();
+  const [operationResult, setOperationResult] = useState<OperationResult>();
   const [newTaskToggle, setNewTaskToggle] = useState<boolean>(false);
 
   useEffect(() => {
-    setDataApi(new DataApi(updateTaskData));
+    setDataApi(new DataApi(updateTaskData, updateOperationResult));
   }, []);
 
   useEffect(() => {
     console.log('newTaskToggle', newTaskToggle);
   }, [newTaskToggle]);
+
+  const updateOperationResult = (operationResult: OperationResult) => {
+    setOperationResult(operationResult);
+  };
 
   const updateTaskData = (tasks: Task[]) => {
     setTasks(tasks);
@@ -40,7 +45,16 @@ function App() {
                 New Task
               </Toggle>
             </div>
-            <div>Info</div>
+            <div
+              data-testid="message"
+              className={
+                operationResult?.status == 'error'
+                  ? 'text-destructive'
+                  : 'text-foreground'
+              }
+            >
+              {operationResult && operationResult.message}
+            </div>
           </header>
         </div>
       </div>

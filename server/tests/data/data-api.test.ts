@@ -11,8 +11,6 @@ const host = process.env.DATABASE_HOST;
 const dbName = process.env.DATABASE_NAME;
 const reset = process.env.RESET;
 
-const logAll = true;
-
 console.log('[env] ' + JSON.stringify({ user, host, dbName, reset }));
 
 let model: any;
@@ -40,29 +38,11 @@ afterEach(async () => {
   jest.clearAllMocks();
 });
 
-// async function checkTask(
-//   name: string,
-//   task: Task,
-//   id?: number | undefined
-// ): Promise<void> {
-//   logAll && console.log('[Test] ' + JSON.stringify(task));
-//   if (task?.updatedAt == null || task?.lastTime == null) {
-//     throw new Error('null dates');
-//   }
-//   const updatedAt = new Date(task.updatedAt);
-//   const lastTime = new Date(task.lastTime!);
-//   id != undefined && expect(id).toBe(task.id);
-//   expect(task?.name).toBe(name);
-//   expect(task?.active).toBe(false);
-//   expect(updatedAt.getTime()).toBe(lastTime.getTime());
-// }
-
 async function createAndStartTask(): Promise<Task> {
   const name = 'Test ' + new Date().getTime();
   const task = await createTask(name);
   await checkTask(task, name);
   const startedTask = await dataApi.startTask(task.id);
-  if (startedTask == null) throw new Error('Null task');
   console.log(stringify(startedTask));
   const updatedAt = new Date(task.updatedAt);
   const lastTime = new Date(task.lastTime!);
@@ -92,8 +72,12 @@ async function getTask(id: number): Promise<Task> {
 describe('DataApi', () => {
   it('should create a Task', async () => {
     const name = 'Test ' + new Date().getTime();
-    const task = await createTask(name);
+    const task = await dataApi.createTask(name);
     await checkTask(task, name);
+  });
+
+  it('should throw an error when creating  an empty Task', async () => {
+    await expect(createTask('')).rejects.toThrow('Task name cannot be empty');
   });
 
   it('should get one Task', async () => {
@@ -112,9 +96,9 @@ describe('DataApi', () => {
       createdTasks.push(task);
     }
     const tasks = await dataApi.getAllTasks();
-    tasks?.sort((a, b) => a.id - b.id);
+    tasks.sort((a, b) => a.id - b.id);
     let i = 0;
-    for (const task of tasks!) {
+    for (const task of tasks) {
       await checkTask(task, createdTasks[i].name, createdTasks[i++].id);
     }
   });
@@ -143,15 +127,14 @@ describe('DataApi', () => {
     const startedTask = await createAndStartTask();
     await sleep(10);
     const stoppedTask = await dataApi.stopTask(startedTask.id);
-    if (stoppedTask == null) throw new Error('Null task');
     expect(stoppedTask.active).toBe(false);
     const taskTimes = await dataApi.getTaskTimes(startedTask.id);
-    expect(taskTimes!.length).toBe(1);
+    expect(taskTimes.length).toBe(1);
     expect(Number(stoppedTask.secondsDuration) * 1000).toBe(
       stoppedTask.duration?.milliseconds
     );
     const lastTime = new Date(stoppedTask.lastTime!).getTime();
-    const stopTime = new Date(taskTimes![0].stop!).getTime();
+    const stopTime = new Date(taskTimes[0].stop!).getTime();
     expect(lastTime).toBe(stopTime);
   });
 
@@ -162,10 +145,9 @@ describe('DataApi', () => {
 
     const result = await dataApi.deleteTask(task.id);
     console.log('result', result);
-
-    const getResult: any = await dataApi.getTask(task.id);
-    console.log('delete - getResult', getResult);
-    expect(getResult).toBeNull();
+    await expect(dataApi.getTask(task.id)).rejects.toThrow(
+      '[DataApi] getTask: Query for a Task returned a length != 1, 0'
+    );
   });
 
   it('should change the name of a Task', async () => {
@@ -174,6 +156,6 @@ describe('DataApi', () => {
     await checkTask(task, name, 1);
     const name2 = 'Test 2';
     const changedTask = await dataApi.changeTaskName(task.id, name2);
-    await checkTask(changedTask!, name2, 1);
+    await checkTask(changedTask, name2, 1);
   });
 });

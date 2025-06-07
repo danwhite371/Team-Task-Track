@@ -36,10 +36,6 @@ function getResolvers(
       startTask: async function (_parent: any, { id }: Id) {
         return await dataApi.startTask(id);
       },
-      // startTask: async (parent, { taskId }) => {
-      //   console.log('[resolvers - startTask]', taskId);
-      //   return await dataApi.startTask(taskId);
-      // },
       stopTask: async (_parent: any, { id }: Id) => {
         const task = await dataApi.stopTask(id);
         return task;

@@ -1,8 +1,12 @@
 ## Unreleased
 
+- feat: Added OperationResult messaging for createTask
+- refactor: Backend error handling and tests
+
+- bug: Change Active duration to use secondsDuration and lastTime,
+- refactor: Consolidate checkTask functions.
 - test: GraphQL Api tests.
 - test: Add delete and changeName to dataApi tests.
-
 - fix: README clean up.
 - refactor: Change to a consistent file naming convention: snake_case.
 - refactor: Remove old files.

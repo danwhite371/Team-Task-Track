@@ -32,14 +32,14 @@ type Task = {
 };
 
 type DataApi = {
-  getAllTasks: () => Promise<Task[] | null>;
-  getTask: (id: number) => Promise<Task | null>;
-  getTaskTimes: (taskId: number) => Promise<TaskTime[] | null>;
-  createTask: (name: string) => Promise<Task | null>;
-  startTask: (id: number) => Promise<Task | null>;
-  stopTask: (id: number) => Promise<Task | null>;
-  deleteTask: (id: number) => Promise<number | null>;
-  changeTaskName: (id: number, name: string) => Promise<Task | null>;
+  getAllTasks: () => Promise<Task[]>;
+  getTask: (id: number) => Promise<Task>;
+  getTaskTimes: (taskId: number) => Promise<TaskTime[]>;
+  createTask: (name: string) => Promise<Task>;
+  startTask: (id: number) => Promise<Task>;
+  stopTask: (id: number) => Promise<Task>;
+  deleteTask: (id: number) => Promise<number>;
+  changeTaskName: (id: number, name: string) => Promise<Task>;
 };
 
 type Data = {

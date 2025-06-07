@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { ApolloServer } from 'apollo-server';
 import { Sequelize } from 'sequelize';
 import defineModel from '../src/data/model';
@@ -45,76 +44,69 @@ async function finalHandler(err: any, evt: string): Promise<number> {
 }
 
 async function createTask(name: string): Promise<Task> {
-  const {
-    data: { createTask },
-  }: any = await server.executeOperation({
+  console.log('createTask name', name);
+  const result: any = await server.executeOperation({
     query: createTaskQuery,
     variables: { name },
   });
-  return createTask;
+  console.log('createTask', JSON.stringify(result, null, 2));
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.createTask;
 }
 
 async function getAllTasks(): Promise<Task[]> {
-  const {
-    data: { getAllTasks: tasks },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: getAllTasksQuery,
   });
-  return tasks;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.getAllTasks;
 }
 
 async function getTask(id: number): Promise<Task> {
-  const {
-    data: { getTask: task },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: getTaskQuery,
     variables: { id },
   });
-  return task;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.getTask;
 }
 
 async function startTask(id: number): Promise<Task> {
-  const {
-    data: { startTask: task },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: startTaskQuery,
     variables: { id },
   });
-  return task;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.startTask;
 }
 
 async function stopTask(id: number): Promise<Task> {
-  const {
-    data: { stopTask: task },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: stopTaskQuery,
     variables: { id },
   });
-  return task;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.stopTask;
 }
 
 async function deleteTask(id: number): Promise<number> {
   console.log('deleteTask - id', id);
-  const {
-    data: { deleteTask },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: deleteTaskQuery,
     variables: { id },
   });
-  console.log('deleteTask', deleteTask);
-  return deleteTask;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.deleteTask;
 }
 
 async function changeTaskName(id: number, name: string): Promise<Task> {
   console.log(`changeTaskName - id = '${id}', name = '${name}'`);
-  const {
-    data: { changeTaskName: task },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: changeTaskNameQuery,
     variables: { id, name },
   });
-  console.log('task', JSON.stringify(task, null, 2));
-  return task;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.changeTaskName;
 }
 
 async function createAndStartTask(): Promise<Task> {
@@ -134,18 +126,13 @@ async function createAndStartTask(): Promise<Task> {
 }
 
 async function getTaskTimes(taskId: number): Promise<TaskTime[]> {
-  const {
-    data: { getTaskTimes: taskTimes },
-  }: any = await server.executeOperation({
+  const result: any = await server.executeOperation({
     query: getTaskTimesQuery,
     variables: { taskId },
   });
-  return taskTimes;
+  if (result.errors !== undefined) throw new Error(result.errors);
+  return result.data.getTaskTimes;
 }
-
-beforeAll(async () => {
-  await sleep(2000);
-});
 
 beforeEach(async () => {
   mockPino();
@@ -176,10 +163,20 @@ afterEach(async () => {
 });
 
 describe('GraphQLApi', () => {
-  it('should create a Task', async () => {
+  it('should create one Task', async () => {
     const name = 'Test ' + new Date().getTime();
     const task = await createTask(name);
     await checkTask(task, name, 1);
+  });
+
+  it('should return an error when creating a task with empty name', async () => {
+    const result: any = await server.executeOperation({
+      query: createTaskQuery,
+      variables: { name: '' },
+    });
+    console.log(result);
+    expect(result.data.createTask).toBeNull();
+    expect(result.errors[0]).toBeTruthy();
   });
 
   it('should get a task', async () => {
@@ -204,7 +201,7 @@ describe('GraphQLApi', () => {
     }
 
     const tasks = await getAllTasks();
-    tasks?.sort((a: Task, b: Task) => a.id - b.id);
+    tasks.sort((a: Task, b: Task) => a.id - b.id);
     i = 0;
     for (const task of tasks!) {
       await checkTask(task, createdTasks[i].name, createdTasks[i++].id);

@@ -1,27 +1,46 @@
-import type { Task } from '../types';
+import type { OperationResult, Task } from '../types';
 import {
   createTask,
   fetchTasks,
-  startTask,
-  stopTask,
-  fetchTaskTimes,
+  startTask as startTaskRequest,
+  stopTask as stopTaskRequest,
+  fetchTaskTimes as fetchTaskTimesRequest,
 } from './graphql';
 
 export default class DataApi {
   updateTaskData: (tasks: Task[]) => void;
+  updateOperationResult: (operationResult: OperationResult) => void;
   tasks: Task[] = [];
 
-  constructor(updateTaskData: (tasks: Task[]) => void) {
+  constructor(
+    updateTaskData: (tasks: Task[]) => void,
+    updateOperationResult: (operationResult: OperationResult) => void
+  ) {
     this.updateTaskData = updateTaskData;
+    this.updateOperationResult = updateOperationResult;
     this.sendTasks();
   }
 
+  // We want to send a message and a state, loading, success, failure
   async createNewTask(name: string) {
-    const task = await createTask(name);
-    console.log('createNewTask', JSON.stringify(task, null, 2));
-    this.tasks.unshift(task);
-    this.tasks = [...this.tasks];
-    this.updateTaskData(this.tasks);
+    this.updateOperationResult({ status: 'loading', message: 'Connecting...' });
+    let task: Task;
+    try {
+      task = await createTask(name);
+      console.log('createNewTask', JSON.stringify(task, null, 2));
+      this.tasks.unshift(task);
+      this.tasks = [...this.tasks];
+      this.updateTaskData(this.tasks);
+      this.updateOperationResult({
+        status: 'success',
+        message: 'Task created.',
+      });
+    } catch (error: unknown) {
+      this.updateOperationResult({
+        status: 'error',
+        message: (error as Error).message,
+      });
+    }
   }
 
   async sendTasks() {
@@ -33,7 +52,7 @@ export default class DataApi {
   // Get a new Task item with, replace current item with it, sort items by last time
   async startTask(id: number) {
     console.log('[DataApi] startTask', id);
-    const task = await startTask(id);
+    const task = await startTaskRequest(id);
     this.replaceTask(id, task);
     this.sortTasks();
     this.tasks = [...this.tasks];
@@ -42,7 +61,7 @@ export default class DataApi {
 
   async stopTask(id: number) {
     console.log('[DataApi] stopTask', id);
-    const task = await stopTask(id);
+    const task = await stopTaskRequest(id);
     console.log('[DataApi] stopTask', JSON.stringify(task, null, 2));
     this.replaceTask(id, task);
     this.sortTasks();
@@ -70,7 +89,7 @@ export default class DataApi {
     console.log('[DataApi] fetchTaskTimes');
     const task = this.tasks.find((task) => task.id == taskId);
     if (!task) throw new Error('[sendTaskTimes] Task id mismatch');
-    const taskTimes = await fetchTaskTimes(taskId);
+    const taskTimes = await fetchTaskTimesRequest(taskId);
     task.taskTimes = taskTimes;
     this.tasks = [...this.tasks];
     this.updateTaskData(this.tasks);

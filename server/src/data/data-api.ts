@@ -9,10 +9,9 @@ function getDataApi(model: any, sequelize: Sequelize) {
   // type TaskInstance = InstanceType<typeof Task>;
   type TaskTimeInstance = InstanceType<typeof TaskTime>;
 
-  async function getAllTasks(): Promise<TaskType[] | null> {
-    try {
-      const tasks: TaskType[] = await sequelize.query(
-        `SELECT 
+  async function getAllTasks(): Promise<TaskType[]> {
+    const tasks: TaskType[] = await sequelize.query(
+      `SELECT 
         "task"."id",
         "task"."name",
         "task"."createdAt",
@@ -29,22 +28,17 @@ function getDataApi(model: any, sequelize: Sequelize) {
       LEFT OUTER JOIN "taskTimes" AS "taskTimes" ON "task"."id" = "taskTimes"."taskId"
       GROUP BY "task".id
       ORDER BY "lastTime" DESC;`,
-        {
-          type: QueryTypes.SELECT,
-        }
-      );
-      logger.info(`[DataApi] getAllTasks: count: ${tasks.length}`);
-      return tasks;
-    } catch (error) {
-      logger.error(error, '[DataApi] getAllTasks');
-      return null;
-    }
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    logger.info(`[DataApi] getAllTasks: count: ${tasks.length}`);
+    return tasks;
   }
 
-  async function getTask(id: number): Promise<TaskType | null> {
-    try {
-      const tasks: TaskType[] = await sequelize.query(
-        `SELECT 
+  async function getTask(id: number): Promise<TaskType> {
+    const tasks: TaskType[] = await sequelize.query(
+      `SELECT 
         "task"."id",
         "task"."name",
         "task"."createdAt",
@@ -61,139 +55,99 @@ function getDataApi(model: any, sequelize: Sequelize) {
       LEFT OUTER JOIN "taskTimes" AS "taskTimes" ON "task"."id" = "taskTimes"."taskId"
       WHERE "task".id = :id
       GROUP BY "task".id;`,
-        {
-          replacements: { id },
-          type: QueryTypes.SELECT,
-        }
-      );
-      let result;
-      if (tasks.length != 1) {
-        const msg = `[DataApi] getTask: Query for a Task returned a length != 1, ${tasks.length}`;
-        logger.error(msg);
-        throw new Error(msg);
-      } else {
-        result = tasks[0];
-        logger.info(`[DataApi] getTask: ${result.id}, ${result.name}`);
+      {
+        replacements: { id },
+        type: QueryTypes.SELECT,
       }
-      return result;
-    } catch (error) {
-      logger.error(error, '[DataApi] getTask');
-      return null;
+    );
+    let result;
+    if (tasks.length != 1) {
+      const msg = `[DataApi] getTask: Query for a Task returned a length != 1, ${tasks.length}`;
+      logger.error(msg);
+      throw new Error(msg);
+    } else {
+      result = tasks[0];
+      logger.info(`[DataApi] getTask: ${result.id}, ${result.name}`);
     }
+    return result;
   }
 
-  async function getTaskTimes(taskId: number): Promise<TaskTimeType[] | null> {
-    try {
-      const taskTimes: TaskTimeType[] = await sequelize.query(
-        `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
+  async function getTaskTimes(taskId: number): Promise<TaskTimeType[]> {
+    const taskTimes: TaskTimeType[] = await sequelize.query(
+      `SELECT id, start, stop, EXTRACT(EPOCH FROM (stop - start)) AS "secondsDuration"
       FROM public."taskTimes"
       WHERE "taskId" = :taskid
       ORDER BY id ASC`,
-        {
-          replacements: { taskid: taskId },
-          type: QueryTypes.SELECT,
-        }
-      );
-      logger.info(`[DataApi] getTaskTimes: count: ${taskTimes.length}`);
-      return taskTimes;
-    } catch (error) {
-      logger.error(error, '[DataApi] getTaskTimes');
-      return null;
-    }
+      {
+        replacements: { taskid: taskId },
+        type: QueryTypes.SELECT,
+      }
+    );
+    logger.info(`[DataApi] getTaskTimes: count: ${taskTimes.length}`);
+    return taskTimes;
   }
 
-  async function createTask(name: string): Promise<TaskType | null> {
-    try {
-      const task: TaskType = await Task.create({ name });
-      logger.info(
-        `[DataApi] createTask: Task created: ${task.id}, ${task.name}`
-      );
-      const resultTask = await getTask(task.id);
-      return resultTask;
-    } catch (error) {
-      logger.error(error, '[DataApi] createTask');
-      return null;
+  async function createTask(name: string): Promise<TaskType> {
+    if (typeof name !== 'string' || name.length === 0) {
+      throw new Error('Task name cannot be empty');
     }
+
+    const task: TaskType = await Task.create({ name });
+    logger.info(`[DataApi] createTask: Task created: ${task.id}, ${task.name}`);
+    const resultTask = await getTask(task.id);
+    return resultTask;
   }
 
-  async function deleteTask(id: number): Promise<number | null> {
-    try {
-      const task = await Task.findOne({ where: { id } });
-      await task.destroy(id);
-      logger.info(`[DataApi] deleteTask: Task destroyed: ${id}, ${task.name}`);
-      return id;
-    } catch (error) {
-      logger.error(error, '[DataApi] deleteTask');
-      return null;
-    }
+  async function deleteTask(id: number): Promise<number> {
+    const task = await Task.findOne({ where: { id } });
+    await task.destroy(id);
+    logger.info(`[DataApi] deleteTask: Task destroyed: ${id}, ${task.name}`);
+    return id;
   }
 
-  async function changeTaskName(
-    id: number,
-    name: string
-  ): Promise<TaskType | null> {
-    try {
-      const result = await Task.update({ name }, { where: { id } });
-      logger.info(
-        `[DataApi] changeTaskName: Updated Task ${id} name to ${name}, count:${JSON.stringify(
-          result
-        )}`
-      );
-      return getTask(id);
-    } catch (error) {
-      logger.error(error, '[DataApi] changeTaskName');
-      return null;
-    }
+  async function changeTaskName(id: number, name: string): Promise<TaskType> {
+    const result = await Task.update({ name }, { where: { id } });
+    logger.info(
+      `[DataApi] changeTaskName: Updated Task ${id} name to ${name}, count:${JSON.stringify(
+        result
+      )}`
+    );
+    return getTask(id);
   }
 
   async function closeOpenTimes(taskId: number) {
-    try {
-      const result = await TaskTime.update(
-        {
-          stop: new Date(),
-        },
-        {
-          where: { taskId, stop: { [Op.is]: null } },
-        }
-      );
-      // no update = [0]
-      if (result[0] !== 0) {
-        logger.info(
-          `[DataApi] closeOpenTimes: Updated stop datetime for task ${taskId}, count:${JSON.stringify(
-            result
-          )}`
-        );
+    const result = await TaskTime.update(
+      {
+        stop: new Date(),
+      },
+      {
+        where: { taskId, stop: { [Op.is]: null } },
       }
-    } catch (error) {
-      logger.error(error, '[DataApi] closeOpenTimes');
-      return null;
+    );
+    // no update = [0]
+    if (result[0] !== 0) {
+      logger.info(
+        `[DataApi] closeOpenTimes: Updated stop datetime for task ${taskId}, count:${JSON.stringify(
+          result
+        )}`
+      );
     }
   }
 
-  async function startTask(id: number): Promise<TaskType | null> {
-    try {
-      await closeOpenTimes(id);
-      const task = await Task.findOne({ where: { id } });
-      await task.createTaskTime();
-      logger.info(`[DataApi] startTask: New task time created for ${id}`);
-      const resultTask = await getTask(task.id);
-      return resultTask;
-    } catch (error) {
-      logger.error(error, '[DataApi] startTask');
-      return null;
-    }
+  async function startTask(id: number): Promise<TaskType> {
+    await closeOpenTimes(id);
+    const task = await Task.findOne({ where: { id } });
+    await task.createTaskTime();
+    logger.info(`[DataApi] startTask: New task time created for ${id}`);
+    const resultTask = await getTask(task.id);
+    return resultTask;
   }
 
-  async function stopTask(id: number): Promise<TaskType | null> {
-    try {
-      await closeOpenTimes(id);
-      const resultTask = await getTask(id);
-      logger.info('[DataApi] stopTask: stopped');
-      return resultTask;
-    } catch (error) {
-      logger.error(error, '[DataApi] stopTask');
-      return null;
-    }
+  async function stopTask(id: number): Promise<TaskType> {
+    await closeOpenTimes(id);
+    const resultTask = await getTask(id);
+    logger.info('[DataApi] stopTask: stopped');
+    return resultTask;
   }
 
   return {
