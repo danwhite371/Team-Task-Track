@@ -5,11 +5,13 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "jsx": "react-jsx",
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
     "types": ["vite-plugin-svgr/client"]
-  }
+  },
+  "include": ["src", "./jest.setup.ts", "jest.config.js"]
 }

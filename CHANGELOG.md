@@ -6,10 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Tests
+- Added OperationResult messaging
+
 ### Changed
 
+- Refactored backend error handling
 - Small fixes to README AND CHANGELOG
 - Change to a consistent file naming convention: snake_case.
+
+### Fixed
+
+- Changed Active duration to use secondsDuration and lastTime.
 
 ## [0.2.0] - 2025-05-25
 

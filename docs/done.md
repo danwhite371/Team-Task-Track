@@ -1,8 +1,9 @@
 ## Unreleased
 
+- test: Create component test for newTaskForm
+
 - feat: Added OperationResult messaging for createTask
 - refactor: Backend error handling and tests
-
 - bug: Change Active duration to use secondsDuration and lastTime,
 - refactor: Consolidate checkTask functions.
 - test: GraphQL Api tests.
