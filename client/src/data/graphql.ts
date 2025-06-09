@@ -33,11 +33,7 @@ async function graphqlFetch(props: graphqlFetchProps) {
   });
   const responseData = await response.json();
   if (responseData.errors) {
-    const message = responseData.errors[0].message.includes(
-      'name_String_NotNull_minLength_1'
-    )
-      ? 'Error: Task name needs to be at least one character in length'
-      : responseData.errors[0].message;
+    const message = responseData.errors[0].message;
     throw new Error(message);
   }
   return responseData.data[lowercaseFirstChar(props.operationName)];

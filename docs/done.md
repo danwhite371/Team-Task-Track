@@ -1,7 +1,8 @@
 ## Unreleased
 
+- refactor: Moved header from App to new Header component
+- test: Create ete test for newTaskForm
 - test: Create component test for newTaskForm
-
 - feat: Added OperationResult messaging for createTask
 - refactor: Backend error handling and tests
 - bug: Change Active duration to use secondsDuration and lastTime,

@@ -1,11 +1,10 @@
 ## Next
 
+- test: Component tests
+
 ### v0.3.0 - Robust minimal features
 
-- test: Add error cases to backend tests.
 - feat: Add backend messaging to frontend
-- test: Full end-to-end Tests
-- test: Integrated Frontend DataApi tests with backend.
 - feat: Improve frontend logger and send to backend.
 - feat: Use an immutable data library (Immer)
 

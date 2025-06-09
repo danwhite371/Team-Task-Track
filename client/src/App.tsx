@@ -4,7 +4,7 @@ import type { Task, OperationResult } from './types';
 import NewTaskForm from './components/new-task-form';
 import DataApi from './data/data-api';
 import TaskTable from './components/task-table';
-import { Toggle } from './components/ui/toggle';
+import Header from './components/header';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -36,26 +36,10 @@ function App() {
     <div className="w-full bg-background text-foreground">
       <div className="w-full border-b border-border">
         <div className="container mx-auto px-4 border-x border-border">
-          <header className="h-10 flex items-center justify-between">
-            <span className="font-bold text-slate-600 dark:text-slate-300 text-lg">
-              Team Task Track
-            </span>
-            <div>
-              <Toggle onClick={() => setNewTaskToggle((prev) => !prev)}>
-                New Task
-              </Toggle>
-            </div>
-            <div
-              data-testid="message"
-              className={
-                operationResult?.status == 'error'
-                  ? 'text-destructive'
-                  : 'text-foreground'
-              }
-            >
-              {operationResult && operationResult.message}
-            </div>
-          </header>
+          <Header
+            handleNewTaskToggle={() => setNewTaskToggle((prev) => !prev)}
+            operationResult={operationResult}
+          />
         </div>
       </div>
       <main className="container mx-auto px-4 border-x border-border h-full-20 max-w-5xl">
@@ -68,21 +52,7 @@ function App() {
         >
           <NewTaskForm createNewTask={createNewTask} />
         </div>
-        {/* <div
-          className={`overflow-hidden transition-all duration-100 ease-in-out max-h-40`}
-        >
-          <NewTaskForm createNewTask={createNewTask} />
-        </div> */}
-        <div>
-          {tasks && <TaskTable tasks={tasks} dataApi={dataApi} />}
-          {/* {tasks && (
-            <div className="flex flex-wrap gap-6 mt-6">
-              {tasks.map((task) => (
-                <TaskTimerCard key={task.id} task={task} dataApi={dataApi} />
-              ))}
-            </div>
-          )} */}
-        </div>
+        <div>{tasks && <TaskTable tasks={tasks} dataApi={dataApi} />}</div>
       </main>
     </div>
   );
