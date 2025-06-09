@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "_comment": "Run playwright from vs code",
+  "scripts": {
+    "test": "npx playwright test --project=chromium"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

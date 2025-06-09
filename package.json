@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test": "npm run test:e2e && npm run test:client && npm run test:server",
+    "test:e2e": "cd playwright && npm test",
+    "test:client": "cd client && npm test",
+    "test:server": "cd server && npm test"
+  }
+}

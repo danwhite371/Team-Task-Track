@@ -9,12 +9,16 @@ type NewTaskFormProps = {
 };
 export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
   const [newTaskName, setNewTaskName] = useState<string>('');
+  const [validationError, setValidationError] = useState<boolean>(false);
 
   function newTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setValidationError(false);
     if (newTaskName && newTaskName.length > 0) {
       createNewTask(newTaskName);
       setNewTaskName('');
+    } else {
+      setValidationError(true);
     }
   }
 
@@ -22,12 +26,20 @@ export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
     <form className="mt-2" onSubmit={newTask}>
       <Card className="gap-2">
         <CardContent className="flex flex-col gap-y-2">
-          <Label htmlFor="taskNameInput">Task name</Label>
+          <div
+            className={`flex ${
+              validationError ? 'justify-between' : 'justify-start'
+            }`}
+          >
+            <Label htmlFor="taskNameInput">Task name</Label>
+            {validationError && (
+              <Label className="text-destructive">Task name required</Label>
+            )}
+          </div>
+
           <Input
             id="taskNameInput"
             type="text"
-            required
-            minLength={1}
             value={newTaskName}
             placeholder="New task name"
             autoComplete="off"
