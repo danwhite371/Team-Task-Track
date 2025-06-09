@@ -2,7 +2,10 @@ import { render, cleanup, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NewTaskForm from '../../components/new-task-form';
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  jest.clearAllMocks();
+});
 
 describe('newTaskForm', () => {
   it('should render', async () => {

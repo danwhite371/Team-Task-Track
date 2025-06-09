@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "testOne": "jest src/components/__tests__/header.test.tsx"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.6",
