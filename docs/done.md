@@ -1,5 +1,6 @@
 ## Unreleased
 
+- feat: Added pre-push githook
 - test: Added Header test
 - feat: Added messaging to all dataApi calls.
 - refactor: Moved header from App to new Header component

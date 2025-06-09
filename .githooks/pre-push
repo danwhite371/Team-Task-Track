@@ -1,0 +1,8 @@
+#!/bin/sh
+# Pre-push hook to run automated tests
+# Run the test suite
+if ! npm test; then
+  echo "Error: Some tests failed. Push has been aborted."
+  exit 1
+fi
+exit 0

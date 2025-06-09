@@ -4,13 +4,5 @@
     "test:e2e": "cd playwright && npm test",
     "test:client": "cd client && npm test",
     "test:server": "cd server && npm test"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test"
-    }
-  },
-  "devDependencies": {
-    "husky": "^9.1.7"
   }
 }
