@@ -1,5 +1,7 @@
 ## Unreleased
 
+- feat: Added webServer for frontend to playwright.config
+- feat: Changed playwright tests to use start_server.sh
 - feat: Added pre-push githook
 - test: Added Header test
 - feat: Added messaging to all dataApi calls.

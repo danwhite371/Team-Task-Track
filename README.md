@@ -36,7 +36,6 @@ _Quick notes for now:_
 - Create a test database, task_track_test, this name is hardcoded in server code to make sure that it is the only database that can be reset.
 - Create a .env.dev and .env.test. See: .env.dev.example and .env.test.example
 - run npm install in client, server, and playwright folders.
-- **Note: Windows specific code**: in server there is a start_server.bat, which is used by the playwright tests. If not using windows change the playwright test to call: npm run testDevClean, via script or directly.
 
 ## Current Features
 
