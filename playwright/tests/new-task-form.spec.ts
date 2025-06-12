@@ -1,11 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { range } from '../src/util';
-import {
-  beforeAll,
-  checkServer,
-  startServer,
-  stopServer,
-} from '../src/test-util';
+import { beforeAll, stopServer } from '../src/test-util';
 
 test.beforeAll(async () => {
   await beforeAll();

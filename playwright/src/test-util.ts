@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { execSync } from 'child_process';
+import { expect } from '@playwright/test';
 import { range } from './util';
 import { exec } from 'child_process';
 import path from 'path';
@@ -7,8 +6,6 @@ import { promisify } from 'util';
 
 const execAsync = promisify(exec);
 const SERVER_PORT = 4000;
-const SERVER_DIR = 'C:\\projects\\2025\\team-task-track\\server'; // Match your project path
-// const SERVER_DIR = '/c/projects/2025/team-task-track/server';
 
 async function stopServer() {
   try {
@@ -50,19 +47,6 @@ async function startServer() {
   await new Promise((resolve) => setTimeout(resolve, 5000));
 }
 
-/*
-async function startServer() {
-  // Use `exec` for async execution or `spawn` if you need more control/streaming output
-  console.log('Starting Apollo server...');
-  execSync(`start_server.bat testDevClean`, {
-    cwd: SERVER_DIR,
-    stdio: 'inherit',
-  });
-  console.log('Apollo server started. Waiting for it to become ready...');
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-}
-*/
-
 async function checkServer() {
   try {
     const response = await fetch(`http://localhost:${SERVER_PORT}/graphql`, {
@@ -95,18 +79,6 @@ async function runBashScript(scriptPath: string) {
     throw error;
   }
 }
-
-// function executeScript(command: string) {
-//   return new Promise((resolve, reject) => {
-//     exec(command, (error, stdout, stderr) => {
-//       if (error) {
-//         reject(error);
-//         return;
-//       }
-//       resolve({ stdout, stderr });
-//     });
-//   });
-// };
 
 async function beforeAll() {
   console.log('Attempting to stop server before tests...');

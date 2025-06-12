@@ -1,9 +1,12 @@
 ## Next
 
+Create a shared queries file for all projects
+
 - test: Component tests
 
 ### v0.3.0 - Robust minimal features
 
+- feat: Use npm workspaces and have queries as a shared file.
 - feat: Add backend messaging to frontend
 - feat: Improve frontend logger and send to backend.
 - feat: Use an immutable data library (Immer)

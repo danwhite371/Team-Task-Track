@@ -11,7 +11,15 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite-plugin-svgr/client"]
+    "types": ["vite-plugin-svgr/client", "jest", "node"],
+    "lib": ["dom", "dom.iterable", "esnext"]
   },
-  "include": ["src", "./jest.setup.ts", "jest.config.js"]
+  "include": [
+    "src",
+    "./jest.setup.ts",
+    "jest.config.js",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts"
+  ]
 }

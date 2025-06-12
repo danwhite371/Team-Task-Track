@@ -1,22 +1,12 @@
 import { lowercaseFirstChar } from '@/until';
-
+import {
+  createTaskQuery,
+  getAllTasksQuery,
+  startTaskQuery,
+  stopTaskQuery,
+  getTaskTimesQuery,
+} from './queries';
 const GRAPHQL_URL = 'http://localhost:4000/';
-
-const taskQL = `id
-      name
-      active
-      lastTime
-      duration {
-        milliseconds
-        seconds
-        minutes
-        hours
-        days
-        years
-      }
-      secondsDuration
-      createdAt
-      updatedAt`;
 
 type graphqlFetchProps = {
   query: string;
@@ -24,6 +14,7 @@ type graphqlFetchProps = {
   variables?: any;
 };
 async function graphqlFetch(props: graphqlFetchProps) {
+  console.log(`graphqlFetch\n${JSON.stringify(props, null, 2)}`);
   const response = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
@@ -31,85 +22,55 @@ async function graphqlFetch(props: graphqlFetchProps) {
     },
     body: JSON.stringify(props),
   });
+  console.log(`response\n${JSON.stringify(response, null, 2)}`);
   const responseData = await response.json();
   if (responseData.errors) {
     const message = responseData.errors[0].message;
     throw new Error(message);
   }
+  console.log(`responseData\n${JSON.stringify(responseData, null, 2)}`);
   return responseData.data[lowercaseFirstChar(props.operationName)];
 }
 
 async function fetchTasks() {
-  const query = `query GetAllTasks {
-    getAllTasks {
-      ${taskQL}
-    }
-  }`;
-  console.log(query);
-  return await graphqlFetch({ query, operationName: 'GetAllTasks' });
+  return await graphqlFetch({
+    query: getAllTasksQuery,
+    operationName: 'GetAllTasks',
+  });
 }
 
 async function fetchTaskTimes(taskId: number) {
-  const query = `query GetTaskTimes($taskId: Int!){
-    getTaskTimes(taskId: $taskId) {
-      start
-      stop
-      secondsDuration
-    }
-  }`;
   const variables = { taskId };
   return await graphqlFetch({
     operationName: 'GetTaskTimes',
-    query,
+    query: getTaskTimesQuery,
     variables,
   });
 }
 
 async function createTask(name: string) {
-  const mutation = `
-    mutation CreateTask($name: String!) {
-      createTask(name: $name) {
-        ${taskQL}
-      }
-    }
-  `;
-  console.log(mutation);
   const variables = { name };
   return await graphqlFetch({
     operationName: 'CreateTask',
-    query: mutation,
+    query: createTaskQuery,
     variables,
   });
 }
 
 async function startTask(id: number) {
-  const mutation = `
-    mutation StartTask($id: Int!) {
-      startTask(id: $id) {
-        ${taskQL}
-      }
-    }
-  `;
   const variables = { id };
   return await graphqlFetch({
     operationName: 'StartTask',
-    query: mutation,
+    query: startTaskQuery,
     variables,
   });
 }
 
 async function stopTask(id: number) {
-  const mutation = `
-    mutation StopTask($id: Int!) {
-      stopTask(id: $id) {
-        ${taskQL}
-      }
-    }
-  `;
   const variables = { id };
   return await graphqlFetch({
     operationName: 'StopTask',
-    query: mutation,
+    query: stopTaskQuery,
     variables,
   });
 }
