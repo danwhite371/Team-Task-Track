@@ -5,6 +5,7 @@ import getDataApi from '../../src/data/data-api';
 import { DataApi, Task } from '../../src/types';
 import { mockPino, checkTask } from '../test-util';
 import { range, sleep, stringify } from '../../src/util';
+import { CONSTANTS } from '../../src/constants';
 
 const user = process.env.DATABASE_USER;
 const host = process.env.DATABASE_HOST;
@@ -77,7 +78,9 @@ describe('DataApi', () => {
   });
 
   it('should throw an error when creating  an empty Task', async () => {
-    await expect(createTask('')).rejects.toThrow('Task name cannot be empty');
+    await expect(createTask('')).rejects.toThrow(
+      CONSTANTS.messages.error.emptyTaskName
+    );
   });
 
   it('should get one Task', async () => {

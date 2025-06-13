@@ -1,4 +1,5 @@
 import type { OperationResult, Task } from '../types';
+import { loadingConnection, LoadingLoading } from './data_results';
 import {
   createTask,
   fetchTasks,
@@ -21,9 +22,8 @@ export default class DataApi {
     this.sendTasks();
   }
 
-  // We want to send a message and a state, loading, success, failure
   async createNewTask(name: string) {
-    this.updateOperationResult({ status: 'loading', message: 'Connecting...' });
+    this.updateOperationResult(loadingConnection);
     try {
       const task = await createTask(name);
       console.log('createNewTask', JSON.stringify(task, null, 2));
@@ -43,7 +43,7 @@ export default class DataApi {
   }
 
   async sendTasks() {
-    this.updateOperationResult({ status: 'loading', message: 'Loading...' });
+    this.updateOperationResult(LoadingLoading);
     try {
       const tasks = await fetchTasks();
       this.tasks = tasks;
@@ -63,7 +63,7 @@ export default class DataApi {
   // Get a new Task item with, replace current item with it, sort items by last time
   async startTask(id: number) {
     console.log('[DataApi] startTask', id);
-    this.updateOperationResult({ status: 'loading', message: 'Connecting...' });
+    this.updateOperationResult(loadingConnection);
     try {
       const task = await startTaskRequest(id);
       this.replaceTask(id, task);

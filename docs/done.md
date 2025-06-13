@@ -1,5 +1,7 @@
 ## Unreleased
 
+- test: Added client data_api createTask tests
+- test: Added client graphql createTask tests
 - feat: Added webServer for frontend to playwright.config
 - feat: Changed playwright tests to use start_server.sh
 - feat: Added pre-push githook

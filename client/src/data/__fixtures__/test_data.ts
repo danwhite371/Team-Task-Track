@@ -1,3 +1,5 @@
+import { createTaskQuery } from '../queries';
+
 const createTaskResponse = {
   data: {
     createTask: {
@@ -13,4 +15,12 @@ const createTaskResponse = {
   },
 };
 
-export { createTaskResponse };
+const createTaskRequest = {
+  operationName: 'CreateTask',
+  query: createTaskQuery,
+  variables: {
+    name: createTaskResponse.data.createTask.name,
+  },
+};
+
+export { createTaskResponse, createTaskRequest };

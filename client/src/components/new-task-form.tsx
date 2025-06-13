@@ -11,6 +11,12 @@ export default function NewTaskForm({ createNewTask }: NewTaskFormProps) {
   const [newTaskName, setNewTaskName] = useState<string>('');
   const [validationError, setValidationError] = useState<boolean>(false);
 
+  // function newTask(event: FormEvent<HTMLFormElement>) {
+  //   event.preventDefault();
+  //   createNewTask(newTaskName);
+  //   setNewTaskName('');
+  // }
+
   function newTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setValidationError(false);

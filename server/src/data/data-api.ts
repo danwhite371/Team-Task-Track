@@ -1,8 +1,8 @@
-import { DataTypes, Op, QueryTypes } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
 import logger from '../logging/logger';
-import { stringify } from '../util';
 import { Task as TaskType, TaskTime as TaskTimeType } from '../types';
 import { Sequelize } from 'sequelize';
+import { CONSTANTS } from '../constants';
 
 function getDataApi(model: any, sequelize: Sequelize) {
   const { Task, TaskTime } = model;
@@ -89,7 +89,7 @@ function getDataApi(model: any, sequelize: Sequelize) {
 
   async function createTask(name: string): Promise<TaskType> {
     if (typeof name !== 'string' || name.length === 0) {
-      throw new Error('Task name cannot be empty');
+      throw new Error(CONSTANTS.messages.error.emptyTaskName);
     }
 
     const task: TaskType = await Task.create({ name });

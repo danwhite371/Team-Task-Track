@@ -15,19 +15,25 @@ type graphqlFetchProps = {
 };
 async function graphqlFetch(props: graphqlFetchProps) {
   console.log(`graphqlFetch\n${JSON.stringify(props, null, 2)}`);
-  const response = await fetch(GRAPHQL_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify(props),
-  });
-  console.log(`response\n${JSON.stringify(response, null, 2)}`);
-  const responseData = await response.json();
-  if (responseData.errors) {
-    const message = responseData.errors[0].message;
-    throw new Error(message);
+  let responseData;
+  try {
+    const response = await fetch(GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(props),
+    });
+    console.log(`response\n${JSON.stringify(response, null, 2)}`);
+    responseData = await response.json();
+    if (responseData.errors) {
+      const message = responseData.errors[0].message;
+      throw new Error(message);
+    }
+  } catch (error) {
+    throw error;
   }
+
   console.log(`responseData\n${JSON.stringify(responseData, null, 2)}`);
   return responseData.data[lowercaseFirstChar(props.operationName)];
 }

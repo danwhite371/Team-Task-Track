@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-    "testOne": "jest src/data/__tests__/graphql.test.tsx"
+    "testDataApi": "jest src/data/__tests__/data_api.test.tsx",
+    "testGraphql": "jest src/data/__tests__/graphql.test.tsx"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.6",
