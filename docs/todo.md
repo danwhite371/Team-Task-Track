@@ -1,6 +1,5 @@
 ## Next
 
-refactor: rename files to kebab case
 move queries into data-utils
 Add backend connection error to tests
 
