@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DataApi from '../data_api';
-import { createTaskRequest, tasks } from '../__fixtures__/test_data';
+import DataApi from '../data-api';
+import { createTaskRequest, tasks } from '../__fixtures__/test-data';
 import mockFetch from '../__mocks__/fetch';
 import { CONSTANTS } from '@/constants';
 import { dataUtils } from '../data-utils';

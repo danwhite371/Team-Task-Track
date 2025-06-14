@@ -10,7 +10,7 @@ import {
 import type { Task } from '@/types';
 import { ActiveDuration, Duration } from './duration';
 import { Button } from './ui/button';
-import type DataApi from '@/data/data_api';
+import type DataApi from '@/data/data-api';
 import { useEffect, useState } from 'react';
 import { formatDatetime, timeDuration } from '@/until';
 

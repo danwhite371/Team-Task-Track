@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './app.css';
 import type { Task, OperationResult } from './types';
 import NewTaskForm from './components/new-task-form';
-import DataApi from './data/data_api';
+import DataApi from './data/data-api';
 import TaskTable from './components/task-table';
 import Header from './components/header';
 
