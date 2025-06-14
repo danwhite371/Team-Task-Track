@@ -1,8 +1,12 @@
 ## Next
 
-Create a shared queries file for all projects
+refactor: rename files to kebab case
+move queries into data-utils
+Add backend connection error to tests
 
-- test: Component tests
+Create a shared queries file for all projects.
+
+- test: DataApi getAllTasks test with backend connection error tests
 
 ### v0.3.0 - Robust minimal features
 

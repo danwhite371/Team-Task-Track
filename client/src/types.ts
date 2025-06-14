@@ -36,4 +36,44 @@ type OperationResult = {
   message: string;
 };
 
-export type { Task, TaskTime, Duration, OperationResult };
+interface RequestProps {
+  operationName: string;
+  query: string;
+}
+
+interface RequestPropsName extends RequestProps {
+  variables: { name: string };
+}
+interface RequestPropsTaskId extends RequestProps {
+  variables: { taskId: number };
+}
+interface RequestPropsId extends RequestProps {
+  variables: { id: number };
+}
+
+interface AppRequests {
+  getAllTasks: RequestProps;
+  createTask(name: string): RequestPropsName;
+  getTaskTimes(taskId: number): RequestPropsTaskId;
+  startTask(id: number): RequestPropsId;
+  stopTask(id: number): RequestPropsId;
+}
+
+type DataUtils = {
+  results: {
+    [key: string]: OperationResult;
+  };
+  requests: AppRequests;
+};
+
+export type {
+  Task,
+  TaskTime,
+  Duration,
+  OperationResult,
+  DataUtils,
+  RequestPropsName,
+  RequestPropsTaskId,
+  RequestPropsId,
+  RequestProps,
+};

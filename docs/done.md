@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: Added client graphql should get all Tasks test
 - test: Added client data_api createTask tests
 - test: Added client graphql createTask tests
 - feat: Added webServer for frontend to playwright.config

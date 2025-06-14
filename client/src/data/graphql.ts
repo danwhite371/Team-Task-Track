@@ -1,12 +1,8 @@
 import { lowercaseFirstChar } from '@/until';
-import {
-  createTaskQuery,
-  getAllTasksQuery,
-  startTaskQuery,
-  stopTaskQuery,
-  getTaskTimesQuery,
-} from './queries';
-const GRAPHQL_URL = 'http://localhost:4000/';
+import { CONSTANTS } from '@/constants';
+import { dataUtils } from './data-utils';
+const GRAPHQL_URL = CONSTANTS.GRAPHQL_URL;
+const { requests } = dataUtils;
 
 type graphqlFetchProps = {
   query: string;
@@ -24,7 +20,7 @@ async function graphqlFetch(props: graphqlFetchProps) {
       },
       body: JSON.stringify(props),
     });
-    console.log(`response\n${JSON.stringify(response, null, 2)}`);
+    console.log('Response\n', response);
     responseData = await response.json();
     if (responseData.errors) {
       const message = responseData.errors[0].message;
@@ -39,46 +35,23 @@ async function graphqlFetch(props: graphqlFetchProps) {
 }
 
 async function fetchTasks() {
-  return await graphqlFetch({
-    query: getAllTasksQuery,
-    operationName: 'GetAllTasks',
-  });
+  return await graphqlFetch(requests.getAllTasks);
 }
 
 async function fetchTaskTimes(taskId: number) {
-  const variables = { taskId };
-  return await graphqlFetch({
-    operationName: 'GetTaskTimes',
-    query: getTaskTimesQuery,
-    variables,
-  });
+  return await graphqlFetch(requests.getTaskTimes(taskId));
 }
 
 async function createTask(name: string) {
-  const variables = { name };
-  return await graphqlFetch({
-    operationName: 'CreateTask',
-    query: createTaskQuery,
-    variables,
-  });
+  return await graphqlFetch(requests.createTask(name));
 }
 
 async function startTask(id: number) {
-  const variables = { id };
-  return await graphqlFetch({
-    operationName: 'StartTask',
-    query: startTaskQuery,
-    variables,
-  });
+  return await graphqlFetch(requests.startTask(id));
 }
 
 async function stopTask(id: number) {
-  const variables = { id };
-  return await graphqlFetch({
-    operationName: 'StopTask',
-    query: stopTaskQuery,
-    variables,
-  });
+  return await graphqlFetch(requests.stopTask(id));
 }
 
 export { fetchTasks, fetchTaskTimes, createTask, startTask, stopTask };

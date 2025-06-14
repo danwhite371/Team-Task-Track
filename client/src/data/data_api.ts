@@ -1,5 +1,5 @@
 import type { OperationResult, Task } from '../types';
-import { loadingConnection, LoadingLoading } from './data_results';
+import { dataUtils } from './data-utils';
 import {
   createTask,
   fetchTasks,
@@ -7,6 +7,7 @@ import {
   stopTask as stopTaskRequest,
   fetchTaskTimes as fetchTaskTimesRequest,
 } from './graphql';
+const { results } = dataUtils;
 
 export default class DataApi {
   updateTaskData: (tasks: Task[]) => void;
@@ -23,35 +24,26 @@ export default class DataApi {
   }
 
   async createNewTask(name: string) {
-    this.updateOperationResult(loadingConnection);
+    this.updateOperationResult(results.loadingConnection);
     try {
       const task = await createTask(name);
       console.log('createNewTask', JSON.stringify(task, null, 2));
       this.tasks.unshift(task);
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
-      this.updateOperationResult({
-        status: 'success',
-        message: 'Task created.',
-      });
+      this.updateOperationResult(results.taskCreatedSuccess);
     } catch (error: unknown) {
-      this.updateOperationResult({
-        status: 'error',
-        message: (error as Error).message,
-      });
+      this.updateOperationResult(results.taskCreatedError);
     }
   }
 
   async sendTasks() {
-    this.updateOperationResult(LoadingLoading);
+    this.updateOperationResult(results.loadingLoading);
     try {
       const tasks = await fetchTasks();
       this.tasks = tasks;
       this.updateTaskData(tasks);
-      this.updateOperationResult({
-        status: 'success',
-        message: 'Tasks loaded.',
-      });
+      this.updateOperationResult(results.taskLoadingSuccess);
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',
@@ -63,17 +55,14 @@ export default class DataApi {
   // Get a new Task item with, replace current item with it, sort items by last time
   async startTask(id: number) {
     console.log('[DataApi] startTask', id);
-    this.updateOperationResult(loadingConnection);
+    this.updateOperationResult(results.loadingConnection);
     try {
       const task = await startTaskRequest(id);
       this.replaceTask(id, task);
       this.sortTasks();
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
-      this.updateOperationResult({
-        status: 'success',
-        message: 'Task timer starter.',
-      });
+      this.updateOperationResult(results.startTaskSuccess);
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',
@@ -84,7 +73,7 @@ export default class DataApi {
 
   async stopTask(id: number) {
     console.log('[DataApi] stopTask', id);
-    this.updateOperationResult({ status: 'loading', message: 'Connecting...' });
+    this.updateOperationResult(results.loadingConnection);
     try {
       const task = await stopTaskRequest(id);
       console.log('[DataApi] stopTask', JSON.stringify(task, null, 2));
@@ -92,10 +81,7 @@ export default class DataApi {
       this.sortTasks();
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
-      this.updateOperationResult({
-        status: 'success',
-        message: 'Task timer stopped.',
-      });
+      this.updateOperationResult(results.stopTaskSuccess);
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',
@@ -118,7 +104,7 @@ export default class DataApi {
 
   async fetchTaskTimes(taskId: number) {
     console.log('[DataApi] fetchTaskTimes');
-    this.updateOperationResult({ status: 'loading', message: 'Loading...' });
+    this.updateOperationResult(results.loadingLoading);
     try {
       const task = this.tasks.find((task) => task.id == taskId);
       if (!task) throw new Error('[sendTaskTimes] Task id mismatch');
@@ -126,10 +112,7 @@ export default class DataApi {
       task.taskTimes = taskTimes;
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
-      this.updateOperationResult({
-        status: 'success',
-        message: 'Task times loaded.',
-      });
+      this.updateOperationResult(results.taskTimesLoadingSuccess);
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',

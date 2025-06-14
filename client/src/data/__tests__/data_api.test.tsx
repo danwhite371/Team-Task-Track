@@ -1,23 +1,17 @@
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DataApi from '../data_api';
-import {
-  createTaskRequest,
-  createTaskResponse,
-} from '../__fixtures__/test_data';
+import { createTaskRequest, tasks } from '../__fixtures__/test_data';
 import mockFetch from '../__mocks__/fetch';
-import {
-  LoadingLoading,
-  taskLoadingSuccess,
-  loadingConnection,
-  taskCreatedSuccess,
-  taskCreatedError,
-} from '../data_results';
+import { CONSTANTS } from '@/constants';
+import { dataUtils } from '../data-utils';
+
+const { results } = dataUtils;
 
 global.fetch = mockFetch;
 const mockUpdateTaskData = jest.fn();
 const mockUpdateOperationResult = jest.fn();
-const taskResponse = createTaskResponse.data.createTask;
+const taskResponse = tasks[0];
 
 let dataApi: DataApi;
 
@@ -34,15 +28,9 @@ describe('dataApi', () => {
   it('should create a new Task', async () => {
     await dataApi.createNewTask(taskResponse.name);
     console.log('mockUpdateTaskData');
-    mockUpdateTaskData.mock.calls.forEach((call, index) => {
-      console.log(`Call ${index + 1}:`, call);
-    });
-    console.log('mockUpdateOperationResult');
-    mockUpdateOperationResult.mock.calls.forEach((call, index) => {
-      console.log(`Call ${index + 1}:`, call);
-    });
+
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:4000/',
+      CONSTANTS.GRAPHQL_URL,
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify(createTaskRequest),
@@ -52,21 +40,26 @@ describe('dataApi', () => {
       expect.objectContaining([taskResponse])
     );
 
+    console.log(
+      'results.loadingLoading',
+      JSON.stringify(results.loadingLoading)
+    );
+
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       1,
-      expect.objectContaining(LoadingLoading)
+      expect.objectContaining(results.loadingLoading)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       2,
-      expect.objectContaining(taskLoadingSuccess)
+      expect.objectContaining(results.taskLoadingSuccess)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       3,
-      expect.objectContaining(loadingConnection)
+      expect.objectContaining(results.loadingConnection)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       4,
-      expect.objectContaining(taskCreatedSuccess)
+      expect.objectContaining(results.taskCreatedSuccess)
     );
   });
 
@@ -74,12 +67,20 @@ describe('dataApi', () => {
     await dataApi.createNewTask('');
     createTaskRequest.variables.name = '';
     expect(global.fetch).toHaveBeenCalledWith(
-      'http://localhost:4000/',
+      CONSTANTS.GRAPHQL_URL,
       expect.objectContaining({
         method: 'POST',
         body: JSON.stringify(createTaskRequest),
       })
     );
+
+    mockUpdateTaskData.mock.calls.forEach((call, index) => {
+      console.log(`Call ${index + 1}:`, call);
+    });
+    console.log('mockUpdateOperationResult');
+    mockUpdateOperationResult.mock.calls.forEach((call, index) => {
+      console.log(`Call ${index + 1}:`, call);
+    });
 
     expect(mockUpdateTaskData).toHaveBeenCalledWith(
       expect.objectContaining([])
@@ -87,19 +88,19 @@ describe('dataApi', () => {
 
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       1,
-      expect.objectContaining(LoadingLoading)
+      expect.objectContaining(results.loadingLoading)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       2,
-      expect.objectContaining(taskLoadingSuccess)
+      expect.objectContaining(results.taskLoadingSuccess)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       3,
-      expect.objectContaining(loadingConnection)
+      expect.objectContaining(results.loadingConnection)
     );
     expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
       4,
-      expect.objectContaining(taskCreatedError)
+      expect.objectContaining(results.taskCreatedError)
     );
   });
 });
