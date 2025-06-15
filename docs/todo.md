@@ -5,8 +5,6 @@ Add backend connection error to tests
 
 Create a shared queries file for all projects.
 
-- test: DataApi getAllTasks test with backend connection error tests
-
 ### v0.3.0 - Robust minimal features
 
 - feat: Use npm workspaces and have queries as a shared file.

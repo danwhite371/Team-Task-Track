@@ -85,7 +85,7 @@ const changeTaskNameQuery = `mutation ChangeTaskName($id: Int!, $name: String!) 
   }
 }`;
 
-export {
+const queries = {
   createTaskQuery,
   getTaskQuery,
   getAllTasksQuery,
@@ -95,3 +95,5 @@ export {
   deleteTaskQuery,
   changeTaskNameQuery,
 };
+
+export default queries;

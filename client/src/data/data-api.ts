@@ -9,18 +9,34 @@ import {
 } from './graphql';
 const { results } = dataUtils;
 
+interface UpdateTaskData {
+  (tasks: Task[]): void;
+}
+
+interface UpdateOperationResult {
+  (operationResult: OperationResult): void;
+}
+
 export default class DataApi {
-  updateTaskData: (tasks: Task[]) => void;
-  updateOperationResult: (operationResult: OperationResult) => void;
+  updateTaskData: UpdateTaskData;
+  updateOperationResult: UpdateOperationResult;
   tasks: Task[] = [];
 
-  constructor(
-    updateTaskData: (tasks: Task[]) => void,
-    updateOperationResult: (operationResult: OperationResult) => void
+  private constructor(
+    updateTaskData: UpdateTaskData,
+    updateOperationResult: UpdateOperationResult
   ) {
     this.updateTaskData = updateTaskData;
     this.updateOperationResult = updateOperationResult;
-    this.sendTasks();
+  }
+
+  static async create(
+    updateTaskData: UpdateTaskData,
+    updateOperationResult: UpdateOperationResult
+  ): Promise<DataApi> {
+    const dataApi = new DataApi(updateTaskData, updateOperationResult);
+    await dataApi.sendTasks();
+    return dataApi;
   }
 
   async createNewTask(name: string) {
@@ -44,10 +60,10 @@ export default class DataApi {
       this.tasks = tasks;
       this.updateTaskData(tasks);
       this.updateOperationResult(results.taskLoadingSuccess);
-    } catch (error: unknown) {
+    } catch (error: any) {
       this.updateOperationResult({
         status: 'error',
-        message: (error as Error).message,
+        message: error.message,
       });
     }
   }

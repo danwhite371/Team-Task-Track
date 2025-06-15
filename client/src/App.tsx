@@ -13,7 +13,14 @@ function App() {
   const [newTaskToggle, setNewTaskToggle] = useState<boolean>(false);
 
   useEffect(() => {
-    setDataApi(new DataApi(updateTaskData, updateOperationResult));
+    const createDataApi = async () => {
+      const dataApi = await DataApi.create(
+        updateTaskData,
+        updateOperationResult
+      );
+      setDataApi(dataApi);
+    };
+    createDataApi();
   }, []);
 
   useEffect(() => {

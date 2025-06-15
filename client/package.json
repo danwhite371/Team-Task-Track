@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-    "testDataApi": "jest src/data/__tests__/data_api.test.tsx",
+    "testDataApi": "jest src/data/__tests__/data-api.test.tsx",
     "testGraphql": "jest src/data/__tests__/graphql.test.tsx"
   },
   "dependencies": {

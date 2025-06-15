@@ -1,11 +1,13 @@
 import type { DataUtils } from '@/types';
-import {
+import queries from './queries';
+
+const {
   createTaskQuery,
   getAllTasksQuery,
   getTaskTimesQuery,
   startTaskQuery,
   stopTaskQuery,
-} from './queries';
+} = queries;
 
 export const dataUtils: DataUtils = {
   results: {
@@ -40,6 +42,10 @@ export const dataUtils: DataUtils = {
     taskCreatedError: {
       status: 'error',
       message: 'Task name cannot be empty.',
+    },
+    failedFetchError: {
+      status: 'error',
+      message: 'Failed to fetch',
     },
   },
   requests: {
