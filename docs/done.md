@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: TaskTable e2e tests.
 - test: DataApi getAllTasks test with backend connection error tests
 - refactor: Rename files some files
 - test: Added client graphql should get all Tasks test

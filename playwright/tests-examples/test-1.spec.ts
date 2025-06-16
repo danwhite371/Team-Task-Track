@@ -23,10 +23,6 @@ for (const id of range5) {
   taskInfos.push({ id: `${id}`, name: `Test ${id}` });
 }
 
-async function sleep(ms: number) {
-  await new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 test.describe('Page test', () => {
   test.beforeAll(async () => {
     // start client if is isn't already started

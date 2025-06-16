@@ -1,10 +1,5 @@
 ## Next
 
-move queries into data-utils
-Add backend connection error to tests
-
-Create a shared queries file for all projects.
-
 ### v0.3.0 - Robust minimal features
 
 - feat: Use npm workspaces and have queries as a shared file.
@@ -14,6 +9,7 @@ Create a shared queries file for all projects.
 
 ### v0.4.0 - Single user - more features
 
+- feat: Create a shared queries file for all projects.
 - feat: Collapse times per day to end or start
 - feat: new time, edit time, delete time
 - feat: Time row comments
