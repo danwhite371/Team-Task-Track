@@ -20,7 +20,7 @@ async function graphqlFetch(props: graphqlFetchProps) {
       },
       body: JSON.stringify(props),
     });
-    console.log('Response\n', response);
+    // console.log('Response\n', response);
     responseData = await response.json();
     if (responseData.errors) {
       const message = responseData.errors[0].message;
@@ -30,7 +30,7 @@ async function graphqlFetch(props: graphqlFetchProps) {
     throw error;
   }
 
-  console.log(`responseData\n${JSON.stringify(responseData, null, 2)}`);
+  // console.log(`responseData\n${JSON.stringify(responseData, null, 2)}`);
   return responseData.data[lowercaseFirstChar(props.operationName)];
 }
 

@@ -1,73 +1,51 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import type { Duration as DurationType } from '../types';
-import { timeDuration } from '../until';
 
-type ActiveDurationProps = {
-  lastTime: Date;
-  secondsDuration: number;
-};
-function ActiveDuration({ lastTime, secondsDuration }: ActiveDurationProps) {
-  const [dur, setDur] = useState<number>(
-    secondsDuration * 1000 + (new Date().getTime() - lastTime.getTime())
-  );
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // setDur((prev) => {
-      //   return prev + 1000;
-      // });
-      setDur(
-        secondsDuration * 1000 + (new Date().getTime() - lastTime.getTime())
-      );
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return <Duration duration={timeDuration(dur)} />;
+interface DurationValueType {
+  value: number;
+  type: string;
 }
 
-type DurationValueProps = {
-  value: number | null | undefined;
-  type: string;
+const durationToValueTypes = (duration: DurationType) => {
+  const valueTypes: DurationValueType[] = [];
+  if (duration.years) valueTypes.push({ value: duration.years, type: 'y' });
+  if (duration.days) valueTypes.push({ value: duration.days, type: 'd' });
+  if (duration.hours) valueTypes.push({ value: duration.hours, type: 'h' });
+  if (duration.minutes) valueTypes.push({ value: duration.minutes, type: 'm' });
+  if (duration.seconds) valueTypes.push({ value: duration.seconds, type: 's' });
+  return valueTypes;
 };
-function DurationValue({ value, type }: DurationValueProps) {
-  if (value == null || value == 0) return;
 
+function DurationValue({ valueType }: { valueType: DurationValueType }) {
   return (
     <>
-      {value}
-      <sup className="font-bold">{type}</sup>
+      {valueType.value}
+      <sup className="font-bold">{valueType.type}</sup>
     </>
   );
 }
-
-type Duration = {
-  milliseconds: number;
-  seconds: number;
-  minutes: number;
-  hours: number;
-  days: number;
-  years: number;
-};
 
 type DurationProps = {
   duration: DurationType | undefined;
 };
+
 function Duration({ duration }: DurationProps) {
   if (!duration) return;
-  return (
-    <>
-      <DurationValue value={duration.years} type="y" />
-      &nbsp;
-      <DurationValue value={duration.days} type="d" />
-      &nbsp;
-      <DurationValue value={duration.hours} type="h" />
-      &nbsp;
-      <DurationValue value={duration.minutes} type="m" />
-      &nbsp;
-      <DurationValue value={duration.seconds} type="s" />
-      &nbsp;
-    </>
-  );
-}
 
-export { Duration, ActiveDuration };
+  const valueTypes = durationToValueTypes(duration);
+  const result = valueTypes.flatMap((valueType, index) => {
+    if (index == 0) {
+      return [<DurationValue key={valueType.type} valueType={valueType} />];
+    }
+
+    return [
+      <React.Fragment key={`space-${index}`}> </React.Fragment>,
+      [<DurationValue key={valueType.type} valueType={valueType} />],
+    ];
+  });
+  return result;
+}
+{
+  /* <React.Fragment key={`nbsp-${index}`}> </React.Fragment>, */
+}
+export default Duration;

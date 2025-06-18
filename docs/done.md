@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: Duration component test
 - test: TaskTable e2e tests.
 - test: DataApi getAllTasks test with backend connection error tests
 - refactor: Rename files some files

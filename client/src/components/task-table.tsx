@@ -7,63 +7,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useState } from 'react';
 import type { Task } from '@/types';
-import { ActiveDuration, Duration } from './duration';
+
 import { Button } from './ui/button';
 import type DataApi from '@/data/data-api';
-import { useEffect, useState } from 'react';
-import { formatDatetime, timeDuration } from '@/until';
+import TimeTable from './time-table';
 
-type TableRowProps = {
-  task: Task;
-  dataApi: DataApi;
-};
-function TimeTable({ task, dataApi }: TableRowProps) {
-  useEffect(() => {
-    // if (!dataApi) return;
-    console.log('[TimeTable] task.name', task.name);
-    dataApi.fetchTaskTimes(task.id);
-  }, [task]);
-
-  if (!task.taskTimes || task.taskTimes.length == 0) return;
-
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Start</TableHead>
-          <TableHead>Stop</TableHead>
-          <TableHead>Duration</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {task.taskTimes &&
-          task.taskTimes.length > 0 &&
-          task.taskTimes.map((time, index) => (
-            <TableRow key={time.id} data-testid={`time-${task.id}-${index}`}>
-              <TableCell>{formatDatetime(time.start)}</TableCell>
-              <TableCell>{formatDatetime(time.stop)}</TableCell>
-              <TableCell className="text-right">
-                {time.secondsDuration && (
-                  <Duration
-                    duration={timeDuration(time.secondsDuration * 1000)}
-                  />
-                )}
-
-                {/* {task.active && task.lastTime && (
-                  <ActiveDuration
-                    lastTime={new Date(Number(task.lastTime))}
-                    secondsDuration={task.secondsDuration}
-                  />
-                )}
-                {!task.active && <Duration duration={task.duration} />} */}
-              </TableCell>
-            </TableRow>
-          ))}
-      </TableBody>
-    </Table>
-  );
-}
+import ActiveDuration from './active-duration';
+import Duration from './duration';
+// import { durationToSecondsDuration } from '@/until';
 
 type TaskTableRowProps = {
   task: Task;
@@ -71,11 +24,14 @@ type TaskTableRowProps = {
 };
 function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
   const [showTimes, setShowTimes] = useState<boolean>(false);
-  // useEffect(() => {
-  //   if (!task.taskTimes || task.taskTimes.length == 0) {
-  //     setShowTimes(false);
-  //   }
-  // }, [task]);
+  // if (task.duration) {
+  //   console.log('duration: ', task.duration);
+  //   console.log(
+  //     'durationToSecondsDuration',
+  //     durationToSecondsDuration(task.duration)
+  //   );
+  //   console.log(task.secondsDuration);
+  // }
   return (
     <>
       <TableRow key={task.id} data-testid={task.id}>

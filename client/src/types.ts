@@ -1,10 +1,10 @@
 type Duration = {
-  milliseconds: number;
-  seconds: number;
-  minutes: number;
-  hours: number;
-  days: number;
-  years: number;
+  milliseconds: number | null;
+  seconds: number | null;
+  minutes: number | null;
+  hours: number | null;
+  days: number | null;
+  years: number | null;
 };
 
 type TaskTime = {

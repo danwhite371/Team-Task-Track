@@ -1,5 +1,11 @@
 ## Next
 
+Task table component test
+Improve TaskTable e2e test
+Active Duration component test
+Finish FE graphql tests
+Finish FE DataApi tests
+
 ### v0.3.0 - Robust minimal features
 
 - feat: Use npm workspaces and have queries as a shared file.

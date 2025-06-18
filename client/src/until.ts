@@ -1,3 +1,5 @@
+import type { Duration } from './types';
+
 function formatDatetime(value: string | undefined): string | undefined {
   if (value == undefined) return;
   const date = new Date(Number(value));
@@ -30,6 +32,26 @@ const timeDuration = (diffInMs: number) => {
   return duration;
 };
 
+const durationToSecondsDuration = (duration: Duration): number => {
+  let result: number = 0;
+  if (duration.milliseconds) {
+    result = duration.milliseconds / 1000;
+  }
+  if (duration.seconds) {
+    result += duration.seconds;
+  }
+  if (duration.minutes) {
+    result += duration.minutes * 60;
+  }
+  if (duration.hours) {
+    result += duration.hours * 1440;
+  }
+  if (duration.years) {
+    result += duration.years * 525600;
+  }
+  return result;
+};
+
 function lowercaseFirstChar(str: string): string {
   if (!str) {
     throw new Error('Unexpected null or empty string:');
@@ -37,4 +59,10 @@ function lowercaseFirstChar(str: string): string {
   return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-export { formatDatetime, nullToZero, timeDuration, lowercaseFirstChar };
+export {
+  formatDatetime,
+  nullToZero,
+  timeDuration,
+  lowercaseFirstChar,
+  durationToSecondsDuration,
+};
