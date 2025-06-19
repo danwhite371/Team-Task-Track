@@ -38,8 +38,8 @@ afterEach(() => {
   cleanup();
 });
 
-describe('should render seconds correctly', () => {
-  it('should render', async () => {
+describe('Duration component', () => {
+  it('should render seconds correctly', async () => {
     const durationValue: DurationType = {
       milliseconds: 700,
       seconds: 50,

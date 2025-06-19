@@ -2,7 +2,6 @@
 
 Task table component test
 Improve TaskTable e2e test
-Active Duration component test
 Finish FE graphql tests
 Finish FE DataApi tests
 

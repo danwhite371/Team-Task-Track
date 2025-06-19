@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: Active Duration component test
 - test: Duration component test
 - test: TaskTable e2e tests.
 - test: DataApi getAllTasks test with backend connection error tests
