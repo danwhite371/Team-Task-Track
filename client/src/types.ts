@@ -7,13 +7,20 @@ type Duration = {
   years: number | null;
 };
 
+// type TaskTime = {
+//   id: number;
+//   start: string;
+//   stop: string | undefined;
+//   createdAt: string;
+//   updatedAt: string;
+//   taskId: number;
+//   secondsDuration?: number;
+// };
+
 type TaskTime = {
   id: number;
   start: string;
-  stop: string | undefined;
-  createdAt: string;
-  updatedAt: string;
-  taskId: number;
+  stop: string | undefined | null;
   secondsDuration?: number;
 };
 
@@ -66,6 +73,11 @@ type DataUtils = {
   requests: AppRequests;
 };
 
+interface DurationValueType {
+  value: number;
+  type: string;
+}
+
 export type {
   Task,
   TaskTime,
@@ -76,4 +88,5 @@ export type {
   RequestPropsTaskId,
   RequestPropsId,
   RequestProps,
+  DurationValueType,
 };

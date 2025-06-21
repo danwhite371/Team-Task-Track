@@ -6,7 +6,7 @@
   "_comment": "Run playwright from vs code",
   "scripts": {
     "test": "npx playwright test --project=chromium",
-    "testOne": "npx playwright test --project=chromium tests/task-table.spec.ts"
+    "testOne": "npx playwright test --project=chromium tests/time-table.spec.ts"
   },
   "keywords": [],
   "author": "",

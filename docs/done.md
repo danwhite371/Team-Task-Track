@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: TimeTable component test
 - test: Active Duration component test
 - test: Duration component test
 - test: TaskTable e2e tests.

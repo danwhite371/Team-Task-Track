@@ -80,6 +80,7 @@ test.describe('TaskTable', () => {
   });
 
   test('Show time table', async ({ page }) => {
+    test.setTimeout(30000);
     for (const taskInfo of taskInfos) {
       const tableRow = page.getByTestId(taskInfo.id);
       const taskNameCell = tableRow.locator('td:first-child');

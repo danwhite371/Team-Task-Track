@@ -1,0 +1,668 @@
+[
+  {
+    "active": false,
+    "createdAt": "1750541047569",
+    "duration": null,
+    "id": 93,
+    "lastTime": "1750541047569",
+    "name": "No duration test",
+    "secondsDuration": null,
+    "updatedAt": "1750541047569"
+  },
+  {
+    "active": true,
+    "createdAt": "1750339142100",
+    "duration": {
+      "days": 1,
+      "hours": 2,
+      "milliseconds": 593,
+      "minutes": 26,
+      "seconds": 16,
+      "years": null
+    },
+    "id": 92,
+    "lastTime": "1750434330601",
+    "name": "Long test",
+    "secondsDuration": 95176.593,
+    "updatedAt": "1750339142100"
+  },
+  {
+    "active": false,
+    "createdAt": "1750338486924",
+    "duration": {
+      "days": 1,
+      "hours": 2,
+      "milliseconds": 451,
+      "minutes": 34,
+      "seconds": 44,
+      "years": null
+    },
+    "id": 91,
+    "lastTime": "1750434187660",
+    "name": "Test 2",
+    "secondsDuration": 95684.451,
+    "updatedAt": "1750338486924"
+  },
+  {
+    "active": false,
+    "createdAt": "1750336672684",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 405,
+      "minutes": 15,
+      "seconds": 55,
+      "years": null
+    },
+    "id": 88,
+    "lastTime": "1750339090848",
+    "name": "Capture test data",
+    "secondsDuration": 955.405,
+    "updatedAt": "1750336672684"
+  },
+  {
+    "active": false,
+    "createdAt": "1750338481645",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 661,
+      "minutes": 1,
+      "seconds": 43,
+      "years": null
+    },
+    "id": 90,
+    "lastTime": "1750338604570",
+    "name": "Test 1",
+    "secondsDuration": 103.661,
+    "updatedAt": "1750338481645"
+  },
+  {
+    "active": false,
+    "createdAt": "1750337122976",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 69,
+      "minutes": 18,
+      "seconds": 1,
+      "years": null
+    },
+    "id": 89,
+    "lastTime": "1750338209903",
+    "name": "GraphQL - Return all tasks with task times",
+    "secondsDuration": 1081.069,
+    "updatedAt": "1750337122976"
+  },
+  {
+    "active": false,
+    "createdAt": "1750168888975",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 1,
+      "minutes": 47,
+      "seconds": 12,
+      "years": null
+    },
+    "id": 86,
+    "lastTime": "1750295937277",
+    "name": "ActiveDuration component test",
+    "secondsDuration": 6432.001,
+    "updatedAt": "1750168888975"
+  },
+  {
+    "active": false,
+    "createdAt": "1750168900103",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 883,
+      "minutes": 17,
+      "seconds": 57,
+      "years": null
+    },
+    "id": 87,
+    "lastTime": "1750264928745",
+    "name": "Duration component test",
+    "secondsDuration": 4677.883,
+    "updatedAt": "1750168900103"
+  },
+  {
+    "active": false,
+    "createdAt": "1750168859679",
+    "duration": null,
+    "id": 85,
+    "lastTime": "1750168859679",
+    "name": "TimeTable component test",
+    "secondsDuration": null,
+    "updatedAt": "1750168859679"
+  },
+  {
+    "active": false,
+    "createdAt": "1750161547552",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 445,
+      "minutes": 16,
+      "seconds": 55,
+      "years": null
+    },
+    "id": 84,
+    "lastTime": "1750167148719",
+    "name": "Task Table component test",
+    "secondsDuration": 1015.445,
+    "updatedAt": "1750161547552"
+  },
+  {
+    "active": false,
+    "createdAt": "1749256590803",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 295,
+      "minutes": 49,
+      "seconds": 5,
+      "years": null
+    },
+    "id": 60,
+    "lastTime": "1749260021445",
+    "name": "Add basic messaging",
+    "secondsDuration": 2945.295,
+    "updatedAt": "1749256590803"
+  },
+  {
+    "active": false,
+    "createdAt": "1749240978388",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 154,
+      "minutes": 10,
+      "seconds": null,
+      "years": null
+    },
+    "id": 58,
+    "lastTime": "1749241582217",
+    "name": "Active duration bug fix",
+    "secondsDuration": 600.154,
+    "updatedAt": "1749240978388"
+  },
+  {
+    "active": false,
+    "createdAt": "1747611403084",
+    "duration": {
+      "days": null,
+      "hours": 4,
+      "milliseconds": 1,
+      "minutes": 6,
+      "seconds": 27,
+      "years": null
+    },
+    "id": 38,
+    "lastTime": "1749218126193",
+    "name": "Backend test writing",
+    "secondsDuration": 14787.001,
+    "updatedAt": "1747611403084"
+  },
+  {
+    "active": false,
+    "createdAt": "1748731932919",
+    "duration": {
+      "days": null,
+      "hours": 4,
+      "milliseconds": 367,
+      "minutes": 9,
+      "seconds": 7,
+      "years": null
+    },
+    "id": 56,
+    "lastTime": "1749214494231",
+    "name": "GraphQL Api tests",
+    "secondsDuration": 14947.367,
+    "updatedAt": "1748731932919"
+  },
+  {
+    "active": false,
+    "createdAt": "1748728402161",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 395,
+      "minutes": 49,
+      "seconds": 13,
+      "years": null
+    },
+    "id": 55,
+    "lastTime": "1748731360706",
+    "name": "Add to-dos to GitHub issues",
+    "secondsDuration": 2953.395,
+    "updatedAt": "1748728402161"
+  },
+  {
+    "active": false,
+    "createdAt": "1748220788671",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 536,
+      "minutes": 8,
+      "seconds": 29,
+      "years": null
+    },
+    "id": 54,
+    "lastTime": "1748221301460",
+    "name": "Rename files",
+    "secondsDuration": 509.536,
+    "updatedAt": "1748220788671"
+  },
+  {
+    "active": false,
+    "createdAt": "1747774914637",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 989.211,
+      "minutes": 6,
+      "seconds": 20,
+      "years": null
+    },
+    "id": 49,
+    "lastTime": "1747846132331",
+    "name": "Refactor backend data setup files",
+    "secondsDuration": 3980.989211,
+    "updatedAt": "1747774914637"
+  },
+  {
+    "active": false,
+    "createdAt": "1747658010706",
+    "duration": {
+      "days": null,
+      "hours": 3,
+      "milliseconds": 697,
+      "minutes": 22,
+      "seconds": 32,
+      "years": null
+    },
+    "id": 41,
+    "lastTime": "1747756899226",
+    "name": "Improve data efficiency",
+    "secondsDuration": 12152.697,
+    "updatedAt": "1747658010706"
+  },
+  {
+    "active": false,
+    "createdAt": "1747611904169",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 747,
+      "minutes": 17,
+      "seconds": 40,
+      "years": null
+    },
+    "id": 39,
+    "lastTime": "1747697369880",
+    "name": "Integrate logger with Sequelize",
+    "secondsDuration": 4660.747,
+    "updatedAt": "1747611904169"
+  },
+  {
+    "active": false,
+    "createdAt": "1747573773670",
+    "duration": {
+      "days": null,
+      "hours": 2,
+      "milliseconds": 775,
+      "minutes": 37,
+      "seconds": 12,
+      "years": null
+    },
+    "id": 32,
+    "lastTime": "1747598878501",
+    "name": "Create Apollo plugin for pino logging",
+    "secondsDuration": 9432.775,
+    "updatedAt": "1747573773670"
+  },
+  {
+    "active": false,
+    "createdAt": "1747531067029",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 205,
+      "minutes": 42,
+      "seconds": 47,
+      "years": null
+    },
+    "id": 31,
+    "lastTime": "1747533641016",
+    "name": "Add logging",
+    "secondsDuration": 2567.205,
+    "updatedAt": "1747531067029"
+  },
+  {
+    "active": false,
+    "createdAt": "1747508077095",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 300,
+      "minutes": 59,
+      "seconds": 58,
+      "years": null
+    },
+    "id": 30,
+    "lastTime": "1747516715725",
+    "name": "Add getTask query",
+    "secondsDuration": 7198.3,
+    "updatedAt": "1747508077095"
+  },
+  {
+    "active": false,
+    "createdAt": "1747483574242",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 7,
+      "minutes": 25,
+      "seconds": 14,
+      "years": null
+    },
+    "id": 29,
+    "lastTime": "1747485093763",
+    "name": "Clean up any personal info",
+    "secondsDuration": 1514.007,
+    "updatedAt": "1747483574242"
+  },
+  {
+    "active": false,
+    "createdAt": "1747348099047",
+    "duration": {
+      "days": null,
+      "hours": 2,
+      "milliseconds": 326,
+      "minutes": 34,
+      "seconds": 18,
+      "years": null
+    },
+    "id": 28,
+    "lastTime": "1747445673153",
+    "name": "Convert backend to TypeScript",
+    "secondsDuration": 9258.326,
+    "updatedAt": "1747348099047"
+  },
+  {
+    "active": false,
+    "createdAt": "1746883377114",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 878,
+      "minutes": 53,
+      "seconds": 27,
+      "years": null
+    },
+    "id": 10,
+    "lastTime": "1747324842941",
+    "name": "Planning",
+    "secondsDuration": 6807.878,
+    "updatedAt": "1746883377114"
+  },
+  {
+    "active": false,
+    "createdAt": "1747059307270",
+    "duration": {
+      "days": null,
+      "hours": 2,
+      "milliseconds": 658,
+      "minutes": 3,
+      "seconds": null,
+      "years": null
+    },
+    "id": 18,
+    "lastTime": "1747323654470",
+    "name": "Show taskTimes in grid view",
+    "secondsDuration": 7380.658,
+    "updatedAt": "1747059307270"
+  },
+  {
+    "active": false,
+    "createdAt": "1747246716148",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 354,
+      "minutes": 23,
+      "seconds": 7,
+      "years": null
+    },
+    "id": 26,
+    "lastTime": "1747312798477",
+    "name": "Cleanup main page",
+    "secondsDuration": 4987.354,
+    "updatedAt": "1747246716148"
+  },
+  {
+    "active": false,
+    "createdAt": "1747236605986",
+    "duration": {
+      "days": null,
+      "hours": 1,
+      "milliseconds": 902,
+      "minutes": 55,
+      "seconds": 50,
+      "years": null
+    },
+    "id": 25,
+    "lastTime": "1747243559148",
+    "name": "Create Logo",
+    "secondsDuration": 6950.902,
+    "updatedAt": "1747236605986"
+  },
+  {
+    "active": false,
+    "createdAt": "1747172030620",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 3,
+      "minutes": 16,
+      "seconds": 55,
+      "years": null
+    },
+    "id": 24,
+    "lastTime": "1747235335172",
+    "name": "Use table for task display",
+    "secondsDuration": 1015.003,
+    "updatedAt": "1747172030620"
+  },
+  {
+    "active": false,
+    "createdAt": "1747086364931",
+    "duration": {
+      "days": null,
+      "hours": 2,
+      "milliseconds": 597,
+      "minutes": 15,
+      "seconds": 46,
+      "years": null
+    },
+    "id": 21,
+    "lastTime": "1747155552005",
+    "name": "feat(time): Create component to render a time interval",
+    "secondsDuration": 8146.597,
+    "updatedAt": "1747086364931"
+  },
+  {
+    "active": false,
+    "createdAt": "1746883781745",
+    "duration": {
+      "days": null,
+      "hours": 5,
+      "milliseconds": 224,
+      "minutes": 21,
+      "seconds": 42,
+      "years": null
+    },
+    "id": 11,
+    "lastTime": "1747093455782",
+    "name": "New test name 3",
+    "secondsDuration": 19302.224,
+    "updatedAt": "1746884357413"
+  },
+  {
+    "active": false,
+    "createdAt": "1747070388818",
+    "duration": {
+      "days": null,
+      "hours": 2,
+      "milliseconds": 422,
+      "minutes": 13,
+      "seconds": 39,
+      "years": null
+    },
+    "id": 20,
+    "lastTime": "1747085784014",
+    "name": "Create task query with active and duration",
+    "secondsDuration": 8019.422,
+    "updatedAt": "1747070388818"
+  },
+  {
+    "active": false,
+    "createdAt": "1747068185258",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 920,
+      "minutes": 33,
+      "seconds": 13,
+      "years": null
+    },
+    "id": 19,
+    "lastTime": "1747070269479",
+    "name": "Order by last used",
+    "secondsDuration": 1993.92,
+    "updatedAt": "1747068185258"
+  },
+  {
+    "active": false,
+    "createdAt": "1746912245913",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 176,
+      "minutes": 30,
+      "seconds": 15,
+      "years": null
+    },
+    "id": 14,
+    "lastTime": "1747059071365",
+    "name": "doc: Updating todo list",
+    "secondsDuration": 1815.176,
+    "updatedAt": "1746912245913"
+  },
+  {
+    "active": false,
+    "createdAt": "1746973584575",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 649,
+      "minutes": 33,
+      "seconds": 54,
+      "years": null
+    },
+    "id": 16,
+    "lastTime": "1747005994520",
+    "name": "Install shadcn/ui",
+    "secondsDuration": 2034.649,
+    "updatedAt": "1746973584575"
+  },
+  {
+    "active": false,
+    "createdAt": "1746918162561",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 222,
+      "minutes": 19,
+      "seconds": 12,
+      "years": null
+    },
+    "id": 15,
+    "lastTime": "1746919327873",
+    "name": "Updating documentation",
+    "secondsDuration": 1152.222,
+    "updatedAt": "1746918162561"
+  },
+  {
+    "active": false,
+    "createdAt": "1746889129937",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 735,
+      "minutes": 18,
+      "seconds": 42,
+      "years": null
+    },
+    "id": 13,
+    "lastTime": "1746918125752",
+    "name": "Create Changelog",
+    "secondsDuration": 1122.735,
+    "updatedAt": "1746889129937"
+  },
+  {
+    "active": false,
+    "createdAt": "1746884867118",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 510,
+      "minutes": 23,
+      "seconds": 30,
+      "years": null
+    },
+    "id": 12,
+    "lastTime": "1746888116026",
+    "name": "Changelog and versioning research",
+    "secondsDuration": 1410.51,
+    "updatedAt": "1746884867118"
+  },
+  {
+    "active": false,
+    "createdAt": "1746881181833",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 552,
+      "minutes": 15,
+      "seconds": 42,
+      "years": null
+    },
+    "id": 8,
+    "lastTime": "1746884386134",
+    "name": "BE: Change task name",
+    "secondsDuration": 942.552,
+    "updatedAt": "1746881181833"
+  },
+  {
+    "active": false,
+    "createdAt": "1746881148005",
+    "duration": {
+      "days": null,
+      "hours": null,
+      "milliseconds": 992,
+      "minutes": 5,
+      "seconds": 31,
+      "years": null
+    },
+    "id": 7,
+    "lastTime": "1746882312978",
+    "name": "BE: delete task",
+    "secondsDuration": 331.992,
+    "updatedAt": "1746881148005"
+  }
+]

@@ -24,6 +24,13 @@ function getResolvers(
       getTaskTimes: async (_parent: any, { taskId }: TaskId) => {
         return await dataApi.getTaskTimes(taskId);
       },
+      getTasksWithTimes: async () => {
+        const tasks = await dataApi.getAllTasks();
+        for (const task of tasks) {
+          task.taskTimes = await dataApi.getTaskTimes(task.id);
+        }
+        return tasks;
+      },
     },
     Mutation: {
       stopServer: () => {

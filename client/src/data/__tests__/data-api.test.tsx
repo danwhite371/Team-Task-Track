@@ -163,8 +163,8 @@ describe('dataApi', () => {
   it('should return an error when there is no connection to the server, or an internal server error', async () => {
     setFetchToFail();
     await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
-    console.log('mockUpdateTaskData');
 
+    console.log('mockUpdateTaskData');
     mockUpdateTaskData.mock.calls.forEach((call, index) => {
       console.log(`Call ${index + 1}:`, call);
     });

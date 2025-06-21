@@ -19,9 +19,11 @@ interface TimeTableProps {
 
 export default function TimeTable({ task, dataApi }: TimeTableProps) {
   useEffect(() => {
-    // if (!dataApi) return;
-    console.log('[TimeTable] task.name', task.name);
-    dataApi.fetchTaskTimes(task.id);
+    const fetchTaskTimes = async () => {
+      await dataApi.fetchTaskTimes(task.id);
+      console.log('[TimeTable] task.name', task.name);
+    };
+    fetchTaskTimes();
   }, [task]);
 
   if (!task.taskTimes || task.taskTimes.length == 0) return;
@@ -41,7 +43,7 @@ export default function TimeTable({ task, dataApi }: TimeTableProps) {
           task.taskTimes.map((time, index) => (
             <TableRow key={time.id} data-testid={`time-${task.id}-${index}`}>
               <TableCell>{formatDatetime(time.start)}</TableCell>
-              <TableCell>{formatDatetime(time.stop)}</TableCell>
+              <TableCell>{formatDatetime(time.stop!)}</TableCell>
               <TableCell className="text-right">
                 {time.secondsDuration && (
                   <Duration

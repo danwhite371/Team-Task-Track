@@ -18,6 +18,7 @@ const gqlTypeDefs = gql`
     active: Boolean!
     lastTime: String
     secondsDuration: Float
+    taskTimes: [TaskTime]
   }
 
   type TaskTime {
@@ -34,6 +35,7 @@ const gqlTypeDefs = gql`
     getTaskTimes(taskId: Int): [TaskTime]
     getTask(id: Int!): Task!
     getAllTasks: [Task!]!
+    getTasksWithTimes: [Task!]!
   }
 
   type Mutation {

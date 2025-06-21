@@ -1,20 +1,6 @@
 import React from 'react';
-import type { Duration as DurationType } from '../types';
-
-interface DurationValueType {
-  value: number;
-  type: string;
-}
-
-const durationToValueTypes = (duration: DurationType) => {
-  const valueTypes: DurationValueType[] = [];
-  if (duration.years) valueTypes.push({ value: duration.years, type: 'y' });
-  if (duration.days) valueTypes.push({ value: duration.days, type: 'd' });
-  if (duration.hours) valueTypes.push({ value: duration.hours, type: 'h' });
-  if (duration.minutes) valueTypes.push({ value: duration.minutes, type: 'm' });
-  if (duration.seconds) valueTypes.push({ value: duration.seconds, type: 's' });
-  return valueTypes;
-};
+import type { Duration as DurationType, DurationValueType } from '../types';
+import { durationToValueTypes } from '@/until';
 
 function DurationValue({ valueType }: { valueType: DurationValueType }) {
   return (

@@ -12,7 +12,8 @@
     "testDataApi": "jest src/data/__tests__/data-api.test.tsx",
     "testGraphql": "jest src/data/__tests__/graphql.test.tsx",
     "testDuration": "jest src/components/__tests__/duration.test.tsx",
-    "testActiveDuration": "jest src/components/__tests__/active-duration.test.tsx"
+    "testActiveDuration": "jest src/components/__tests__/active-duration.test.tsx",
+    "testTimeTable": "jest src/components/__tests__/time-table.test.tsx"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.6",
