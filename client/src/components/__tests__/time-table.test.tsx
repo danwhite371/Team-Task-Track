@@ -6,9 +6,9 @@ import {
   act,
   waitFor,
 } from '@testing-library/react';
-import allTasks from '@/__fixtures__/GetAllTasks.json';
-import taskTimesData from '@/__fixtures__/GetTaskTimes-91.json';
-import taskTimesData92 from '@/__fixtures__/GetTaskTimes-92.json';
+import allTasks from './__fixtures__/GetAllTasks.json';
+import taskTimesData from './__fixtures__/GetTaskTimes-91.json';
+import taskTimesData92 from './__fixtures__/GetTaskTimes-92.json';
 import DataApi from '@/data/data-api';
 import { dataUtils } from '@/data/data-utils';
 import type { Task, TaskTime } from '@/types';

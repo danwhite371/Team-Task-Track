@@ -1,5 +1,6 @@
 ## Unreleased
 
+- refactor: Improved frontend types and file structure.
 - test: TimeTable component test
 - test: Active Duration component test
 - test: Duration component test

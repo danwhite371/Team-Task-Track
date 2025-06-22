@@ -16,7 +16,7 @@ const gqlTypeDefs = gql`
     updatedAt: String!
     duration: Interval
     active: Boolean!
-    lastTime: String
+    lastTime: String!
     secondsDuration: Float
     taskTimes: [TaskTime]
   }

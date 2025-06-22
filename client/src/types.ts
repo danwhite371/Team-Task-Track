@@ -7,21 +7,12 @@ type Duration = {
   years: number | null;
 };
 
-// type TaskTime = {
-//   id: number;
-//   start: string;
-//   stop: string | undefined;
-//   createdAt: string;
-//   updatedAt: string;
-//   taskId: number;
-//   secondsDuration?: number;
-// };
-
 type TaskTime = {
   id: number;
   start: string;
-  stop: string | undefined | null;
-  secondsDuration?: number;
+  stop?: string | null;
+  secondsDuration?: number | null;
+  taskId?: number;
 };
 
 type Task = {
@@ -30,10 +21,10 @@ type Task = {
   createdAt: string;
   updatedAt: string;
   taskTimes?: TaskTime[];
-  duration?: Duration;
+  duration?: Duration | null;
   active: boolean;
   lastTime: string;
-  secondsDuration: number;
+  secondsDuration: number | null;
 };
 
 type OperationResultStatus = 'success' | 'error' | 'loading';
