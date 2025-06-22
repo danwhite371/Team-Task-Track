@@ -1,4 +1,4 @@
-import { createTaskResponse } from '../__tests__/__fixtures__/test-data';
+import { createTaskResponse } from '../__tests__/__fixtures__/task-response';
 import { dataUtils } from '../data-utils';
 const {
   results: { taskCreatedError },

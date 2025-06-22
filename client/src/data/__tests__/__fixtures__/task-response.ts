@@ -1,5 +1,5 @@
 import type { RequestProps, RequestPropsName } from '@/types';
-import { dataUtils } from '../data-utils';
+import { dataUtils } from '../../data-utils';
 
 const tasks = [
   {

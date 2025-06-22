@@ -5,7 +5,7 @@ import {
   createTaskRequest,
   getAllTasksRequest,
   tasks,
-} from './__fixtures__/test-data';
+} from './__fixtures__/task-response';
 import mockFetch from '../__mocks__/fetch';
 import { CONSTANTS } from '@/constants';
 import { dataUtils } from '../data-utils';
