@@ -1,5 +1,6 @@
 ## Unreleased
 
+- test: task-table.test.tsx
 - refactor: Improved frontend types and file structure.
 - test: TimeTable component test
 - test: Active Duration component test

@@ -9,14 +9,11 @@ import {
 } from '@/components/ui/table';
 import { useState } from 'react';
 import type { Task } from '@/types';
-
 import { Button } from './ui/button';
 import type DataApi from '@/data/data-api';
 import TimeTable from './time-table';
-
 import ActiveDuration from './active-duration';
-import Duration from './duration';
-// import { durationToSecondsDuration } from '@/until';
+import Duration from './duration'; // import { durationToSecondsDuration } from '@/until';
 
 type TaskTableRowProps = {
   task: Task;
@@ -24,14 +21,7 @@ type TaskTableRowProps = {
 };
 function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
   const [showTimes, setShowTimes] = useState<boolean>(false);
-  // if (task.duration) {
-  //   console.log('duration: ', task.duration);
-  //   console.log(
-  //     'durationToSecondsDuration',
-  //     durationToSecondsDuration(task.duration)
-  //   );
-  //   console.log(task.secondsDuration);
-  // }
+  // console.log('task in TaskTableTow', JSON.stringify(task, null, 2));
   return (
     <>
       <TableRow key={task.id} data-testid={task.id}>
@@ -52,9 +42,9 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
             <Button
               variant="default"
               size="sm"
-              onClick={() => {
+              onClick={async () => {
                 console.log('[TaskTableRow] Start onClick', task.name, task.id);
-                dataApi?.startTask(task.id);
+                await dataApi?.startTask(task.id);
               }}
             >
               Start
@@ -64,9 +54,9 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
             <Button
               variant="destructive"
               size="sm"
-              onClick={() => {
+              onClick={async () => {
                 console.log('[TaskTableRow] Stop onClick', task.name, task.id);
-                dataApi?.stopTask(task.id);
+                await dataApi?.stopTask(task.id);
               }}
             >
               Stop
@@ -74,7 +64,7 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
           )}
         </TableCell>
       </TableRow>
-      {task.duration != null && showTimes && (
+      {(task.duration != null || task.active) && showTimes && (
         <TableRow>
           <TableCell className="text-right w-full" colSpan={3}>
             <div className="flex mr-8">

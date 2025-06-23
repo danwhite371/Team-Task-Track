@@ -12,7 +12,7 @@ function DurationValue({ valueType }: { valueType: DurationValueType }) {
 }
 
 type DurationProps = {
-  duration: DurationType | undefined;
+  duration: DurationType | undefined | null;
 };
 
 function Duration({ duration }: DurationProps) {

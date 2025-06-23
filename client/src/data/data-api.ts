@@ -79,6 +79,7 @@ export default class DataApi {
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
       this.updateOperationResult(results.startTaskSuccess);
+      console.log('after startTask updateOperationResult');
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',
@@ -98,6 +99,7 @@ export default class DataApi {
       this.tasks = [...this.tasks];
       this.updateTaskData(this.tasks);
       this.updateOperationResult(results.stopTaskSuccess);
+      console.log('after stopTask updateOperationResult');
     } catch (error: unknown) {
       this.updateOperationResult({
         status: 'error',

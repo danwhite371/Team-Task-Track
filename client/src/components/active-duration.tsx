@@ -4,9 +4,12 @@ import Duration from './duration';
 
 type ActiveDurationProps = {
   lastTime: Date;
-  secondsDuration: number;
+  secondsDuration: number | null;
 };
 function ActiveDuration({ lastTime, secondsDuration }: ActiveDurationProps) {
+  if (secondsDuration == null) {
+    secondsDuration = 0;
+  }
   const [dur, setDur] = useState<number>(
     secondsDuration * 1000 + (new Date().getTime() - lastTime.getTime())
   );
