@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { timeDuration } from '../until';
+import { timeDuration } from '../util';
 import Duration from './duration';
 
 type ActiveDurationProps = {

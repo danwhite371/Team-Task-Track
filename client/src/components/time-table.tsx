@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table';
-import { formatDatetime, timeDuration } from '@/until';
+import { formatDatetime, timeDuration } from '@/util';
 import Duration from './duration';
 
 interface TimeTableProps {

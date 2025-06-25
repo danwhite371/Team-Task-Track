@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Duration as DurationType, DurationValueType } from '../types';
-import { durationToValueTypes } from '@/until';
+import { durationToValueTypes } from '@/util';
 
 function DurationValue({ valueType }: { valueType: DurationValueType }) {
   return (

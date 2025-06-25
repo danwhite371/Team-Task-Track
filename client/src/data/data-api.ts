@@ -46,7 +46,7 @@ export default class DataApi {
       console.log('createNewTask', JSON.stringify(task, null, 2));
       this.tasks.unshift(task);
       this.tasks = [...this.tasks];
-      this.updateTaskData(this.tasks);
+      this.updateTaskData([...this.tasks]);
       this.updateOperationResult(results.taskCreatedSuccess);
     } catch (error: unknown) {
       this.updateOperationResult(results.taskCreatedError);
@@ -58,7 +58,7 @@ export default class DataApi {
     try {
       const tasks = await fetchTasks();
       this.tasks = tasks;
-      this.updateTaskData(tasks);
+      this.updateTaskData([...tasks]);
       this.updateOperationResult(results.taskLoadingSuccess);
     } catch (error: any) {
       this.updateOperationResult({

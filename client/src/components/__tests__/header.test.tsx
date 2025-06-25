@@ -10,17 +10,8 @@ afterEach(() => {
 
 describe('Header', () => {
   it('should render', async () => {
-    // const operationResult: OperationResult = {
-    //   status: "success",
-    //   message: "Testing."
-    // }
     const mockHandleToggle = jest.fn();
-    render(
-      <Header
-        operationResult={undefined}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    render(<Header operationResult={undefined} handleNewTaskToggle={mockHandleToggle} />);
     expect(screen.getByText(/Team Task Track/i)).toBeTruthy();
     const messageDiv = screen.getByTestId('message');
     expect(messageDiv).toBeEmptyDOMElement();
@@ -34,20 +25,10 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    const { rerender } = render(
-      <Header
-        operationResult={undefined}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    const { rerender } = render(<Header operationResult={undefined} handleNewTaskToggle={mockHandleToggle} />);
     let messageDiv = screen.getByTestId('message');
     expect(messageDiv).toBeEmptyDOMElement();
-    rerender(
-      <Header
-        operationResult={operationResult}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    rerender(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
     messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveTextContent(operationResult.message);
   });
@@ -58,21 +39,11 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    const { rerender } = render(
-      <Header
-        operationResult={operationResult}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    const { rerender } = render(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
     let messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveClass('text-foreground');
     operationResult.status = 'error';
-    rerender(
-      <Header
-        operationResult={operationResult}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    rerender(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
     messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveClass('text-destructive');
   });
@@ -83,12 +54,7 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    render(
-      <Header
-        operationResult={operationResult}
-        handleNewTaskToggle={mockHandleToggle}
-      />
-    );
+    render(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
     const newTaskButton = screen.getByRole('button', { name: /New Task/i });
     fireEvent.click(newTaskButton);
     expect(mockHandleToggle).toHaveBeenCalledTimes(1);

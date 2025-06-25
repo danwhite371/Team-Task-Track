@@ -1,13 +1,7 @@
 import type { DataUtils } from '@/types';
 import queries from './queries';
 
-const {
-  createTaskQuery,
-  getAllTasksQuery,
-  getTaskTimesQuery,
-  startTaskQuery,
-  stopTaskQuery,
-} = queries;
+const { createTaskQuery, getAllTasksQuery, getTaskTimesQuery, startTaskQuery, stopTaskQuery } = queries;
 
 export const dataUtils: DataUtils = {
   results: {
@@ -37,7 +31,7 @@ export const dataUtils: DataUtils = {
     },
     stopTaskSuccess: {
       status: 'success',
-      message: 'Task timer starter.',
+      message: 'Task timer stopped.',
     },
     taskCreatedError: {
       status: 'error',

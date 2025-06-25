@@ -1,24 +1,14 @@
-import {
-  cleanup,
-  render,
-  screen,
-  within,
-  act,
-  waitFor,
-} from '@testing-library/react';
-import allTasks from './__fixtures__/GetAllTasks.json';
-import taskTimesData from './__fixtures__/GetTaskTimes-91.json';
-import taskTimesData92 from './__fixtures__/GetTaskTimes-92.json';
+import { cleanup, render, screen, within, act, waitFor } from '@testing-library/react';
 import DataApi from '@/data/data-api';
 import { dataUtils } from '@/data/data-utils';
 import type { Task, TaskTime } from '@/types';
 import TimeTable from '../time-table';
-import { durationToString, formatDatetime, timeDuration } from '@/until';
+import { durationToString, formatDatetime, timeDuration } from '@/util';
+import { tasks, allTaskTimes } from '../../data/__tests__/data-test-util';
+import { expectNthCalledWith } from '@/test-util';
 
-const tasks = allTasks as Task[];
-const taskTimes = taskTimesData as TaskTime[];
-const taskTimes92 = taskTimesData92 as TaskTime[];
-
+// Not using the mocked fetch, because tasks return after loading times for that task
+// will be differ from what is return by the mocked fetch.
 global.fetch = jest.fn();
 const mockUpdateTaskData = jest.fn();
 const mockUpdateOperationResult = jest.fn();
@@ -41,52 +31,35 @@ async function renderTaskTimes(taskId: number, taskTimes: TaskTime[]) {
     json: () => Promise.resolve({ data: { getAllTasks: [taskData] } }),
   } as Response);
 
-  const dataApi = await DataApi.create(
-    mockUpdateTaskData,
-    mockUpdateOperationResult
-  );
+  const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
 
-  expect(mockUpdateTaskData).toHaveBeenCalledWith(
-    expect.objectContaining([taskData])
-  );
-  expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-    1,
-    expect.objectContaining(results.loadingLoading)
-  );
-  expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-    2,
-    expect.objectContaining(results.taskLoadingSuccess)
-  );
+  await waitFor(() => {
+    expectNthCalledWith(mockUpdateTaskData, 1, [taskData]);
+  });
+  expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+  expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
+
+  jest.clearAllMocks();
 
   jest.spyOn(global, 'fetch').mockResolvedValueOnce({
     ok: true,
     json: () => Promise.resolve({ data: { getTaskTimes: taskTimes } }),
   } as Response);
 
-  jest.clearAllMocks();
-
+  const newTaskData = JSON.parse(JSON.stringify(taskData));
+  newTaskData.taskTimes = taskTimes;
   const { rerender } = render(
     <div data-testid="test-div">
       <TimeTable task={taskData} dataApi={dataApi} />
     </div>
   );
 
-  taskData.taskTimes = taskTimes;
-
   await waitFor(() => {
-    expect(mockUpdateTaskData).toHaveBeenCalledWith(
-      expect.objectContaining([taskData])
-    );
+    expectNthCalledWith(mockUpdateTaskData, 1, [newTaskData]);
   });
 
-  expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-    1,
-    expect.objectContaining(results.loadingLoading)
-  );
-  expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-    2,
-    expect.objectContaining(results.taskTimesLoadingSuccess)
-  );
+  expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+  expectNthCalledWith(mockUpdateOperationResult, 2, results.taskTimesLoadingSuccess);
 
   await act(async () => {
     rerender(
@@ -100,43 +73,49 @@ async function renderTaskTimes(taskId: number, taskTimes: TaskTime[]) {
   expect(container).toMatchSnapshot();
 }
 
+function expectTimeRow(testId: string, cellsData: string[]) {
+  if (cellsData.length != 3) {
+    throw new Error('expectTimeRow cellsData need to have length of 3');
+  }
+  const timeRow = screen.getByTestId(testId);
+  const cells: HTMLTableCellElement[] = within(timeRow).getAllByRole('cell');
+  for (const [index, cellData] of cellsData.entries()) {
+    if (!cellData) {
+      expect(cells[index]).toBeEmptyDOMElement();
+    } else {
+      expect(cells[index]).toHaveTextContent(cellData);
+    }
+  }
+}
+
 describe('TimeTable', () => {
   it('should Render a TimeTable with active == false', async () => {
-    await renderTaskTimes(91, taskTimes);
+    const taskTimes91 = allTaskTimes.filter((tt) => tt.taskId === 91);
+    await renderTaskTimes(91, taskTimes91);
 
-    const timeRow0 = screen.getByTestId('time-91-0');
-    const timeRow1 = screen.getByTestId('time-91-1');
-    const cells0 = within(timeRow0).getAllByRole('cell');
-    const cells1 = within(timeRow1).getAllByRole('cell');
-    expect(cells0[0]).toHaveTextContent(formatDatetime(taskTimes[0].start)!);
-    expect(cells0[1]).toHaveTextContent(formatDatetime(taskTimes[0].stop!)!);
-    let duration = durationToString(
-      timeDuration(taskTimes[0].secondsDuration! * 1000)
-    );
-    expect(cells0[2]).toHaveTextContent(duration);
-    expect(cells1[0]).toHaveTextContent(formatDatetime(taskTimes[1].start)!);
-    expect(cells1[1]).toHaveTextContent(formatDatetime(taskTimes[1].stop!)!);
-    duration = durationToString(
-      timeDuration(taskTimes[1].secondsDuration! * 1000)
-    );
-    expect(cells1[2]).toHaveTextContent(duration);
+    expectTimeRow('time-91-0', [
+      formatDatetime(taskTimes91[0].start)!,
+      formatDatetime(taskTimes91[0].stop!)!,
+      durationToString(timeDuration(taskTimes91[0].secondsDuration! * 1000)),
+    ]);
+
+    expectTimeRow('time-91-1', [
+      formatDatetime(taskTimes91[1].start)!,
+      formatDatetime(taskTimes91[1].stop!)!,
+      durationToString(timeDuration(taskTimes91[1].secondsDuration! * 1000)),
+    ]);
   });
 
   it('should have empty content for stop and duration in the last row of an active Task', async () => {
+    const taskTimes92 = allTaskTimes.filter((tt) => tt.taskId === 92);
     await renderTaskTimes(92, taskTimes92);
-    const taskTimes = taskTimes92;
-    const timeRow0 = screen.getByTestId('time-92-0');
-    const timeRow1 = screen.getByTestId('time-92-1');
-    const cells0 = within(timeRow0).getAllByRole('cell');
-    const cells1 = within(timeRow1).getAllByRole('cell');
-    expect(cells0[0]).toHaveTextContent(formatDatetime(taskTimes[0].start)!);
-    expect(cells0[1]).toHaveTextContent(formatDatetime(taskTimes[0].stop!)!);
-    let duration = durationToString(
-      timeDuration(taskTimes[0].secondsDuration! * 1000)
-    );
-    expect(cells0[2]).toHaveTextContent(duration);
-    expect(cells1[0]).toHaveTextContent(formatDatetime(taskTimes[1].start)!);
-    expect(cells1[1]).toBeEmptyDOMElement();
-    expect(cells1[2]).toBeEmptyDOMElement();
+
+    expectTimeRow('time-92-0', [
+      formatDatetime(taskTimes92[0].start)!,
+      formatDatetime(taskTimes92[0].stop!)!,
+      durationToString(timeDuration(taskTimes92[0].secondsDuration! * 1000)),
+    ]);
+
+    expectTimeRow('time-92-1', [formatDatetime(taskTimes92[1].start)!, '', '']);
   });
 });

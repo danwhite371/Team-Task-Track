@@ -1,5 +1,6 @@
 import type { Task, TaskTime } from '@/types';
-import tasksWithTimesData from './__fixtures__/GetTasksWithTimes.json';
+import tasksWithTimesData from './__fixtures__/GetTasksWithTimesV1.json';
+import newTaskData from './__fixtures__/newTaskV1.json';
 
 function getTasksAndTaskTimes() {
   const tasks = tasksWithTimesData as Task[];
@@ -17,6 +18,10 @@ function getTasksAndTaskTimes() {
   return { tasks, allTaskTimes: taskTimesData };
 }
 
+// add a newTask, tasksWithNew
+const newTask = newTaskData as Task;
 const { tasks, allTaskTimes } = getTasksAndTaskTimes();
+const tasksWithNew = [...tasks];
+tasksWithNew.unshift(newTask);
 
-export { tasks, allTaskTimes };
+export { tasks, allTaskTimes, newTaskData, tasksWithNew };

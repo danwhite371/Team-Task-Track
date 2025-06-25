@@ -1,0 +1,11 @@
+{
+  "id": 2,
+  "name": "New Task",
+  "createdAt": "1750815151142",
+  "updatedAt": "1750815151142",
+  "duration": null,
+  "active": false,
+  "lastTime": "1750815151142",
+  "secondsDuration": null,
+  "taskTimes": []
+}

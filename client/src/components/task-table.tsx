@@ -84,7 +84,7 @@ type TaskTableProps = {
 export default function TaskTable({ tasks, dataApi }: TaskTableProps) {
   if (!dataApi) return;
   return (
-    <Table className="w-4xl">
+    <Table className="w-4xl" data-testid="task-table">
       <TableCaption>Tasks</TableCaption>
       <TableHeader>
         <TableRow>

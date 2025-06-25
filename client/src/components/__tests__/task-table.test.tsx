@@ -1,17 +1,10 @@
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import TaskTable from '../task-table';
-import { tasks, allTaskTimes } from './until';
+import { tasks, allTaskTimes } from '../../data/__tests__/data-test-util';
 import DataApi from '@/data/data-api';
-import mockFetch from '../__mocks__/fetch';
+import mockFetch from '../../data/__mocks__/fetch';
 import { dataUtils } from '@/data/data-utils';
+import { expectNthCalledWith } from '@/test-util';
 
 const { results } = dataUtils;
 global.fetch = mockFetch;
@@ -30,83 +23,73 @@ afterEach(() => {
 });
 
 describe('TaskTable', () => {
-  it('should render a tak table', async () => {
-    const dataApi = await DataApi.create(
-      mockUpdateTaskData,
-      mockUpdateOperationResult
-    );
+  it('should render a task table', async () => {
+    const DURATION = 1;
+    const NAME = 0;
+    const START_TIME = 0;
+    const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
+    expect(tasks).toMatchSnapshot();
     const { rerender } = render(<TaskTable tasks={tasks} dataApi={dataApi} />);
     await waitFor(() => {
-      expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-        2,
-        expect.objectContaining(results.taskLoadingSuccess)
-      );
+      expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
     });
     jest.clearAllMocks();
 
     for (const task of tasks) {
       const row = screen.getByTestId(`${task.id}`);
       const cells = within(row).getAllByRole('cell');
-      expect(cells[0]).toHaveTextContent(task.name);
+      expect(cells[NAME]).toHaveTextContent(task.name);
       if (task.active) {
+        // check that the stop button is clicked and that fetch is called
         const button = within(row).queryByRole('button', { name: /stop/i });
         expect(button).not.toBeNull();
         act(() => {
           fireEvent.click(button!);
-          // console.log('after fireEvent Click');
         });
-        // console.log('after act');
         await waitFor(() => {
-          expect(mockUpdateOperationResult).toHaveBeenLastCalledWith(
-            expect.objectContaining(results.stopTaskSuccess)
-          );
-          // console.log('after expect(mockUpdateOperationResult)');
+          expectNthCalledWith(mockUpdateOperationResult, 2, results.stopTaskSuccess);
         });
         jest.clearAllMocks();
       } else {
+        // check that the start button is clicked and that fetch is called
         const button = within(row).queryByRole('button', { name: /start/i });
         expect(button).not.toBeNull();
         act(() => {
           fireEvent.click(button!);
-          // console.log('after fireEvent Click');
         });
-        // console.log('after act');
         await waitFor(() => {
-          expect(mockUpdateOperationResult).toHaveBeenLastCalledWith(
-            expect.objectContaining(results.startTaskSuccess)
-          );
-          // console.log('after expect(mockUpdateOperationResult)');
+          expectNthCalledWith(mockUpdateOperationResult, 2, results.startTaskSuccess);
         });
         jest.clearAllMocks();
       }
+      // if we have at least one task time row for this task
       if (task.active || task.duration) {
-        expect(cells[1]).not.toBeEmptyDOMElement();
+        expect(cells[DURATION]).not.toBeEmptyDOMElement();
+        // if we don't have task times for this task, throw an error
+        // then click on task name to load time times
         const taskTimes = allTaskTimes.filter((tt) => tt.taskId == task.id);
-        if (!taskTimes)
-          throw new Error(`expected taskTimes not found for taskId ${task.id}`);
+        if (!taskTimes) throw new Error(`expected taskTimes not found for taskId ${task.id}`);
         task.taskTimes = taskTimes;
         act(() => {
-          fireEvent.click(cells[0]);
+          fireEvent.click(cells[NAME]);
         });
 
         await waitFor(() => {
-          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-            2,
-            expect.objectContaining(results.taskTimesLoadingSuccess)
-          );
+          expectNthCalledWith(mockUpdateOperationResult, 2, results.taskTimesLoadingSuccess);
         });
-
+        // logMockCalls(mockUpdateOperationResult, 'mockUpdateOperationResult: line 63');
         rerender(<TaskTable tasks={tasks} dataApi={dataApi} />);
-
+        // check that we have a start time for each task time row
         const timeTestId = `time-${task.id}-${taskTimes.length - 1}`;
         console.log('timeTestId', timeTestId);
         const lastRow = await screen.findByTestId(timeTestId);
         const rowCells = within(lastRow).getAllByRole('cell');
-        expect(rowCells[0]).not.toBeEmptyDOMElement();
+        expect(rowCells[START_TIME]).not.toBeEmptyDOMElement();
         jest.clearAllMocks();
       } else {
-        expect(cells[1]).toBeEmptyDOMElement();
+        // This task should have no duration
+        expect(cells[DURATION]).toBeEmptyDOMElement();
       }
     }
-  });
+  }, 10000);
 });

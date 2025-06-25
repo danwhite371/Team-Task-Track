@@ -1,23 +1,17 @@
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import DataApi from '../data-api';
-import {
-  createTaskRequest,
-  getAllTasksRequest,
-  tasks,
-} from './__fixtures__/task-response';
+import { tasks, newTaskData, tasksWithNew } from './data-test-util';
 import mockFetch from '../__mocks__/fetch';
 import { CONSTANTS } from '@/constants';
 import { dataUtils } from '../data-utils';
+import { expectNthCalledWith, logMockCalls } from '@/test-util';
 
-const { results } = dataUtils;
+const { results, requests } = dataUtils;
 
 global.fetch = mockFetch;
 const mockUpdateTaskData = jest.fn();
 const mockUpdateOperationResult = jest.fn();
-const taskResponse = tasks[0];
-
-// let dataApi: DataApi;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -47,83 +41,45 @@ function setGetAllTasksMock() {
 
 describe('dataApi', () => {
   it('should create a new Task', async () => {
-    const dataApi = await DataApi.create(
-      mockUpdateTaskData,
-      mockUpdateOperationResult
-    );
-    await dataApi.createNewTask(taskResponse.name);
+    const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
+    await dataApi.createNewTask(newTaskData.name);
 
     expect(global.fetch).toHaveBeenCalledWith(
       CONSTANTS.GRAPHQL_URL,
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify(createTaskRequest),
+        body: JSON.stringify(requests.createTask(newTaskData.name)),
       })
     );
-    expect(mockUpdateTaskData).toHaveBeenCalledWith(
-      expect.objectContaining([taskResponse])
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining(results.loadingLoading)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining(results.taskLoadingSuccess)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      3,
-      expect.objectContaining(results.loadingConnection)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      4,
-      expect.objectContaining(results.taskCreatedSuccess)
-    );
+
+    expectNthCalledWith(mockUpdateTaskData, 2, tasksWithNew);
+    expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+    expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
+    expectNthCalledWith(mockUpdateOperationResult, 3, results.loadingConnection);
+    expectNthCalledWith(mockUpdateOperationResult, 4, results.taskCreatedSuccess);
   });
 
   it('should call updateOperationResult with an error when the task has an empty name.', async () => {
-    const dataApi = await DataApi.create(
-      mockUpdateTaskData,
-      mockUpdateOperationResult
-    );
+    const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
     await dataApi.createNewTask('');
-    createTaskRequest.variables.name = '';
     expect(global.fetch).toHaveBeenCalledWith(
       CONSTANTS.GRAPHQL_URL,
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify(createTaskRequest),
+        body: JSON.stringify(requests.createTask('')),
       })
     );
 
-    expect(mockUpdateTaskData).toHaveBeenCalledWith(
-      expect.objectContaining([])
-    );
-
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining(results.loadingLoading)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining(results.taskLoadingSuccess)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      3,
-      expect.objectContaining(results.loadingConnection)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      4,
-      expect.objectContaining(results.taskCreatedError)
-    );
+    expectNthCalledWith(mockUpdateTaskData, 1, []);
+    expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+    expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
+    expectNthCalledWith(mockUpdateOperationResult, 3, results.loadingConnection);
+    expectNthCalledWith(mockUpdateOperationResult, 4, results.taskCreatedError);
   });
 
   it('should get all Tasks from DataApi', async () => {
     setGetAllTasksMock();
-    const dataApi = await DataApi.create(
-      mockUpdateTaskData,
-      mockUpdateOperationResult
-    );
+    const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
     setGetAllTasksMock();
     await dataApi.sendTasks();
 
@@ -131,56 +87,26 @@ describe('dataApi', () => {
       CONSTANTS.GRAPHQL_URL,
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify(getAllTasksRequest),
+        body: JSON.stringify(requests.getAllTasks),
       })
     );
-    expect(mockUpdateTaskData).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining([])
-    );
-    expect(mockUpdateTaskData).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining(tasks)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining(results.loadingLoading)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining(results.taskLoadingSuccess)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      3,
-      expect.objectContaining(results.loadingLoading)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      4,
-      expect.objectContaining(results.taskLoadingSuccess)
-    );
+
+    logMockCalls(mockUpdateTaskData, 'mockUpdateTaskData: 104');
+    logMockCalls(mockUpdateOperationResult, 'mockUpdateOperationResult');
+
+    expectNthCalledWith(mockUpdateTaskData, 1, tasks);
+    expectNthCalledWith(mockUpdateTaskData, 2, tasks);
+    expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+    expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
+    expectNthCalledWith(mockUpdateOperationResult, 3, results.loadingLoading);
+    expectNthCalledWith(mockUpdateOperationResult, 4, results.taskLoadingSuccess);
   });
 
   it('should return an error when there is no connection to the server, or an internal server error', async () => {
     setFetchToFail();
     await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
-
-    console.log('mockUpdateTaskData');
-    mockUpdateTaskData.mock.calls.forEach((call, index) => {
-      console.log(`Call ${index + 1}:`, call);
-    });
-    console.log('mockUpdateOperationResult');
-    mockUpdateOperationResult.mock.calls.forEach((call, index) => {
-      console.log(`Call ${index + 1}:`, call);
-    });
-
     expect(mockUpdateTaskData).not.toHaveBeenCalled();
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining(results.loadingLoading)
-    );
-    expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining(results.failedFetchError)
-    );
+    expectNthCalledWith(mockUpdateOperationResult, 1, results.loadingLoading);
+    expectNthCalledWith(mockUpdateOperationResult, 2, results.failedFetchError);
   });
 });

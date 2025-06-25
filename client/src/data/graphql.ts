@@ -1,4 +1,4 @@
-import { lowercaseFirstChar } from '@/until';
+import { lowercaseFirstChar } from '@/util';
 import { CONSTANTS } from '@/constants';
 import { dataUtils } from './data-utils';
 const GRAPHQL_URL = CONSTANTS.GRAPHQL_URL;
