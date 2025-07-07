@@ -29,10 +29,10 @@ type Task = {
 
 type OperationResultStatus = 'success' | 'error' | 'loading';
 
-type OperationResult = {
+interface OperationResult {
   status: OperationResultStatus;
   message: string;
-};
+}
 
 interface RequestProps {
   operationName: string;
@@ -57,10 +57,31 @@ interface AppRequests {
   stopTask(id: number): RequestPropsId;
 }
 
+interface OperationResultResults {
+  loadingLoading: OperationResult;
+  taskLoadingSuccess: OperationResult;
+  taskTimesLoadingSuccess: OperationResult;
+  taskTimesReturnedEmpty: OperationResult;
+  loadingConnection: OperationResult;
+  taskCreatedSuccess: OperationResult;
+  startTaskSuccess: OperationResult;
+  stopTaskSuccess: OperationResult;
+  taskCreatedError: OperationResult;
+  failedFetchError: OperationResult;
+}
+
+interface AppDataType {
+  getAllTasks(): Promise<void>;
+  createNewTask(name: string): Promise<void>;
+  startTask(id: number): Promise<void>;
+  stopTask(id: number): Promise<void>;
+  fetchTaskTimes(taskId: number): Promise<TaskTime[]>;
+  tasks: Task[];
+  operationResult?: OperationResult;
+}
+
 type DataUtils = {
-  results: {
-    [key: string]: OperationResult;
-  };
+  results: OperationResultResults;
   requests: AppRequests;
 };
 
@@ -80,4 +101,5 @@ export type {
   RequestPropsId,
   RequestProps,
   DurationValueType,
+  AppDataType,
 };

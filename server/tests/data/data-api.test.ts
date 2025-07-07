@@ -78,9 +78,7 @@ describe('DataApi', () => {
   });
 
   it('should throw an error when creating  an empty Task', async () => {
-    await expect(createTask('')).rejects.toThrow(
-      CONSTANTS.messages.error.emptyTaskName
-    );
+    await expect(createTask('')).rejects.toThrow(CONSTANTS.messages.error.emptyTaskName);
   });
 
   it('should get one Task', async () => {
@@ -119,9 +117,7 @@ describe('DataApi', () => {
     const stopTime = new Date();
     expect(startedTask.id).toBe(stoppedTask.id);
     expect(stoppedTask.active).toBe(false);
-    expect(Number(stoppedTask.secondsDuration) * 1000).toBe(
-      stoppedTask.duration?.milliseconds
-    );
+    expect(Number(stoppedTask.secondsDuration) * 1000).toBe(stoppedTask.duration?.milliseconds);
     const interval = (stopTime.getTime() - startTime.getTime()) / 1000;
     expect(Number(stoppedTask.secondsDuration)).toBeLessThanOrEqual(interval);
   });
@@ -133,9 +129,7 @@ describe('DataApi', () => {
     expect(stoppedTask.active).toBe(false);
     const taskTimes = await dataApi.getTaskTimes(startedTask.id);
     expect(taskTimes.length).toBe(1);
-    expect(Number(stoppedTask.secondsDuration) * 1000).toBe(
-      stoppedTask.duration?.milliseconds
-    );
+    expect(Number(stoppedTask.secondsDuration) * 1000).toBe(stoppedTask.duration?.milliseconds);
     const lastTime = new Date(stoppedTask.lastTime!).getTime();
     const stopTime = new Date(taskTimes[0].stop!).getTime();
     expect(lastTime).toBe(stopTime);
@@ -148,9 +142,7 @@ describe('DataApi', () => {
 
     const result = await dataApi.deleteTask(task.id);
     console.log('result', result);
-    await expect(dataApi.getTask(task.id)).rejects.toThrow(
-      '[DataApi] getTask: Query for a Task returned a length != 1, 0'
-    );
+    await expect(dataApi.getTask(task.id)).rejects.toThrow(CONSTANTS.messages.error.taskNotFound);
   });
 
   it('should change the name of a Task', async () => {

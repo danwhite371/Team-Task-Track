@@ -61,7 +61,11 @@ function getDataApi(model: any, sequelize: Sequelize) {
       }
     );
     let result;
-    if (tasks.length != 1) {
+    if (tasks.length === 0) {
+      const msg = CONSTANTS.messages.error.taskNotFound;
+      logger.error(msg);
+      throw new Error(msg);
+    } else if (tasks.length != 1) {
       const msg = `[DataApi] getTask: Query for a Task returned a length != 1, ${tasks.length}`;
       logger.error(msg);
       throw new Error(msg);
@@ -107,11 +111,7 @@ function getDataApi(model: any, sequelize: Sequelize) {
 
   async function changeTaskName(id: number, name: string): Promise<TaskType> {
     const result = await Task.update({ name }, { where: { id } });
-    logger.info(
-      `[DataApi] changeTaskName: Updated Task ${id} name to ${name}, count:${JSON.stringify(
-        result
-      )}`
-    );
+    logger.info(`[DataApi] changeTaskName: Updated Task ${id} name to ${name}, count:${JSON.stringify(result)}`);
     return getTask(id);
   }
 
@@ -127,9 +127,7 @@ function getDataApi(model: any, sequelize: Sequelize) {
     // no update = [0]
     if (result[0] !== 0) {
       logger.info(
-        `[DataApi] closeOpenTimes: Updated stop datetime for task ${taskId}, count:${JSON.stringify(
-          result
-        )}`
+        `[DataApi] closeOpenTimes: Updated stop datetime for task ${taskId}, count:${JSON.stringify(result)}`
       );
     }
   }
@@ -137,6 +135,9 @@ function getDataApi(model: any, sequelize: Sequelize) {
   async function startTask(id: number): Promise<TaskType> {
     await closeOpenTimes(id);
     const task = await Task.findOne({ where: { id } });
+    if (!task) {
+      throw new Error(CONSTANTS.messages.error.taskNotFound);
+    }
     await task.createTaskTime();
     logger.info(`[DataApi] startTask: New task time created for ${id}`);
     const resultTask = await getTask(task.id);
@@ -146,6 +147,9 @@ function getDataApi(model: any, sequelize: Sequelize) {
   async function stopTask(id: number): Promise<TaskType> {
     await closeOpenTimes(id);
     const resultTask = await getTask(id);
+    if (!resultTask) {
+      throw new Error(CONSTANTS.messages.error.taskNotFound);
+    }
     logger.info('[DataApi] stopTask: stopped');
     return resultTask;
   }

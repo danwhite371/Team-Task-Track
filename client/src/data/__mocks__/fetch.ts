@@ -20,9 +20,10 @@ mockFetch.mockImplementation(async (_url: string, options?: RequestInit) => {
           }),
       }) as Promise<Response>;
     } else {
+      const taskData = { ...newTaskData, name: requestBody.variables.name };
       return Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ data: { createTask: newTaskData } }),
+        json: () => Promise.resolve({ data: { createTask: taskData } }),
       }) as Promise<Response>;
     }
   } else if ((requestBody.query as string).includes('query GetAllTasks')) {

@@ -57,6 +57,7 @@ const deleteTaskQuery = `
 
 const getTaskTimesQuery = `query GetTaskTimes($taskId: Int!){
     getTaskTimes(taskId: $taskId) {
+      id
       start
       stop
       secondsDuration

@@ -2,16 +2,28 @@ import type { OperationResult } from '@/types';
 import { render, cleanup, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Header from '../header';
+import mockFetch from '../../data/__mocks__/fetch';
+import { AppDataContext, defaultContextValue } from '@/contexts/app-data-context';
+
+global.fetch = mockFetch;
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest.resetModules();
+});
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('Header', () => {
   it('should render', async () => {
     const mockHandleToggle = jest.fn();
-    render(<Header operationResult={undefined} handleNewTaskToggle={mockHandleToggle} />);
+    render(
+      <AppDataContext.Provider value={defaultContextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
     expect(screen.getByText(/Team Task Track/i)).toBeTruthy();
     const messageDiv = screen.getByTestId('message');
     expect(messageDiv).toBeEmptyDOMElement();
@@ -25,10 +37,20 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    const { rerender } = render(<Header operationResult={undefined} handleNewTaskToggle={mockHandleToggle} />);
+    const { rerender } = render(
+      <AppDataContext.Provider value={defaultContextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
     let messageDiv = screen.getByTestId('message');
     expect(messageDiv).toBeEmptyDOMElement();
-    rerender(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
+
+    const contextValue = { ...defaultContextValue, operationResult };
+    rerender(
+      <AppDataContext.Provider value={contextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
     messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveTextContent(operationResult.message);
   });
@@ -39,11 +61,22 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    const { rerender } = render(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
+    const contextValue = { ...defaultContextValue, operationResult };
+    const { rerender } = render(
+      <AppDataContext.Provider value={contextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
     let messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveClass('text-foreground');
-    operationResult.status = 'error';
-    rerender(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
+
+    contextValue.operationResult.status = 'error';
+    rerender(
+      <AppDataContext.Provider value={contextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
+
     messageDiv = screen.getByTestId('message');
     expect(messageDiv).toHaveClass('text-destructive');
   });
@@ -54,7 +87,12 @@ describe('Header', () => {
       status: 'success',
       message: 'Testing.',
     };
-    render(<Header operationResult={operationResult} handleNewTaskToggle={mockHandleToggle} />);
+    const contextValue = { ...defaultContextValue, operationResult };
+    render(
+      <AppDataContext.Provider value={contextValue}>
+        <Header handleNewTaskToggle={mockHandleToggle} />
+      </AppDataContext.Provider>
+    );
     const newTaskButton = screen.getByRole('button', { name: /New Task/i });
     fireEvent.click(newTaskButton);
     expect(mockHandleToggle).toHaveBeenCalledTimes(1);

@@ -89,9 +89,9 @@ test.describe('TaskTable', () => {
     for (const taskInfo of taskInfos) {
       const timeRow = page.getByTestId(`time-${taskInfo.id}-0`);
       const durationStart = timeRow.locator('td:first-child');
-      const durationStartText = await durationStart.evaluate(
-        (element) => element.textContent
-      );
+      const durationStartText = await durationStart.evaluate((element) => element.textContent);
+
+      console.log('taskInfo.name', taskInfo.name);
       console.log('durationStartText', durationStartText);
       expect(durationStart).toHaveText(/.+/);
     }

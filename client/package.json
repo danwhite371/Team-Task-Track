@@ -9,12 +9,16 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
+    "testReport": "jest --json --outputFile=test-results.json",
+    "testHeader": "jest src/components/__tests__/header.test.tsx",
     "testDataApi": "jest src/data/__tests__/data-api.test.tsx",
     "testGraphql": "jest src/data/__tests__/graphql.test.tsx",
     "testDuration": "jest src/components/__tests__/duration.test.tsx",
     "testActiveDuration": "jest src/components/__tests__/active-duration.test.tsx",
+    "testNewTaskForm": "jest src/components/__tests__/new-task-form.test.tsx",
     "testTimeTable": "jest src/components/__tests__/time-table.test.tsx",
-    "testTaskTable": "jest src/components/__tests__/task-table.test.tsx"
+    "testTaskTable": "jest src/components/__tests__/task-table.test.tsx",
+    "testAppDataContext": "jest src/contexts/__tests__/app-data-context.test.tsx"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.6",

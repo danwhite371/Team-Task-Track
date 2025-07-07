@@ -1,15 +1,15 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import TaskTable from '../task-table';
 import { tasks, allTaskTimes } from '../../data/__tests__/data-test-util';
-import DataApi from '@/data/data-api';
 import mockFetch from '../../data/__mocks__/fetch';
 import { dataUtils } from '@/data/data-utils';
-import { expectNthCalledWith } from '@/test-util';
+import { TestComponent } from '@/test-util';
+import { AppDataProvider } from '@/contexts/app-data-context';
 
 const { results } = dataUtils;
 global.fetch = mockFetch;
 
-const mockUpdateTaskData = jest.fn();
+const mockUpdateTasks = jest.fn();
 const mockUpdateOperationResult = jest.fn();
 
 beforeEach(() => {
@@ -27,12 +27,20 @@ describe('TaskTable', () => {
     const DURATION = 1;
     const NAME = 0;
     const START_TIME = 0;
-    const dataApi = await DataApi.create(mockUpdateTaskData, mockUpdateOperationResult);
+
     expect(tasks).toMatchSnapshot();
-    const { rerender } = render(<TaskTable tasks={tasks} dataApi={dataApi} />);
+    const { rerender } = render(
+      <AppDataProvider>
+        <TaskTable />
+        <TestComponent updateTasks={mockUpdateTasks} updateOperationResult={mockUpdateOperationResult} />
+      </AppDataProvider>
+    );
     await waitFor(() => {
-      expectNthCalledWith(mockUpdateOperationResult, 2, results.taskLoadingSuccess);
+      expect(mockUpdateOperationResult).toHaveBeenCalledTimes(2);
+      expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(1, expect.objectContaining(results.loadingLoading));
+      expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(2, expect.objectContaining(results.taskLoadingSuccess));
     });
+
     jest.clearAllMocks();
 
     for (const task of tasks) {
@@ -47,7 +55,9 @@ describe('TaskTable', () => {
           fireEvent.click(button!);
         });
         await waitFor(() => {
-          expectNthCalledWith(mockUpdateOperationResult, 2, results.stopTaskSuccess);
+          expect(mockUpdateOperationResult).toHaveBeenCalledTimes(2);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(1, results.loadingConnection);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(2, results.stopTaskSuccess);
         });
         jest.clearAllMocks();
       } else {
@@ -58,11 +68,14 @@ describe('TaskTable', () => {
           fireEvent.click(button!);
         });
         await waitFor(() => {
-          expectNthCalledWith(mockUpdateOperationResult, 2, results.startTaskSuccess);
+          expect(mockUpdateOperationResult).toHaveBeenCalledTimes(2);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(1, results.loadingConnection);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(2, results.startTaskSuccess);
         });
         jest.clearAllMocks();
       }
       // if we have at least one task time row for this task
+
       if (task.active || task.duration) {
         expect(cells[DURATION]).not.toBeEmptyDOMElement();
         // if we don't have task times for this task, throw an error
@@ -75,10 +88,17 @@ describe('TaskTable', () => {
         });
 
         await waitFor(() => {
-          expectNthCalledWith(mockUpdateOperationResult, 2, results.taskTimesLoadingSuccess);
+          expect(mockUpdateOperationResult).toHaveBeenCalledTimes(2);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(1, results.loadingLoading);
+          expect(mockUpdateOperationResult).toHaveBeenNthCalledWith(2, results.taskTimesLoadingSuccess);
         });
-        // logMockCalls(mockUpdateOperationResult, 'mockUpdateOperationResult: line 63');
-        rerender(<TaskTable tasks={tasks} dataApi={dataApi} />);
+
+        rerender(
+          <AppDataProvider>
+            <TaskTable />
+            <TestComponent updateTasks={mockUpdateTasks} updateOperationResult={mockUpdateOperationResult} />
+          </AppDataProvider>
+        );
         // check that we have a start time for each task time row
         const timeTestId = `time-${task.id}-${taskTimes.length - 1}`;
         console.log('timeTestId', timeTestId);

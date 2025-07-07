@@ -17,6 +17,10 @@ export const dataUtils: DataUtils = {
       status: 'success',
       message: 'Task times loaded.',
     },
+    taskTimesReturnedEmpty: {
+      status: 'error',
+      message: 'No task times returned',
+    },
     loadingConnection: {
       status: 'loading',
       message: 'Connecting...',
@@ -47,22 +51,22 @@ export const dataUtils: DataUtils = {
       operationName: 'GetAllTasks',
       query: getAllTasksQuery,
     },
-    createTask: (name) => ({
+    createTask: (name: string) => ({
       operationName: 'CreateTask',
       query: createTaskQuery,
       variables: { name },
     }),
-    getTaskTimes: (taskId) => ({
+    getTaskTimes: (taskId: number) => ({
       operationName: 'GetTaskTimes',
       query: getTaskTimesQuery,
       variables: { taskId },
     }),
-    startTask: (id) => ({
+    startTask: (id: number) => ({
       operationName: 'StartTask',
       query: startTaskQuery,
       variables: { id },
     }),
-    stopTask: (id) => ({
+    stopTask: (id: number) => ({
       operationName: 'StopTask',
       query: stopTaskQuery,
       variables: { id },

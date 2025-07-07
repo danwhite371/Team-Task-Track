@@ -1,9 +1,10 @@
 ## Next
 
-TimeTable component test
-Task table component test
-Improve TaskTable e2e test
 Finish FE graphql tests
+Create and finished app data context tests
+Add error cases for backend start and stop tasks
+Improve TaskTable e2e test
+
 Finish FE DataApi tests
 
 ### v0.3.0 - Robust minimal features

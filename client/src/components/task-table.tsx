@@ -1,39 +1,27 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { useState } from 'react';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useEffect, useState } from 'react';
 import type { Task } from '@/types';
 import { Button } from './ui/button';
-import type DataApi from '@/data/data-api';
 import TimeTable from './time-table';
 import ActiveDuration from './active-duration';
 import Duration from './duration'; // import { durationToSecondsDuration } from '@/until';
+import { useAppData } from '@/contexts/app-data-context';
 
 type TaskTableRowProps = {
   task: Task;
-  dataApi: DataApi;
 };
-function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
+function TaskTableRow({ task }: TaskTableRowProps) {
   const [showTimes, setShowTimes] = useState<boolean>(false);
+  const { startTask, stopTask } = useAppData();
+
   // console.log('task in TaskTableTow', JSON.stringify(task, null, 2));
   return (
     <>
       <TableRow key={task.id} data-testid={task.id}>
-        <TableCell onClick={() => setShowTimes((prev) => !prev)}>
-          {task.name}
-        </TableCell>
+        <TableCell onClick={() => setShowTimes((prev) => !prev)}>{task.name}</TableCell>
         <TableCell>
           {task.active && task.lastTime && (
-            <ActiveDuration
-              lastTime={new Date(Number(task.lastTime))}
-              secondsDuration={task.secondsDuration}
-            />
+            <ActiveDuration lastTime={new Date(Number(task.lastTime))} secondsDuration={task.secondsDuration} />
           )}
           {!task.active && <Duration duration={task.duration} />}
         </TableCell>
@@ -44,7 +32,7 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
               size="sm"
               onClick={async () => {
                 console.log('[TaskTableRow] Start onClick', task.name, task.id);
-                await dataApi?.startTask(task.id);
+                await startTask(task.id);
               }}
             >
               Start
@@ -56,7 +44,7 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
               size="sm"
               onClick={async () => {
                 console.log('[TaskTableRow] Stop onClick', task.name, task.id);
-                await dataApi?.stopTask(task.id);
+                await stopTask(task.id);
               }}
             >
               Stop
@@ -68,7 +56,7 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
         <TableRow>
           <TableCell className="text-right w-full" colSpan={3}>
             <div className="flex mr-8">
-              <TimeTable task={task} dataApi={dataApi} />
+              <TimeTable taskId={task.id} />
             </div>
           </TableCell>
         </TableRow>
@@ -77,12 +65,14 @@ function TaskTableRow({ task, dataApi }: TaskTableRowProps) {
   );
 }
 
-type TaskTableProps = {
-  tasks: Task[];
-  dataApi: DataApi | undefined;
-};
-export default function TaskTable({ tasks, dataApi }: TaskTableProps) {
-  if (!dataApi) return;
+export default function TaskTable() {
+  const { tasks, getAllTasks } = useAppData();
+  useEffect(() => {
+    getAllTasks();
+  }, []);
+  useEffect(() => {
+    console.log('TaskTable useEffect[tasks]');
+  }, [tasks]);
   return (
     <Table className="w-4xl" data-testid="task-table">
       <TableCaption>Tasks</TableCaption>
@@ -95,7 +85,7 @@ export default function TaskTable({ tasks, dataApi }: TaskTableProps) {
       </TableHeader>
       <TableBody>
         {tasks.map((task) => (
-          <TaskTableRow key={task.id} task={task} dataApi={dataApi} />
+          <TaskTableRow key={task.id} task={task} />
         ))}
       </TableBody>
     </Table>

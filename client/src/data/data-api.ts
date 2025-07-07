@@ -22,18 +22,12 @@ export default class DataApi {
   updateOperationResult: UpdateOperationResult;
   tasks: Task[] = [];
 
-  private constructor(
-    updateTaskData: UpdateTaskData,
-    updateOperationResult: UpdateOperationResult
-  ) {
+  private constructor(updateTaskData: UpdateTaskData, updateOperationResult: UpdateOperationResult) {
     this.updateTaskData = updateTaskData;
     this.updateOperationResult = updateOperationResult;
   }
 
-  static async create(
-    updateTaskData: UpdateTaskData,
-    updateOperationResult: UpdateOperationResult
-  ): Promise<DataApi> {
+  static async create(updateTaskData: UpdateTaskData, updateOperationResult: UpdateOperationResult): Promise<DataApi> {
     const dataApi = new DataApi(updateTaskData, updateOperationResult);
     await dataApi.sendTasks();
     return dataApi;
@@ -45,7 +39,6 @@ export default class DataApi {
       const task = await createTask(name);
       console.log('createNewTask', JSON.stringify(task, null, 2));
       this.tasks.unshift(task);
-      this.tasks = [...this.tasks];
       this.updateTaskData([...this.tasks]);
       this.updateOperationResult(results.taskCreatedSuccess);
     } catch (error: unknown) {
@@ -76,8 +69,7 @@ export default class DataApi {
       const task = await startTaskRequest(id);
       this.replaceTask(id, task);
       this.sortTasks();
-      this.tasks = [...this.tasks];
-      this.updateTaskData(this.tasks);
+      this.updateTaskData([...this.tasks]);
       this.updateOperationResult(results.startTaskSuccess);
       console.log('after startTask updateOperationResult');
     } catch (error: unknown) {
@@ -96,8 +88,7 @@ export default class DataApi {
       console.log('[DataApi] stopTask', JSON.stringify(task, null, 2));
       this.replaceTask(id, task);
       this.sortTasks();
-      this.tasks = [...this.tasks];
-      this.updateTaskData(this.tasks);
+      this.updateTaskData([...this.tasks]);
       this.updateOperationResult(results.stopTaskSuccess);
       console.log('after stopTask updateOperationResult');
     } catch (error: unknown) {
@@ -115,11 +106,13 @@ export default class DataApi {
   }
 
   sortTasks() {
-    this.tasks.sort(
-      (taskA, taskB) => Number(taskB.lastTime) - Number(taskA.lastTime)
-    );
+    this.tasks.sort((taskA, taskB) => Number(taskB.lastTime) - Number(taskA.lastTime));
   }
 
+  /*
+  How to rewrite this keeping in mind, we won't have a this.tasks
+  Just use the taskId, get the task times and return them.
+  */
   async fetchTaskTimes(taskId: number) {
     console.log('[DataApi] fetchTaskTimes');
     this.updateOperationResult(results.loadingLoading);
@@ -127,9 +120,15 @@ export default class DataApi {
       const task = this.tasks.find((task) => task.id == taskId);
       if (!task) throw new Error('[sendTaskTimes] Task id mismatch');
       const taskTimes = await fetchTaskTimesRequest(taskId);
-      task.taskTimes = taskTimes;
-      this.tasks = [...this.tasks];
-      this.updateTaskData(this.tasks);
+      if (!taskTimes || taskTimes.length === 0) {
+        this.updateOperationResult(results.taskTimesReturnedEmpty);
+        return undefined;
+      }
+      const updatedTask: Task = { ...task, taskTimes };
+      //prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+      this.replaceTask(task.id, updatedTask);
+      console.log('fetchTaskTimes task - updateTaskData');
+      // this.updateTaskData([...this.tasks]);
       this.updateOperationResult(results.taskTimesLoadingSuccess);
     } catch (error: unknown) {
       this.updateOperationResult({

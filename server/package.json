@@ -9,9 +9,9 @@
     "testDev": "cross-env reset=false ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.test",
     "testDevClean": "cross-env reset=true ts-node -r dotenv/config src/index.ts dotenv_config_path=.env.test",
     "test": "jest --runInBand",
-    "testOne": "jest -t GraphQLApi",
+    "testGraphql": "jest -t GraphQLApi",
     "testOne2": "jest i tests/graphql-api.tests.ts -t \"should create one Task\"",
-    "testOne3": "jest tests/data/data-api.test.ts",
+    "testDataApi": "jest tests/data/data-api.test.ts",
     "testOne4": "jest -i tests/data/data-api.test.ts -t \"should change the name of a Task\""
   },
   "keywords": [],

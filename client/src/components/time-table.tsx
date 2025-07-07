@@ -1,32 +1,27 @@
-import type DataApi from '@/data/data-api';
-import type { Task } from '@/types';
-import { useEffect } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from './ui/table';
+import type { TaskTime } from '@/types';
+import { useEffect, useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 import { formatDatetime, timeDuration } from '@/util';
 import Duration from './duration';
+import { useAppData } from '@/contexts/app-data-context';
 
 interface TimeTableProps {
-  task: Task;
-  dataApi: DataApi;
+  taskId: number;
 }
 
-export default function TimeTable({ task, dataApi }: TimeTableProps) {
+export default function TimeTable({ taskId }: TimeTableProps) {
+  const [taskTimes, setTaskTimes] = useState<TaskTime[]>([]);
+  const { fetchTaskTimes } = useAppData();
   useEffect(() => {
-    const fetchTaskTimes = async () => {
-      await dataApi.fetchTaskTimes(task.id);
-      console.log('[TimeTable] task.name', task.name);
+    const loadTaskTimes = async () => {
+      const taskTimesResult = await fetchTaskTimes(taskId);
+      setTaskTimes(taskTimesResult);
+      console.log('[TimeTable] taskId', taskId);
     };
-    fetchTaskTimes();
-  }, [task]);
+    loadTaskTimes();
+  }, [taskId]);
 
-  if (!task.taskTimes || task.taskTimes.length == 0) return;
+  if (!taskTimes || taskTimes.length == 0) return;
 
   return (
     <Table>
@@ -38,18 +33,14 @@ export default function TimeTable({ task, dataApi }: TimeTableProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {task.taskTimes &&
-          task.taskTimes.length > 0 &&
-          task.taskTimes.map((time, index) => (
-            <TableRow key={time.id} data-testid={`time-${task.id}-${index}`}>
+        {taskTimes &&
+          taskTimes.length > 0 &&
+          taskTimes.map((time, index) => (
+            <TableRow key={time.id} data-testid={`time-${taskId}-${index}`}>
               <TableCell>{formatDatetime(time.start)}</TableCell>
               <TableCell>{formatDatetime(time.stop!)}</TableCell>
               <TableCell className="text-right">
-                {time.secondsDuration && (
-                  <Duration
-                    duration={timeDuration(time.secondsDuration * 1000)}
-                  />
-                )}
+                {time.secondsDuration && <Duration duration={timeDuration(time.secondsDuration * 1000)} />}
               </TableCell>
             </TableRow>
           ))}
