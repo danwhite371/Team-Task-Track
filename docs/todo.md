@@ -1,6 +1,9 @@
 ## Next
 
-Finish FE graphql tests
+End-to-end test loading data, and checking that things are what they should be.
+
+---
+
 Create and finished app data context tests
 Add error cases for backend start and stop tasks
 Improve TaskTable e2e test

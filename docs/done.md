@@ -1,5 +1,7 @@
 ## Unreleased
 
+- test: App data context
+- test: FE Graphql testing
 - refactor: Removed DataApi added AppDataContext
 - refactor: tests, test data, and test utils
 - test: task-table.test.tsx

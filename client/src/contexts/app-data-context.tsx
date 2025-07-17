@@ -75,8 +75,10 @@ export const AppDataProvider: React.FC<{ children: ReactNode }> = ({ children })
     setOperationResult(results.loadingConnection);
     try {
       const updatedTask = await graphql.startTask(id);
+      console.log('startTask - updatedTask', updatedTask);
       setTasks((prevTasks) => {
         const newTasks = prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task));
+        console.log('startTask - returning tasks', newTasks);
         return sortTasks(newTasks);
       });
       setOperationResult(results.startTaskSuccess);
